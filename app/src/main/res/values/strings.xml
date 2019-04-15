@@ -1,5 +1,45 @@
 <resources>
+
+
+    <string name="action_settings">Configuración</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_carrito">Añadir al carrito</string>
+    <string name="item_inicio">Inicio</string>
+    <string name="item_cuenta">Mi Cuenta</string>
+    <string name="item_categorias">Categorías</string>
+    <string name="item_configuracion">Configuración</string>
+    <string name="titulo_comidas_populares">Maquinas</string>
+    <string name="titulo_tab_platillos">COMBOS</string>
+    <string name="titulo_tab_bebidas">PIQUEOS</string>
+    <string name="titulo_tab_postres">POSTRES</string>
+    <string name="titulo_tab_perfil">PERFIL</string>
+    <string name="titulo_tab_direcciones">ZONAS</string>
+    <string name="titulo_tab_tarjetas">TARJETAS</string>
+    <string name="texto_no_tarjetas">No tienes ninguna tarjeta asociada</string>
+    <string name="etiqueta_carrito">Carrito</string>
+    <string name="texto_cambiar_contrasena">Cambia tu contraseña</string>
+    <string name="etiqueta_contrasena">Contraseña</string>
+    <string name="etiqueta_info_usuario">Información del usuario</string>
+
     <string name="app_name">AppAtencionPedidos</string>
+
+    <string name="titulo_actividad_configuracion">Configuración</string>
+    <string name="categoria_notificaciones">Notificaciones</string>
+    <string name="titulo_preferencia">Frecuencia de notificaciones por correo</string>
+    <string name="key_preferencia">lista_frecuencias</string>
+    <string-array name="lista_frecuencia">
+        <item>Un correo diario</item>
+        <item>Un correo a la semana</item>
+        <item>Un correo al mes</item>
+        <item>No quiero recibir correos</item>
+    </string-array>
+    <string-array name="lista_valores_frecuencia">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 
     <!-- Strings related to Settings -->
 

@@ -96,7 +96,7 @@
 
                     <android.support.design.widget.TextInputLayout
 
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
@@ -135,16 +135,15 @@
                     android:orientation="vertical">
 
                     <android.support.design.widget.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/backgroundactivity"
-                        app:errorEnabled="true"
-
-                        app:passwordToggleEnabled="true"
 
 
-                        app:passwordToggleTint="@color/accentColor">
+
+
+                        >
 
                         <android.support.v7.widget.AppCompatEditText
                             android:id="@+id/edtcontrasena"
