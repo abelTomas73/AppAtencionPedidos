@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,13 +13,51 @@ import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Adaptador para mostrar las comidas más pedidas en la sección "Inicio"
  */
 public class AdaptadorInicio
-        extends RecyclerView.Adapter<AdaptadorInicio.ViewHolder> {
+        extends RecyclerView.Adapter<AdaptadorInicio.ViewHolder>implements Filterable {
 
+    private List<Comida> exampleList;
+    private List<Comida> exampleListFull;
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Comida> filteredList = new ArrayList<>();
+            //filtros recibe el texto si y filtra
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(exampleListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
 
+                for (Comida item : exampleListFull) {
+                    if (item.getNombre().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            exampleList.clear();
+            exampleList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView nombre;
@@ -35,9 +75,13 @@ public class AdaptadorInicio
     public AdaptadorInicio() {
     }
 
+    public AdaptadorInicio(List<Comida> exampleList) {
+        this.exampleList = exampleList;
+        exampleListFull = new ArrayList<>(exampleList);
+    }
     @Override
     public int getItemCount() {
-        return Comida.COMIDAS_POPULARES.size();
+        return exampleList.size();
     }
 
     @Override
@@ -49,14 +93,14 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Comida item = Comida.COMIDAS_POPULARES.get(i);
+        Comida item = exampleList.get(i);
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getIdDrawable())
                 .centerCrop()
                 .into(viewHolder.imagen);
         viewHolder.nombre.setText(item.getNombre());
-        viewHolder.precio.setText("$" + item.getPrecio());
+        viewHolder.precio.setText("M-" + item.getPrecio());
 
     }
 

@@ -22,6 +22,8 @@ public class ActividadPrincipal extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 private NavigationView navigationView;
     public int item;
+    public static Menu menuclasprincipal;
+    public static int cantidadCarrito;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ private NavigationView navigationView;
         if (navigationView != null) {
             prepararDrawer(navigationView);
             // Seleccionar item por defecto
-            seleccionarItem(navigationView.getMenu().getItem(1));
+            seleccionarItem(navigationView.getMenu().getItem(0));
         }
     }
 
@@ -112,6 +114,7 @@ private NavigationView navigationView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menuclasprincipal = menu;
         getMenuInflater().inflate(R.menu.menu_actividad_principal, menu);
 
         MenuItem item = menu.findItem(R.id.action_carrito);
@@ -120,7 +123,7 @@ private NavigationView navigationView;
         LayerDrawable icon = (LayerDrawable) item.getIcon();
 
         // Actualizar el contador
-        Utils.setBadgeCount(this, icon, 9);
+        Utils.setBadgeCount(this, icon, 0);
         return true;
     }
 

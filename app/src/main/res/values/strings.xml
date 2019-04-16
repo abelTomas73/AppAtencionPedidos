@@ -23,6 +23,8 @@
 
     <string name="app_name">AppAtencionPedidos</string>
 
+    <string name="app_icon_texto">Cortesias PJ</string>
+
     <string name="titulo_actividad_configuracion">Configuración</string>
     <string name="categoria_notificaciones">Notificaciones</string>
     <string name="titulo_preferencia">Frecuencia de notificaciones por correo</string>

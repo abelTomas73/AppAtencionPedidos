@@ -8,8 +8,8 @@
 
 
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/ic_logo_corporacion_pj_white"
+        android:label="@string/app_icon_texto"
         android:theme="@style/Theme.RicoPaRico" >
 
         <activity android:name=".Login.SplashScreenActivity">
@@ -31,7 +31,7 @@
 
         <activity
             android:name=".ui.ActividadPrincipal"
-            android:label="@string/app_name"
+            android:label="@string/app_icon_texto"
             android:theme="@style/Theme.ConNavigationDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
