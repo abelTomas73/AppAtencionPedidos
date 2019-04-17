@@ -53,11 +53,12 @@ public class FragmentoInicio extends Fragment {
     }
     private void poblarMaquinas() {
         COMIDAS_POPULARES = new ArrayList<Comida>();
-        COMIDAS_POPULARES.add(new Comida(1, "Maquina 2k", R.drawable.camarones));
-        COMIDAS_POPULARES.add(new Comida(2, "Maquina 22", R.drawable.rosca));
-        COMIDAS_POPULARES.add(new Comida(3, "Maquina 44", R.drawable.sushi));
-        COMIDAS_POPULARES.add(new Comida(5, "Maquina 5K", R.drawable.sandwich));
-        COMIDAS_POPULARES.add(new Comida(3f, "Maquina S3K", R.drawable.lomo_cerdo));
+
+        COMIDAS_POPULARES.add(new Comida(1,5, "Maquina", R.drawable.camarones));
+        COMIDAS_POPULARES.add(new Comida(2,3.2f, "Maquina 2", R.drawable.rosca));
+        COMIDAS_POPULARES.add(new Comida(3,12f, "Maquina 3", R.drawable.sushi));
+        COMIDAS_POPULARES.add(new Comida(4,9, "Maquina Sl", R.drawable.sandwich));
+        COMIDAS_POPULARES.add(new Comida(5,34f, "Maquina S3K", R.drawable.lomo_cerdo));
 
         //COMIDAS_POPULARES_COPIA.addAll(COMIDAS_POPULARES);
     }

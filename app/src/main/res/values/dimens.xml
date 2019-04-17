@@ -6,5 +6,7 @@
     <dimen name="altura_miniatura_comida">250dp</dimen>
     <dimen name="ancho_logo">200dp</dimen>
 
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
     <dimen name="badge_text_size">10sp</dimen>
 </resources>

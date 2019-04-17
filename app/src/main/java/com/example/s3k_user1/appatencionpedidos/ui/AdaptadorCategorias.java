@@ -1,6 +1,7 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
 import android.graphics.drawable.LayerDrawable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,9 +14,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,34 +33,26 @@ public class AdaptadorCategorias
 
     private final List<Comida> items;
 
+    private Gson gson;
+    public int aumentar =0;
+    private MySharedPreference sharedPreference;
+    private int cartProductNumber = 0;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView nombre;
         public TextView precio;
         public ImageView imagen;
         public ImageView agregar_item_al_carrito;
-        public int aumentar =0;
+
+
+
         public ViewHolder(View v) {
             super(v);
+            //sharedPreference = new MySharedPreference(v.getContext());
+
             agregar_item_al_carrito = v.findViewById(R.id.agregar_item_al_carrito);
 
-            agregar_item_al_carrito.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "P: "+ nombre.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                    Menu menu;
-                    menu = ActividadPrincipal.menuclasprincipal;
-                    MenuItem item = menu.findItem(R.id.action_carrito);
-
-                    // Obtener drawable del item
-                    LayerDrawable icon = (LayerDrawable) item.getIcon();
-
-                    aumentar++;
-                    // Actualizar el contador
-                    Utils.setBadgeCount(v.getContext(), icon, aumentar);
-                }
-            });
             nombre = (TextView) v.findViewById(R.id.nombre_comida);
             precio = (TextView) v.findViewById(R.id.precio_comida);
             imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
@@ -78,9 +76,16 @@ public class AdaptadorCategorias
         return new ViewHolder(v);
     }
 
+    // DATOS NUEVOS DEL CARRITO
+    private List<Comida> convertObjectArrayToListObject(Comida[] allProducts){
+        List<Comida> mProduct = new ArrayList<Comida>();
+        Collections.addAll(mProduct, allProducts);
+        return mProduct;
+    }
+    //FIN
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Comida item = items.get(i);
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+        final Comida item = items.get(i);
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getIdDrawable())
@@ -89,7 +94,53 @@ public class AdaptadorCategorias
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.precio.setText("$" + item.getPrecio());
 
+        viewHolder.agregar_item_al_carrito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),  viewHolder.nombre.getText() +" agregado al Pedido", Toast.LENGTH_SHORT).show();
 
+//
+//                Menu menu;
+//                menu = ActividadPrincipal.menuclasprincipal;
+//                MenuItem item = menu.findItem(R.id.action_carrito);
+//
+//                // Obtener drawable del item
+//                LayerDrawable icon = (LayerDrawable) item.getIcon();
+//
+//                aumentar++;
+//                // Actualizar el contador
+//                Utils.setBadgeCount(v.getContext(), icon, aumentar);
+
+                sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                String stringObjectRepresentation = gson.toJson(item);
+                final Comida singleProduct = gson.fromJson(stringObjectRepresentation, Comida.class);
+
+                String productsFromCart = sharedPreference.retrieveProductFromCart();
+                if(productsFromCart.equals("")){
+                    List<Comida> cartProductList = new ArrayList<Comida>();
+                    cartProductList.add(singleProduct);
+                    String cartValue = gson.toJson(cartProductList);
+                    sharedPreference.addProductToTheCart(cartValue);
+                    cartProductNumber = cartProductList.size();
+                }else{
+                    String productsInCart = sharedPreference.retrieveProductFromCart();
+                    Comida[] storedProducts = gson.fromJson(productsInCart, Comida[].class);
+
+                    List<Comida> allNewProduct = convertObjectArrayToListObject(storedProducts);
+                    allNewProduct.add(singleProduct);
+                    String addAndStoreNewProduct = gson.toJson(allNewProduct);
+                    sharedPreference.addProductToTheCart(addAndStoreNewProduct);
+                    cartProductNumber = allNewProduct.size();
+                }
+
+                sharedPreference.addProductCount(cartProductNumber);
+                ActivityCompat.invalidateOptionsMenu(FragmentoCategorias.activitydelFragmento);
+                //invalidateCart();
+            }
+        });
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.shared;
+package com.example.s3k_user1.appatencionpedidos.helpers;
 
 public class Constants {
     //public static final int WALLET_ENVIRONMENT = WalletConstants.ENVIRONMENT_TEST;

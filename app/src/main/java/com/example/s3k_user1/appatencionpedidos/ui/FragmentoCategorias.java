@@ -1,6 +1,9 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -11,10 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,9 @@ public class FragmentoCategorias extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private MySharedPreference sharedPreference;
+    private Context viewfragmentcontext;
+    public static Activity activitydelFragmento;
     public FragmentoCategorias() {
     }
 
@@ -47,6 +56,10 @@ public class FragmentoCategorias extends Fragment {
             tabLayout.setupWithViewPager(viewPager);
         }
 
+        sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+        viewfragmentcontext = ActividadPrincipal.contextoAcPrincipal;
+
+        activitydelFragmento= getActivity();
         return view;
     }
 
@@ -76,6 +89,12 @@ public class FragmentoCategorias extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_categorias, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_carrito);
+        int mCount = sharedPreference.retrieveProductCount();
+        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+        //menuItem.setIcon(buildCounterDrawable(mCount, R.drawable.cart));
+        Utils.setBadgeCount(viewfragmentcontext, icon, mCount);
     }
 
     @Override

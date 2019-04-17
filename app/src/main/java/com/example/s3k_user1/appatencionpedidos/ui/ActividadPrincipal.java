@@ -1,5 +1,7 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -14,7 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 public class ActividadPrincipal extends AppCompatActivity {
@@ -24,6 +28,10 @@ private NavigationView navigationView;
     public int item;
     public static Menu menuclasprincipal;
     public static int cantidadCarrito;
+
+    private MySharedPreference sharedPreference;
+    public static Context contextoAcPrincipal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,10 @@ private NavigationView navigationView;
             // Seleccionar item por defecto
             seleccionarItem(navigationView.getMenu().getItem(0));
         }
+        sharedPreference = new MySharedPreference(this.getApplicationContext());
+        contextoAcPrincipal = this.getApplicationContext();
+
+
     }
 
     @Override
@@ -117,22 +129,36 @@ private NavigationView navigationView;
         menuclasprincipal = menu;
         getMenuInflater().inflate(R.menu.menu_actividad_principal, menu);
 
-        MenuItem item = menu.findItem(R.id.action_carrito);
+//        MenuItem item = menu.findItem(R.id.action_carrito);
+//
+//        // Obtener drawable del item
+//        LayerDrawable icon = (LayerDrawable) item.getIcon();
+//
+//        // Actualizar el contador
+//        Utils.setBadgeCount(this, icon, 0);
 
-        // Obtener drawable del item
-        LayerDrawable icon = (LayerDrawable) item.getIcon();
-
-        // Actualizar el contador
-        Utils.setBadgeCount(this, icon, 0);
+        MenuItem menuItem = menu.findItem(R.id.action_carrito);
+        int mCount = sharedPreference.retrieveProductCount();
+        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+        //menuItem.setIcon(buildCounterDrawable(mCount, R.drawable.cart));
+        Utils.setBadgeCount(this, icon, mCount);
         return true;
     }
+    //Agregar carrito nuevo
 
+    //
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+        }
+
+        if (item.getItemId() == R.id.action_carrito) {
+            Intent checkoutIntent = new Intent(ActividadPrincipal.this, CheckoutActivity.class);
+            startActivity(checkoutIntent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
