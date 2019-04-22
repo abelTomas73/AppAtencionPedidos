@@ -75,6 +75,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
         //get product quantity
         holder.quantity.setText("1");
+        holder.imagen_product.setImageResource(mProductObject.get(position).getIdDrawable());
         holder.productName.setText(mProductObject.get(position).getNombre());
         holder.productPrice.setText(String.valueOf(mProductObject.get(position).getPrecio()) + " $");
 

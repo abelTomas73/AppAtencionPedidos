@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1">
 
@@ -17,24 +17,36 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:text="1"
+            android:visibility="gone"
             android:textColor="@color/colorPrimary"
             android:layout_gravity="left"/>
+        <ImageView
+            android:id="@+id/imagen_product"
+            android:src="@drawable/muffin_amoroso"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="5">
 
         <TextView
             android:id="@+id/product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+android:gravity="center_vertical"
+            android:paddingLeft="@dimen/espacio_norma_1"
             android:textSize="15sp"
+            android:fontFamily="sans-serif-condensed"
             android:textStyle="bold"
             android:textColor="@color/bgBottomNavigation"
-            android:text="nombre_producto"
+            android:text="Camarores Tismados"
+            android:textAllCaps="false"
             android:layout_gravity="left"/>
     </LinearLayout>
 
@@ -50,8 +62,9 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="S./ 100"
+            android:fontFamily="@font/average_sans"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/accentColor"
             android:layout_gravity="center"/>
 
         <TextView
@@ -62,7 +75,7 @@
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:text="Remove"
+            android:text="Remover"
             />
     </LinearLayout>
 

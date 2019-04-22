@@ -18,12 +18,32 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/checkout_list_layout"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+
         android:layout_weight="9">
 
+        <ImageView
+            android:id="@+id/imagen_carrito_vacio"
+            android:visibility="gone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/empty_box_cart" />
+
+        <TextView
+            android:id="@+id/texto_carrito_vacio"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/texto_carrito_vacio"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/checkout_list"
             android:layout_width="match_parent"
@@ -38,48 +58,61 @@
 
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/accentColor"
         >
 
         <TextView
             android:id="@+id/sub_total"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Sub_total"/>
+            android:gravity="end|center_vertical"
+
+            android:paddingRight="27dp"
+            android:paddingVertical="10dp"
+            android:text="Sub total: "/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="60dp"
         android:orientation="vertical"
         android:gravity="bottom"
         android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/shopping"
-                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_border_checkout"
                 android:textColor="@color/primaryDarkColor"
+
                 android:text="Seguir con Pedidos"
-                android:layout_weight="1"/>
+                />
 
             <Button
                 android:id="@+id/checkout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/primaryDarkColor"
 
                 android:textColor="@color/window_background"
                 android:text="Confirmar Pedido"
-                android:layout_weight="1"/>
+
+                android:drawableRight="@mipmap/confirm_shopping_cart"
+
+                />
 
         </LinearLayout>
 

@@ -3,27 +3,13 @@ package com.example.s3k_user1.appatencionpedidos.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class MySharedPreference {
+public class SharePreferencesCheckOut {
     private SharedPreferences prefs;
     private Context context;
-
-    private GsonBuilder builder = new GsonBuilder();
-    private Gson gson = builder.create();
-    public MySharedPreference(Context context){
+    public SharePreferencesCheckOut(Context context){
         this.context = context;
         prefs = context.getSharedPreferences(Constants.SHARED_PREF, Context.MODE_PRIVATE);
     }
-    public void seleccionarMaquina(Comida comidaproducto){
-        SharedPreferences.Editor edits = prefs.edit();
-        String newMaquinaproducto = gson.toJson(comidaproducto);
-        edits.putString(Constants.PRODUCT_ID, newMaquinaproducto);
-        edits.apply();
-    }
-
     public void addProductToTheCart(String product){
         SharedPreferences.Editor edits = prefs.edit();
         edits.putString(Constants.PRODUCT_ID, product);

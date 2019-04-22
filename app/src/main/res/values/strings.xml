@@ -6,7 +6,7 @@
     <string name="action_carrito">Añadir al carrito</string>
     <string name="item_inicio">Inicio</string>
     <string name="item_cuenta">Mi Cuenta</string>
-    <string name="item_categorias">Categorías</string>
+    <string name="item_categorias">Productos</string>
     <string name="item_configuracion">Configuración</string>
     <string name="titulo_comidas_populares">Maquinas</string>
     <string name="titulo_tab_platillos">COMBOS</string>
@@ -115,4 +115,9 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_login">Login</string>
+    <string name="texto_carrito_vacio">carrito vacio</string>
+    <string name="item_pedidos">Pedidos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

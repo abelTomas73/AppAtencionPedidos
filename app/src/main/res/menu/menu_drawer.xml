@@ -16,6 +16,10 @@
             android:icon="@drawable/categorias"
             android:title="@string/item_categorias" />
         <item
+            android:id="@+id/item_pedidos"
+            android:icon="@drawable/open_box_pedidos"
+            android:title="@string/item_pedidos" />
+        <item
             android:id="@+id/item_configuracion"
             android:icon="@drawable/configuracion"
             android:title="@string/item_configuracion" />
