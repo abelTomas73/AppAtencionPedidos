@@ -11,22 +11,27 @@
         android:icon="@drawable/ic_logo_corporacion_pj"
         android:label="@string/app_icon_texto"
         android:theme="@style/Theme.RicoPaRico">
-        <activity android:name=".Login.SplashScreenActivity"></activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/app_name"></activity>
-        <activity
-            android:name=".Login.Login"
-            android:label="@string/title_activity_login"></activity>
-        <activity
-            android:name=".ui.ActividadPrincipal"
-            android:label="@string/app_icon_texto"
-            android:theme="@style/Theme.ConNavigationDrawer">
+
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Login.SplashScreenActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".Login.Login"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".ui.ActividadPrincipal"
+            android:label="@string/app_icon_texto"
+            android:theme="@style/Theme.ConNavigationDrawer">
+
         </activity>
         <activity
             android:name=".ui.ActividadConfiguracion"
@@ -36,14 +41,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.ActividadPrincipal" />
         </activity>
-        <activity android:name=".CheckoutActivity"
-
+        <activity
+            android:name=".CheckoutActivity"
             android:parentActivityName=".ui.ActividadPrincipal">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.ActividadPrincipal" />
         </activity>
+
+
     </application>
 
 </manifest>

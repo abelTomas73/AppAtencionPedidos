@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
+
     android:orientation="vertical"
     android:background="@color/window_background"
     tools:context=".CheckoutActivity">
@@ -68,7 +66,7 @@
                 android:id="@+id/shopping"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/button_border_checkout"
                 android:textColor="@color/primaryDarkColor"
                 android:text="Seguir con Pedidos"
                 android:layout_weight="1"/>
@@ -78,7 +76,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/primaryDarkColor"
-                android:layout_marginLeft="19dp"
+
                 android:textColor="@color/window_background"
                 android:text="Confirmar Pedido"
                 android:layout_weight="1"/>

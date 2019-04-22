@@ -21,6 +21,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
+        exclude group: 'com.android.support'
+    }
     implementation 'com.android.support:appcompat-v7:23.0.1'
     implementation 'com.android.support:design:23.0.1'
     implementation 'com.android.support:recyclerview-v7:23.0.1'

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
@@ -37,7 +38,16 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
     @Override
     public CheckRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_layout, parent, false);
-        CheckRecyclerViewHolder productHolder = new CheckRecyclerViewHolder(layoutView);
+        final CheckRecyclerViewHolder productHolder = new CheckRecyclerViewHolder(layoutView);
+        productHolder.removeProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position=productHolder.getAdapterPosition();
+                //Toast.makeText(context,"Item at position "+position+" deleted",Toast.LENGTH_SHORT).show();
+                //mProductObject.remove(position);
+                notifyDataSetChanged();
+            }
+        });
         return productHolder;
     }
     // inici mismo meth
@@ -50,7 +60,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
     // fin mis meth
     @Override
-    public void onBindViewHolder(CheckRecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(final CheckRecyclerViewHolder holder, final int position) {
         sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
@@ -71,27 +81,35 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         holder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 //sharedPreference.deleteAllProductsFromTheCart();
-
 
                 //se remueve el producto elegido (indice ) y reutilizar el metodo
                 // .addProductToTheCart
                 allNewProduct.remove(position);
 
 
-                final String addAndStoreNewProduct = gson.toJson(allNewProduct);
+                String addAndStoreNewProduct = gson.toJson(allNewProduct);
 
                 //sharedPreference.deleteProductfromTheCart(addAndStoreNewProduct);
+
+                Toast.makeText(context, "Item removido de la carta", Toast.LENGTH_LONG).show();
+
+                mProductObject.remove(holder.getAdapterPosition());
+
+                notifyItemRemoved(holder.getAdapterPosition());
+
+                addAndStoreNewProduct = gson.toJson(mProductObject);
                 sharedPreference.addProductToTheCart(addAndStoreNewProduct);
 
-                cartProductNumber = allNewProduct.size();
+                cartProductNumber = mProductObject.size();
+                //notifyItemChanged(holder.getAdapterPosition());
+
+
+                CheckoutActivity.actualizarSubtotal(mProductObject);
 
                 sharedPreference.addProductCount(cartProductNumber);
                 ActivityCompat.invalidateOptionsMenu(FragmentoCategorias.activitydelFragmento);
 
-                Toast.makeText(context, "Item removido de la carta", Toast.LENGTH_LONG).show();
             }
         });
 

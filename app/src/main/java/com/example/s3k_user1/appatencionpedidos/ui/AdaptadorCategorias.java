@@ -1,13 +1,11 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
-import android.graphics.drawable.LayerDrawable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,9 +14,9 @@ import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
-import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +40,7 @@ public class AdaptadorCategorias
         public TextView nombre;
         public TextView precio;
         public ImageView imagen;
-        public ImageView agregar_item_al_carrito;
+        public Button agregar_item_al_carrito;
 
 
 
@@ -52,7 +50,8 @@ public class AdaptadorCategorias
 
             agregar_item_al_carrito = v.findViewById(R.id.agregar_item_al_carrito);
 
-
+            PushDownAnim.setPushDownAnimTo(agregar_item_al_carrito)
+                        .setScale(PushDownAnim.MODE_SCALE,0.89F);
             nombre = (TextView) v.findViewById(R.id.nombre_comida);
             precio = (TextView) v.findViewById(R.id.precio_comida);
             imagen = (ImageView) v.findViewById(R.id.miniatura_comida);

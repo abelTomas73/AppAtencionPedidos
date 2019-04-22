@@ -2,9 +2,9 @@ package com.example.s3k_user1.appatencionpedidos;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +20,7 @@ import com.example.s3k_user1.appatencionpedidos.ui.FragmentoCategorias;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,10 +31,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private RecyclerView checkRecyclerView;
 
-    private TextView subTotal;
+    private static TextView subTotal;
 
     private double mSubTotal = 0;
-
+    private static String mSubTotalStatico = "";
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,7 +44,10 @@ public class CheckoutActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }
-
+    public static void  actualizarSubtotal(List<Comida> productList){
+        double mSubTotal = (double) getTotalPrice(productList);
+        subTotal.setText("Subtotal : " +  "$ " +df2.format(mSubTotal ));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +71,20 @@ public class CheckoutActivity extends AppCompatActivity {
         Gson gson = builder.create();
 
         Comida[] addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), Comida[].class);
+        if (addCartProducts==null) return;
         List<Comida> productList = convertObjectArrayToListObject(addCartProducts);
+
+
 
         CheckRecyclerViewAdapter mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
         checkRecyclerView.setAdapter(mAdapter);
 
+        //mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyItemRemoved(3);
         mSubTotal = getTotalPrice(productList);
-        subTotal.setText("Subtotal : " +  "$ " +String.valueOf(mSubTotal));
+
+
+        subTotal.setText("Subtotal : " +  "$ " + df2.format(mSubTotal ));
 
 
         Button shoppingButton = (Button)findViewById(R.id.shopping);
@@ -114,7 +126,7 @@ public class CheckoutActivity extends AppCompatActivity {
         return quantityCount;
     }
 
-    private double getTotalPrice(List<Comida> mProducts){
+    private static double getTotalPrice(List<Comida> mProducts){
         double totalCost = 0;
         for(int i = 0; i < mProducts.size(); i++){
             Comida pObject = mProducts.get(i);
