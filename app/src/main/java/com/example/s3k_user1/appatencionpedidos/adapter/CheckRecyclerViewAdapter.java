@@ -12,7 +12,7 @@ import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
-import com.example.s3k_user1.appatencionpedidos.ui.ActividadPrincipal;
+import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.example.s3k_user1.appatencionpedidos.ui.FragmentoCategorias;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

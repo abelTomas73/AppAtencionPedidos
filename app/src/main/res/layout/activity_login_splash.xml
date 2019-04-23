@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryDarkColor"
-    tools:context=".Login.Login">
+    tools:context=".loginSistema.LoginActivity">
 
 
     <RelativeLayout
@@ -99,7 +99,7 @@
 
 
                         android:layout_width="match_parent"
-
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/backgroundactivity"
                         app:errorEnabled="true">
@@ -110,6 +110,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/accentColor"
+
                             android:drawableEnd="@drawable/usuario"
 
                             android:drawableRight="@drawable/usuario"
@@ -121,7 +122,7 @@
 
                             android:paddingStart="15dp"
                             android:paddingLeft="15dp"
-                            android:text="utecnico"
+                            android:text="admin"
                             android:textColor="#fff" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -142,8 +143,7 @@
                         android:textColorHint="@color/backgroundactivity"
                         app:errorEnabled="true"
 
-
-
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
                         >
 
@@ -189,6 +189,7 @@
                 android:theme="@style/MyButton" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btnIngresarSisWebToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -20,7 +20,12 @@
             android:icon="@drawable/open_box_pedidos"
             android:title="@string/item_pedidos" />
         <item
+            android:id="@+id/item_cerrarsesion"
+            android:icon="@mipmap/ic_back_close"
+            android:title="@string/item_cerrarsesion" />
+        <item
             android:id="@+id/item_configuracion"
+            android:visible="false"
             android:icon="@drawable/configuracion"
             android:title="@string/item_configuracion" />
     </group>

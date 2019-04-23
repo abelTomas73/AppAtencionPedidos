@@ -1,6 +1,5 @@
-package com.example.s3k_user1.appatencionpedidos.ui;
+package com.example.s3k_user1.appatencionpedidos.navigation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.LayerDrawable;
@@ -19,6 +18,9 @@ import android.view.MenuItem;
 import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.example.s3k_user1.appatencionpedidos.ui.FragmentoCategorias;
+import com.example.s3k_user1.appatencionpedidos.ui.FragmentoCuenta;
+import com.example.s3k_user1.appatencionpedidos.ui.FragmentoInicio;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 public class ActividadPrincipal extends AppCompatActivity {

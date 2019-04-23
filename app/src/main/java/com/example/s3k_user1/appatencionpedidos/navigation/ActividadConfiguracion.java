@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.ui;
+package com.example.s3k_user1.appatencionpedidos.navigation;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
