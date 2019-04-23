@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.SharePreferencesCheckOut;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ public class AdaptadorInicio
 
     private List<Comida> exampleList;
     private List<Comida> exampleListFull;
+    private SharePreferencesCheckOut sharedPreference;
     @Override
     public Filter getFilter() {
         return exampleFilter;
@@ -93,7 +97,10 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Comida item = exampleList.get(i);
+        sharedPreference = new SharePreferencesCheckOut(ActividadPrincipal.contextoAcPrincipal);
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+        final Comida item = exampleList.get(i);
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getIdDrawable())
@@ -102,6 +109,15 @@ public class AdaptadorInicio
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.precio.setText("M-" + item.getPrecio());
 
+        viewHolder.imagen.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                sharedPreference.seleccionarMaquina(item);
+
+                return true;
+            }
+        });
     }
 
 

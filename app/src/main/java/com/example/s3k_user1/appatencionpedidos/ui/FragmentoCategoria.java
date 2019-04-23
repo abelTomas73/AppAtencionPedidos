@@ -1,5 +1,6 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +38,18 @@ public class FragmentoCategoria extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_grupo_items, container, false);
         setRetainInstance(true);
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
-        layoutManager = new GridLayoutManager(getActivity(), 2);
+
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//            mRecycler.setLayoutManager(new GridLayoutManager(mContext, 2));
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+        }
+        else{
+//            mRecycler.setLayoutManager(new GridLayoutManager(mContext, 4));
+            layoutManager = new GridLayoutManager(getActivity(), 3);
+        }
+
+
+
         reciclador.setLayoutManager(layoutManager);
 
         int indiceSeccion = getArguments().getInt(INDICE_SECCION);
