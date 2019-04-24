@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.ui;
+package com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.ui.AdaptadorInicio;
 
 import java.util.ArrayList;
 import java.util.List;

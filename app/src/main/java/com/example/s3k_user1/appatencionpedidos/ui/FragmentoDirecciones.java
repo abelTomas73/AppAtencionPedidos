@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.ui.AdaptadorDirecciones;
+import com.example.s3k_user1.appatencionpedidos.utils.DecoracionLineaDivisoria;
 
 
 /**
