@@ -20,6 +20,10 @@
             android:icon="@drawable/open_box_pedidos"
             android:title="@string/item_pedidos" />
         <item
+            android:id="@+id/item_productos"
+            android:icon="@drawable/email"
+            android:title="@string/item_productos" />
+        <item
             android:id="@+id/item_cerrarsesion"
             android:icon="@mipmap/ic_back_close"
             android:title="@string/item_cerrarsesion" />

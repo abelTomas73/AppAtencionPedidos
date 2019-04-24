@@ -55,4 +55,11 @@ dependencies {
 
     //serializar Gson
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    //stepper
+    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
+
+    //stepper-indicator
+    implementation 'com.github.badoualy:stepper-indicator:1.0.7'
+
 }

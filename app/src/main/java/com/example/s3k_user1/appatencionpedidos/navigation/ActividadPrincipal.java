@@ -21,6 +21,7 @@ import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoCategorias;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoCuenta;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 public class ActividadPrincipal extends AppCompatActivity {
@@ -110,10 +111,15 @@ private NavigationView navigationView;
                 fragmentoGenerico = new FragmentoCategorias();
                 item=2;
                 break;
-            case R.id.item_configuracion:
+            case R.id.item_productos:
                 item=3;
+                fragmentoGenerico = new FragmentoProductos();
+                break;
+            case R.id.item_configuracion:
+                item=4;
                 startActivity(new Intent(this, ActividadConfiguracion.class));
                 break;
+
         }
         if (fragmentoGenerico != null) {
             fragmentManager
