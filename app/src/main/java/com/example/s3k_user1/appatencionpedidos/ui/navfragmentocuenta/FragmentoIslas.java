@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.model.Isla;
+import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +25,26 @@ import java.util.List;
 public class FragmentoIslas extends Fragment {
 
     private RecyclerView reciclador;
-    //private LinearLayoutManager layoutManager;
-    //private AdaptadorInicio adaptador;
+
     SearchView mSearchView;
 
-    List<Comida> COMIDAS_POPULARES;
+    List<Isla> islaList;
     List<Comida> COMIDAS_POPULARES_COPIA;
 
     private GridLayoutManager layoutManager;
-    private AdaptadorArticulos adaptador;
+    private AdaptadorIslas adaptador;
 
     public FragmentoIslas() {
         // Required empty public constructor
     }
 
     private void poblarIslas() {
-        COMIDAS_POPULARES = new ArrayList<Comida>();
-
-        COMIDAS_POPULARES.add(new Comida(1,5, "Maquina", R.drawable.camarones));
-        COMIDAS_POPULARES.add(new Comida(2,3.2f, "Maquina 2", R.drawable.rosca));
-        COMIDAS_POPULARES.add(new Comida(3,12f, "Maquina 3", R.drawable.sushi));
-        COMIDAS_POPULARES.add(new Comida(4,9, "Maquina Sl", R.drawable.sandwich));
-        COMIDAS_POPULARES.add(new Comida(5,34f, "Maquina S3K", R.drawable.lomo_cerdo));
+        islaList = new ArrayList<>();
+        islaList.add(new Isla("Isla 1"));
+        islaList.add(new Isla("Isla 2x"));
+        islaList.add(new Isla("Isla ff"));
+        islaList.add(new Isla("Isla 4"));
+        islaList.add(new Isla("Isla 545"));
 
         //COMIDAS_POPULARES_COPIA.addAll(COMIDAS_POPULARES);
     }
@@ -53,21 +54,20 @@ public class FragmentoIslas extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragmento_islas, container, false);
+
         poblarIslas();
-        reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
-//        layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager = new GridLayoutManager(getActivity(), 2);
+        //zonaList.add(new Zona("The Vegitarian"));
 
-        reciclador.setLayoutManager(layoutManager);
+        RecyclerView myrv = view.findViewById(R.id.recyclerview_id);
+        AdaptadorIslas myAdapter;
 
-        COMIDAS_POPULARES_COPIA = new ArrayList<>();
-        COMIDAS_POPULARES_COPIA.addAll(COMIDAS_POPULARES);
+        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),110);
 
-        adaptador = new AdaptadorArticulos(Comida.PLATILLOS);
+        myAdapter = new AdaptadorIslas(getContext(),islaList);
+        myrv.setLayoutManager(new GridLayoutManager(getContext(),mNoOfColumns));
+        myrv.setAdapter(myAdapter);
 
-//        adaptador = new AdaptadorInicio(COMIDAS_POPULARES);
-        reciclador.setAdapter(adaptador);
-        return view;
+        return  view;
     }
 
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.ui.AdaptadorCategorias;
+import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,9 @@ public class FragmentoArticulos extends Fragment {
         poblarArticulos();
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
 //        layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager = new GridLayoutManager(getActivity(), 2);
+
+        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),180);
+        layoutManager = new GridLayoutManager(getActivity(), mNoOfColumns);
 
         reciclador.setLayoutManager(layoutManager);
 

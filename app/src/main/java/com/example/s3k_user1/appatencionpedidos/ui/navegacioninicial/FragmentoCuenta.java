@@ -20,6 +20,7 @@ import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoA
 import com.example.s3k_user1.appatencionpedidos.ui.FragmentoPerfil;
 import com.example.s3k_user1.appatencionpedidos.ui.FragmentoDirecciones;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
+import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoZonas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class FragmentoCuenta extends Fragment {
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(new FragmentoDirecciones(), getString(R.string.titulo_tab_direcciones));
+        adapter.addFragment(new FragmentoZonas(), getString(R.string.titulo_tab_direcciones));
         adapter.addFragment(new FragmentoIslas(), "ISLAS");
         adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil));
         //adapter.addFragment(new FragmentoTarjetas(), "SESION");
