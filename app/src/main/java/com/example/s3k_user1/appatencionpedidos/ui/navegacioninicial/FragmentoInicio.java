@@ -40,6 +40,7 @@ public class FragmentoInicio extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         poblarMaquinas();
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
+
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
         COMIDAS_POPULARES_COPIA = new ArrayList<>();
@@ -79,6 +80,8 @@ public class FragmentoInicio extends Fragment {
 //        }
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setTitle("Buscar Maquina");
+
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
