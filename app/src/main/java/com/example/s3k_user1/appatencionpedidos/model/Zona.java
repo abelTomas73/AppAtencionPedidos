@@ -31,6 +31,9 @@ public class Zona {
     @Expose
     private long estado;
 
+    public Zona() {
+
+    }
     public Zona(String nombre) {
 
         this.nombre = nombre;

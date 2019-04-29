@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.utils.GridSpacingItemDecoration;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 import java.util.ArrayList;
@@ -32,6 +35,10 @@ public class FragmentoZonas extends Fragment {
     private List<Zona> zonaList;
     private List<Zona> zonaListFull;
     private RecyclerView recyclerview_id;
+    private Button btnSeleccionarZona;
+
+    //seleccion Zona
+    public static Zona ZONAELEGIDA;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,7 +50,18 @@ public class FragmentoZonas extends Fragment {
         poblarZonas();
 
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
+        btnSeleccionarZona = view.findViewById(R.id.btnSeleccionarZona);
+        btnSeleccionarZona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FragmentoZonas.ZONAELEGIDA==null){
+                    Toast.makeText(getActivity(), "Eliga una Zona", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                }
 
+            }
+        });
         zonaListFull = new ArrayList<>();
         zonaListFull.addAll(zonaList);
 
@@ -51,9 +69,8 @@ public class FragmentoZonas extends Fragment {
 
         SearchView searchView =  view.findViewById(R.id.search_zona);
         searchView.setQueryHint("Buscar Zonas ..");
-
+        searchView.setMaxWidth( Integer.MAX_VALUE );
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -81,6 +98,11 @@ public class FragmentoZonas extends Fragment {
 //                }
 //            }
 //        });
+        int spanCount = 3; // 3 columns
+        int spacing = 50; // 50px
+        boolean includeEdge = false;
+        //recyclerview_id.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+
        recyclerview_id.setHasFixedSize(true);
 //        recyclerview_id.setLayoutManager(new GridLayoutManager(getContext(),mNoOfColumns));
         recyclerview_id.setLayoutManager(manager);

@@ -3,6 +3,8 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -54,7 +56,14 @@ public class FragmentoIslas extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragmento_islas, container, false);
-
+        if ( FragmentoZonas.ZONAELEGIDA==null){
+            Fragment fragment = new FragmentoZonas();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.linear_islas, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
         poblarIslas();
         //zonaList.add(new Zona("The Vegitarian"));
 
