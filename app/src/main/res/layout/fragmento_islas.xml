@@ -14,21 +14,86 @@
 
 
 
+
+
     <android.support.v7.widget.SearchView
         android:id="@+id/search_isla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:queryHint="Buscar isla..."
-        android:clickable="true" />
+        app:showAsAction="always"
+        android:clickable="true"
 
 
+        android:focusable="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="9"
+        android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:layout_gravity="center_horizontal|center"
+            android:layout_gravity="center_horizontal"
             android:id="@+id/recyclerview_id"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+
+            android:clipToPadding="false"
+            >
 
         </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
 
+        android:orientation="horizontal"
+        android:gravity="bottom"
+
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnAtrasZonas"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="sans-serif-medium"
+
+                android:textSize="14sp"
+                android:textColor="@color/background_footer_item_grid_categorias"
+                android:textAllCaps="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_border"
+                android:text="Atras"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <Button
+
+                android:id="@+id/btnSeleccionarIsla"
+                android:layout_height="match_parent"
+
+                android:layout_width="match_parent"
+
+                android:fontFamily="sans-serif-medium"
+
+                android:textSize="14sp"
+                android:textColor="@color/background_footer_item_grid_categorias"
+                android:textAllCaps="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_border"
+                android:text="Continuar"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

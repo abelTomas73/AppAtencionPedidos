@@ -4,6 +4,7 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.design.card.MaterialCardView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -66,7 +67,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentoZonas.ZONAELEGIDA = new Zona();
+                //FragmentoZonas.ZONAELEGIDA = new Zona();
                 FragmentoZonas.ZONAELEGIDA = zonaE;
                 Toast.makeText(mContext, FragmentoZonas.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
                 row_index=position;
@@ -141,7 +142,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
 
         TextView tv_Zona_title;
         ImageView img_Zona_thumbnail;
-        LinearLayout cardView ;
+        MaterialCardView cardView ;
 
         public MyViewHolder(View itemView,int width) {
             super(itemView);

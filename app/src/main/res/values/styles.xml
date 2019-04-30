@@ -22,8 +22,6 @@
 
 
 
-
-
     <style name="MyButton" parent="AppTheme">
         <item name="colorControlHighlight">@color/primaryDarkColor</item>
 

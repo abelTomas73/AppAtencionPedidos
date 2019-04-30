@@ -36,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_store_white_24dp" />
 
             <TextView
@@ -43,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Maquina"
+                android:text="Usuario"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
 
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:layout_gravity="center_vertical"
-                android:text="Maquinas S3K"
+                android:text="Admin S3K"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
         </TableRow>

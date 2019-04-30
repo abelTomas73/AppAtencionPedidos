@@ -6,7 +6,7 @@
             android:id="@+id/item_inicio"
             android:checked="true"
             android:icon="@drawable/inicio"
-            android:title="@string/item_inicio" />
+            android:title="Zona" />
         <item
             android:id="@+id/item_cuenta"
             android:icon="@drawable/cuenta"
@@ -22,6 +22,7 @@
         <item
             android:id="@+id/item_productos"
             android:icon="@drawable/email"
+            android:visible="false"
             android:title="@string/item_productos" />
         <item
             android:id="@+id/item_cerrarsesion"

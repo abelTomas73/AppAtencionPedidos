@@ -1,7 +1,9 @@
 package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.content.Context;
+import android.support.design.card.MaterialCardView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +37,7 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
     private List<Isla> mDataIsla ;
 
     private List<Isla> mDataIslaListFull;
-
+    private int row_index=-1;
     public AdaptadorIslas(Context mContext, List<Isla> mDataIsla) {
         this.mContext = mContext;
         this.mDataIsla = mDataIsla;
@@ -55,18 +57,29 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-
+        final Isla islaE = mDataIsla.get(position);
 
         holder.tv_Isla_title.setText(mDataIsla.get(position).getNombre());
         holder.img_Isla_thumbnail.setImageResource(R.drawable.islas);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentoIslas.ISLAELEGIDA = islaE;
+                Toast.makeText(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+                row_index=position;
+                notifyDataSetChanged();
 
             }
         });
-
+        if(row_index==position){
+            holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
+            //holder.tv1.setTextColor(Color.parseColor("#ffffff"));
+        }
+        else
+        {
+            holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
+//            holder.tv1.setTextColor(Color.parseColor("#000000"));
+        }
 
 
     }
@@ -115,14 +128,14 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
 
         TextView tv_Isla_title;
         ImageView img_Isla_thumbnail;
-        CardView cardView ;
+        MaterialCardView cardView ;
 
         public MyViewHolder(View itemView,int width) {
             super(itemView);
 
-            tv_Isla_title = (TextView) itemView.findViewById(R.id.book_title_id) ;
-            img_Isla_thumbnail = (ImageView) itemView.findViewById(R.id.book_img_id);
-            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+            tv_Isla_title = itemView.findViewById(R.id.book_title_id) ;
+            img_Isla_thumbnail = itemView.findViewById(R.id.book_img_id);
+            cardView = itemView.findViewById(R.id.cardview_item_isla);
 //            cardView.getLayoutParams().width = width-200;
 
         }

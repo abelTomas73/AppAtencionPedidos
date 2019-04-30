@@ -3,6 +3,8 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.GridSpacingItemDecoration;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
@@ -45,7 +49,7 @@ public class FragmentoZonas extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragmento_zonas, container, false);
-
+        getActivity().setTitle("Zonas");
         //zonaList.add(new Zona("The Vegitarian"));
         poblarZonas();
 
@@ -58,6 +62,13 @@ public class FragmentoZonas extends Fragment {
                     Toast.makeText(getActivity(), "Eliga una Zona", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+
+                    Fragment fragment = new FragmentoProductos();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contenedor_principal, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
                 }
 
             }
@@ -88,23 +99,14 @@ public class FragmentoZonas extends Fragment {
         int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),180);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNoOfColumns);
-//        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                if (zonaListFull.size() % 2 != 0) {
-//                    return (position == zonaListFull.size() - 1) ? 2 : 1;
-//                } else {
-//                    return 1;
-//                }
-//            }
-//        });
+
         int spanCount = 3; // 3 columns
         int spacing = 50; // 50px
         boolean includeEdge = false;
         //recyclerview_id.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
        recyclerview_id.setHasFixedSize(true);
-//        recyclerview_id.setLayoutManager(new GridLayoutManager(getContext(),mNoOfColumns));
+
         recyclerview_id.setLayoutManager(manager);
         recyclerview_id.setAdapter(adaptador);
 
