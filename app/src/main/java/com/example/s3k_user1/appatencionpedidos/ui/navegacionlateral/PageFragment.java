@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial;
+package com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral;
 
 
 import android.os.Bundle;

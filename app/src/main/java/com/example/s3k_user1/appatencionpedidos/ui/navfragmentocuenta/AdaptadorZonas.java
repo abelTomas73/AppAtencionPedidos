@@ -2,29 +2,22 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
-import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +61,8 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             @Override
             public void onClick(View v) {
                 //FragmentoZonas.ZONAELEGIDA = new Zona();
-                FragmentoZonas.ZONAELEGIDA = zonaE;
-                Toast.makeText(mContext, FragmentoZonas.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+                FragmentoInicio.ZONAELEGIDA = zonaE;
+                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
                 row_index=position;
                 notifyDataSetChanged();
 //                holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
@@ -87,12 +80,17 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
         });
         if(row_index==position){
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
-            //holder.tv1.setTextColor(Color.parseColor("#ffffff"));
+//            holder.tv_Zona_title.Style(Color.parseColor("#ffffff"));
+            holder.tv_Zona_title.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.descp_book_title_id.setTypeface(Typeface.DEFAULT_BOLD);
+
         }
         else
         {
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
-//            holder.tv1.setTextColor(Color.parseColor("#000000"));
+//            holder.tv_Zona_title.setTextColor(Color.parseColor("#000000"));
+            holder.tv_Zona_title.setTypeface(Typeface.DEFAULT);
+            holder.descp_book_title_id.setTypeface(Typeface.DEFAULT);
         }
 
 
@@ -141,6 +139,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_Zona_title;
+        TextView descp_book_title_id;
         ImageView img_Zona_thumbnail;
         MaterialCardView cardView ;
 
@@ -148,6 +147,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             super(itemView);
 
             tv_Zona_title = itemView.findViewById(R.id.book_title_id) ;
+            descp_book_title_id = itemView.findViewById(R.id.descp_book_title_id) ;
             img_Zona_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_item_zona);
 //            cardView.getLayoutParams().width = width-200;

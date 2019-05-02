@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoCategorias;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoCuenta;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoInicio;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoProductos;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCuenta;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 public class ActividadPrincipal extends AppCompatActivity {

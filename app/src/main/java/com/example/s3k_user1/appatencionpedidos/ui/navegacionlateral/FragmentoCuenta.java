@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial;
+package com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral;
 
 
 import android.graphics.Color;
@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoArticulos;
 import com.example.s3k_user1.appatencionpedidos.ui.FragmentoPerfil;
-import com.example.s3k_user1.appatencionpedidos.ui.FragmentoDirecciones;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoZonas;
 

@@ -68,7 +68,6 @@
                 android:textColor="@color/background_footer_item_grid_categorias"
                 android:textAllCaps="true"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:background="@drawable/button_border"
                 android:text="Atras"/>
         </LinearLayout>
@@ -89,7 +88,6 @@
                 android:textSize="14sp"
                 android:textColor="@color/background_footer_item_grid_categorias"
                 android:textAllCaps="true"
-                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/button_border"
                 android:text="Continuar"/>

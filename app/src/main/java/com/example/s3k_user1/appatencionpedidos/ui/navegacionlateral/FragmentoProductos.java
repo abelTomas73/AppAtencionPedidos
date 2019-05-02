@@ -1,11 +1,9 @@
-package com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial;
+package com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +11,6 @@ import android.view.ViewGroup;
 
 import com.badoualy.stepperindicator.StepperIndicator;
 import com.example.s3k_user1.appatencionpedidos.R;
-import com.example.s3k_user1.appatencionpedidos.ui.AdaptadorInicio;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +46,7 @@ public class FragmentoProductos extends Fragment  {
 
         final ViewPager pager = view.findViewById(R.id.pager);
         assert pager != null;
-        pager.setAdapter(new com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.PagerAdapter(getFragmentManager()));
+        pager.setAdapter(new com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.PagerAdapter(getFragmentManager()));
 
         final StepperIndicator indicator = view.findViewById(R.id.stepper_indicator);
         // We keep last page for a "finishing" page

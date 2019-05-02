@@ -1,49 +1,36 @@
 package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.design.card.MaterialCardView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
-import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
-import com.example.s3k_user1.appatencionpedidos.model.Isla;
-import com.example.s3k_user1.appatencionpedidos.model.Isla;
-import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.thekhaeng.pushdownanim.PushDownAnim;
+import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHolder> implements Filterable {
+public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyViewHolder> implements Filterable {
 
     private Context mContext ;
-    private List<Isla> mDataIsla ;
+    private List<MaquinaZona> mDataMaquinaZona ;
 
-    private List<Isla> mDataIslaListFull;
+    private List<MaquinaZona> mDataMaquinaZonaListFull;
     private int row_index=-1;
-    public AdaptadorIslas(Context mContext, List<Isla> mDataIsla) {
+    public AdaptadorMaquina(Context mContext, List<MaquinaZona> mDataMaquinaZona) {
         this.mContext = mContext;
-        this.mDataIsla = mDataIsla;
+        this.mDataMaquinaZona = mDataMaquinaZona;
 
-        mDataIslaListFull = new ArrayList<>(mDataIsla);
+        mDataMaquinaZonaListFull = new ArrayList<>(mDataMaquinaZona);
     }
 
     @Override
@@ -52,21 +39,21 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         int width = parent.getMeasuredWidth() / 2;
-        view = mInflater.inflate(R.layout.cardview_item_isla,parent,false);
+        view = mInflater.inflate(R.layout.cardview_item_maquina,parent,false);
         return new MyViewHolder(view,width);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final Isla islaE = mDataIsla.get(position);
+        final MaquinaZona maquinaE = mDataMaquinaZona.get(position);
 
-        holder.tv_Isla_title.setText(mDataIsla.get(position).getNombre());
-        holder.img_Isla_thumbnail.setImageResource(R.drawable.islas);
+        holder.tv_MaquinaZona_title.setText(mDataMaquinaZona.get(position).getCodMaq());
+        holder.img_MaquinaZona_thumbnail.setImageResource(R.drawable.maquinas);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentoIslas.ISLAELEGIDA = islaE;
-                Toast.makeText(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+                FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
+                Toast.makeText(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT).show();
                 row_index=position;
                 notifyDataSetChanged();
 
@@ -74,12 +61,12 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
         });
         if(row_index==position){
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
-//            holder.tv_Isla_title.setTextColor(Color.parseColor("#ffffff"));
+//            holder.tv_MaquinaZona_title.setTextColor(Color.parseColor("#ffffff"));
         }
         else
         {
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
-//            holder.tv_Isla_title.setTextColor(Color.parseColor("#000000"));
+//            holder.tv_MaquinaZona_title.setTextColor(Color.parseColor("#000000"));
         }
 
 
@@ -87,7 +74,7 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
 
     @Override
     public int getItemCount() {
-        return mDataIsla.size();
+        return mDataMaquinaZona.size();
     }
 
     @Override
@@ -98,15 +85,15 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Isla> filteredList = new ArrayList<>();
+            List<MaquinaZona> filteredList = new ArrayList<>();
             //filtros recibe el texto si y filtra
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mDataIslaListFull);
+                filteredList.addAll(mDataMaquinaZonaListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Isla item : mDataIslaListFull) {
-                    if (item.getNombre().toLowerCase().contains(filterPattern)) {
+                for (MaquinaZona item : mDataMaquinaZonaListFull) {
+                    if (item.getCodMaq().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -120,23 +107,23 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mDataIsla.clear();
-            mDataIsla.addAll((List) results.values);
+            mDataMaquinaZona.clear();
+            mDataMaquinaZona.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_Isla_title;
-        ImageView img_Isla_thumbnail;
+        TextView tv_MaquinaZona_title;
+        ImageView img_MaquinaZona_thumbnail;
         MaterialCardView cardView ;
 
         public MyViewHolder(View itemView,int width) {
             super(itemView);
 
-            tv_Isla_title = itemView.findViewById(R.id.book_title_id) ;
-            img_Isla_thumbnail = itemView.findViewById(R.id.book_img_id);
-            cardView = itemView.findViewById(R.id.cardview_item_isla);
+            tv_MaquinaZona_title = itemView.findViewById(R.id.book_title_id) ;
+            img_MaquinaZona_thumbnail = itemView.findViewById(R.id.book_img_id);
+            cardView = itemView.findViewById(R.id.cardview_item_maquina);
 //            cardView.getLayoutParams().width = width-200;
 
         }

@@ -3,7 +3,6 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +16,7 @@ import android.widget.Toast;
 
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
-import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoInicio;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacioninicial.FragmentoProductos;
-import com.example.s3k_user1.appatencionpedidos.utils.GridSpacingItemDecoration;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
 import java.util.ArrayList;
