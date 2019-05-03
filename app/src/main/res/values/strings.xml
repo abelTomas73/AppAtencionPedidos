@@ -122,6 +122,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="item_cerrarsesion">Salir</string>
     <string name="item_productos">items</string>
+    <string name="sin_registro">sin registros</string>
 
 
     <string-array name="stepLabels">

@@ -43,9 +43,13 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
         this.mContext = mContext;
         this.mDataIsla = mDataIsla;
 
-        mDataIslaListFull = new ArrayList<>(mDataIsla);
+        this.mDataIslaListFull = new ArrayList<>();
+        this.mDataIslaListFull.addAll(mDataIsla);
     }
-
+    public void updateSearchedList() {
+        mDataIslaListFull.clear();
+        mDataIslaListFull.addAll(mDataIsla);
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

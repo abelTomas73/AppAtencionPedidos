@@ -30,9 +30,13 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         this.mContext = mContext;
         this.mDataMaquinaZona = mDataMaquinaZona;
 
-        mDataMaquinaZonaListFull = new ArrayList<>(mDataMaquinaZona);
+        this.mDataMaquinaZonaListFull = new ArrayList<>();
+        this.mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
     }
+    public void updateSearchedList() {
 
+        mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

@@ -1,18 +1,25 @@
 package com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -58,10 +65,25 @@ public class FragmentoInicio extends Fragment {
     private Button btnSeleccionarZona;
 
     public static Zona ZONAELEGIDA;
+
+
+    ProgressBar progressBar;
+    ProgressDialog progressDialog;
+
+    //
+    private LinearLayout checkout_list_layout;
+    private ImageView imagen_carrito_vacio;
+    private TextView texto_carrito_vacio;
     public FragmentoInicio() {
     }
-
+    SwipeRefreshLayout swipeRefreshLayout;
     private List<Zona> zonaListEstatica;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,12 +101,34 @@ public class FragmentoInicio extends Fragment {
 //        reciclador.setAdapter(adaptador);
 //        return view;
 
-        View view = inflater.inflate(R.layout.fragmento_zonas,container,false);
+        view = inflater.inflate(R.layout.fragmento_zonas,container,false);
         getActivity().setTitle("Zonas");
-        //poblarZonas();
-        servicioPoblarZonas();
+
+
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
         btnSeleccionarZona = view.findViewById(R.id.btnSeleccionarZona);
+
+        progressBar = view.findViewById(R.id.progressBar);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Espere...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        //vacio
+        checkout_list_layout = view.findViewById(R.id.registro_list_layout);
+        imagen_carrito_vacio = view.findViewById(R.id.imagen_sin_registro);
+        texto_carrito_vacio = view.findViewById(R.id.texto_sin_registro);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adaptador.notifyDataSetChanged();
+                zonaList.clear();
+                servicioPoblarZonas();
+            }});
+
         btnSeleccionarZona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,10 +147,18 @@ public class FragmentoInicio extends Fragment {
 
             }
         });
+        zonaList = new ArrayList<>();
+        zonaListFull = new ArrayList<>();
+        servicioPoblarZonas();
+//        poblarZonas();
+        zonaListFull.addAll(zonaList);
+
 
         adaptador = new AdaptadorZonas(getContext(),zonaList);
 
+
         SearchView searchView =  view.findViewById(R.id.search_zona);
+
         searchView.setQueryHint("Buscar Zonas ..");
         searchView.setMaxWidth( Integer.MAX_VALUE );
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -137,6 +189,7 @@ public class FragmentoInicio extends Fragment {
 //        recyclerview_id.setLayoutManager(new GridLayoutManager(getContext(),mNoOfColumns));
         recyclerview_id.setLayoutManager(manager);
         recyclerview_id.setAdapter(adaptador);
+
         return view;
     }
 
@@ -146,16 +199,13 @@ public class FragmentoInicio extends Fragment {
         zonaList.add(new Zona("Zona 2"));
         zonaList.add(new Zona("Zona 3"));
         zonaList.add(new Zona("Zona 4"));
-        zonaList.add(new Zona("Zona 5"));
-        zonaList.add(new Zona("Zona 5"));
-        zonaList.add(new Zona("Zona 5"));zonaList.add(new Zona("Zona 5"));zonaList.add(new Zona("Zona 5"));
+        zonaList.add(new Zona("Zona 6"));
+        zonaList.add(new Zona("Zona 7"));
+        zonaList.add(new Zona("Zona 8"));
+        zonaList.add(new Zona("Zona 77"));
     }
     public void servicioPoblarZonas() {
-
-        //https://api.myjson.com/bins/wicz0
-
-        zonaList = new ArrayList<>();
-        String IP_LUDOPATA = "http://localhost:55406/Cortesias/ListarZonas";
+        zonaList.clear();
 
 //        String URls = "http://localhost:55406/Cortesias/ListarZonas";
         String URls = "http://192.168.1.58/online/Cortesias/ListarZonas";
@@ -164,28 +214,56 @@ public class FragmentoInicio extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//                        progressBar.setVisibility(View.GONE);
-//                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                         JSONArray jsondata=null;
                         try {
                             jsondata = response.getJSONArray("data");
                             Gson gson = new Gson();
 
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject = jsondata.getJSONObject(i);
+                                Zona zona = new Zona();
+
+                                zona= gson.fromJson(jsonObject.toString(), Zona.class);
+                                if(zona.getEstado()==1)
+                                    zonaList.add(zona);
+                            }
                             //Zona zona= gson.fromJson(response.toString(), Zona.class);
 
                             Zona[] addCartProducts = gson.fromJson(jsondata.toString(), Zona[].class);
 
 
-                           zonaList.addAll(Arrays.asList(addCartProducts));
+                           //zonaList.addAll(Arrays.asList(addCartProducts));
 
                             //ArrayList<Zona> aList = new ArrayList<Zona>(Arrays.asList(addCartProducts));
                             //aList.addAll(Arrays.asList(addCartProducts));
 //                                zonaList.addAll(Arrays.asList(gson.fromJson(jsondata.toString(), Zona[].class)));
 
 
-                            String abc="fs";
-                            zonaListFull = new ArrayList<>();
-                            zonaListFull.addAll(zonaList);
+
+                            adaptador.updateSearchedList();
+
+                            if (zonaList==null || zonaList.size()==0){
+                                checkout_list_layout.setGravity(Gravity.CENTER);
+
+                                imagen_carrito_vacio.setVisibility(View.VISIBLE);
+                                texto_carrito_vacio.setVisibility(View.VISIBLE);
+                                recyclerview_id.setVisibility(View.GONE);
+
+
+                            }else{
+                                checkout_list_layout.setGravity(Gravity.CENTER);
+
+                                imagen_carrito_vacio.setVisibility(View.GONE);
+                                texto_carrito_vacio.setVisibility(View.GONE);
+                                recyclerview_id.setVisibility(View.VISIBLE);
+                            }
+                            swipeRefreshLayout.setRefreshing(false);
+                            // refreshing recycler view
+                            adaptador.notifyDataSetChanged();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -195,7 +273,8 @@ public class FragmentoInicio extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
+                        progressDialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
 //                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //
 //                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();

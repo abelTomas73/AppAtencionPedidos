@@ -37,9 +37,15 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
         this.mContext = mContext;
         this.mData = mData;
 
-        mDataListFull = new ArrayList<>(mData);
+
+        this.mDataListFull = new ArrayList<>();
+        this.mDataListFull.addAll(mData);
     }
 
+    public void updateSearchedList() {
+        mDataListFull.clear();
+        mDataListFull.addAll(mData);
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -62,7 +68,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             public void onClick(View v) {
                 //FragmentoZonas.ZONAELEGIDA = new Zona();
                 FragmentoInicio.ZONAELEGIDA = zonaE;
-                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getCodZona()+" elegida", Toast.LENGTH_SHORT).show();
                 row_index=position;
                 notifyDataSetChanged();
 //                holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));

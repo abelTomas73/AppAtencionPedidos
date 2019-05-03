@@ -30,7 +30,15 @@ public class Isla {
     @Expose
     private long codZona;
 
-    public Isla(long codIsla, String nombre, long usuarioID, String fechaRegistro, String fechaModificacion, long activo, long estado, long codZona) {
+
+
+    @SerializedName("NombreZona")
+    @Expose
+    private String nombreZona;
+    public  Isla(){
+
+    }
+    public Isla(long codIsla, String nombre, long usuarioID, String fechaRegistro, String fechaModificacion, long activo, long estado, long codZona, String nombreZona) {
         this.codIsla = codIsla;
         this.nombre = nombre;
         this.usuarioID = usuarioID;
@@ -39,7 +47,17 @@ public class Isla {
         this.activo = activo;
         this.estado = estado;
         this.codZona = codZona;
+        this.nombreZona = nombreZona;
     }
+
+    public String getNombreZona() {
+        return nombreZona;
+    }
+
+    public void setNombreZona(String nombreZona) {
+        this.nombreZona = nombreZona;
+    }
+
     public Isla(String nombre){
         this.nombre=nombre;
     }
