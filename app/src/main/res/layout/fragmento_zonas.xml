@@ -8,7 +8,7 @@
     tools:context=".ui.navfragmentocuenta.FragmentoZonas"
     android:orientation="vertical"
     android:id="@+id/linear_frag_zonas"
-    android:padding="16dp">
+    >
 
 
     <android.support.v7.widget.SearchView
@@ -85,8 +85,7 @@
             android:textSize="14sp"
             android:textColor="@color/background_footer_item_grid_categorias"
             android:textAllCaps="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+
             android:background="@drawable/button_border"
             android:text="Continuar"/>
     </LinearLayout>

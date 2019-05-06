@@ -63,7 +63,7 @@
             <TextView
                 android:id="@+id/descp_book_title_id"
                 android:layout_marginTop="5dp"
-                android:textColor="#bebebe"
+                android:textColor="@color/color_descripcion"
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="1"

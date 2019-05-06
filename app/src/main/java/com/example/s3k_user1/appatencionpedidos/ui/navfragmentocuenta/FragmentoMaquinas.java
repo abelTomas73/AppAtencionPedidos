@@ -27,7 +27,7 @@ import com.example.s3k_user1.appatencionpedidos.ui.FragmentoCategoria;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 import com.google.gson.Gson;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,9 +96,10 @@ public class FragmentoMaquinas extends Fragment {
             public void onClick(View v) {
                 if (FragmentoMaquinas.MAQUINAELEGIDA==null){
 //                    Toast.makeText(getActivity(), "Eliga una Maquina", Toast.LENGTH_SHORT).show();
-                    DynamicToast.makeError(getContext(), "Eliga una Maquina", Toast.LENGTH_LONG).show();
+//                    DynamicToast.makeError(getContext(), "Eliga una Maquina", Toast.LENGTH_LONG).show();
+                    Toasty.error(getContext(), "Eliga una Maquina.", Toast.LENGTH_SHORT, true).show();
                 }else{
-                    Fragment fragment = new FragmentoArticulos();
+                    Fragment fragment = new FragmentoCategoriasProductos();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.contenedor_principal, fragment);
                     transaction.addToBackStack(null);

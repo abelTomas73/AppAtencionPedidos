@@ -2,6 +2,7 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,8 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHolder> implements Filterable {
 
@@ -70,7 +73,8 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
             @Override
             public void onClick(View v) {
                 FragmentoIslas.ISLAELEGIDA = islaE;
-                Toast.makeText(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+                Toasty.success(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT, true).show();
                 row_index=position;
                 notifyDataSetChanged();
 
@@ -79,11 +83,21 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
         if(row_index==position){
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
 //            holder.tv_Isla_title.setTextColor(Color.parseColor("#ffffff"));
+            holder.tv_Isla_title.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.tv_Isla_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
+
+            holder.descp_isla.setTypeface(Typeface.DEFAULT);
+            holder.descp_isla.setTextColor(ContextCompat.getColor(mContext,R.color.white));
         }
         else
         {
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
 //            holder.tv_Isla_title.setTextColor(Color.parseColor("#000000"));
+            holder.tv_Isla_title.setTypeface(Typeface.DEFAULT);
+            holder.tv_Isla_title.setTextColor(ContextCompat.getColor(mContext,R.color.primaryColor));
+
+            holder.descp_isla.setTypeface(Typeface.DEFAULT);
+            holder.descp_isla.setTextColor(ContextCompat.getColor(mContext,R.color.color_descripcion));
         }
 
 
@@ -132,6 +146,7 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_Isla_title;
+        TextView descp_isla;
         ImageView img_Isla_thumbnail;
         MaterialCardView cardView ;
 
@@ -139,6 +154,7 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
             super(itemView);
 
             tv_Isla_title = itemView.findViewById(R.id.book_title_id) ;
+            descp_isla = itemView.findViewById(R.id.descp_isla) ;
             img_Isla_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_item_isla);
 //            cardView.getLayoutParams().width = width-200;

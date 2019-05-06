@@ -21,11 +21,20 @@
     <color name="window_background">#ffffff</color>
     <color name="primaryDarkColor">#323232</color>
     <color name="primaryColor">#484848</color>
-    <color name="accentColor">#ff5f5c</color>
+    <color name="accentColorAnterior">#ff5f5c</color>
+    <color name="accentColor">#f13f5d</color>
     <color name="accentColor2">#F87652</color>
     <color name="background_footer_item_grid_categorias">#90000000</color>
     <color name="color_light">#ffffff</color>
     <color name="background_header_seccion_inicio">#4B4B4B</color>
 
     <color name="bgSearchBar">#edecec</color>
+    <color name="color_descripcion">#bebebe</color>
+
+
+    <!-- mensajes  -->
+    <color name="error_color">#fa5e5e</color>
+    <color name="info_color">#FF8C13</color>
+    <color name="success_color">#6fe974</color>
+    <color name="warnig_color">#fcec0c</color>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:padding="8dp"
+
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
@@ -62,7 +62,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/background_footer_item_grid_categorias"
                 android:textAllCaps="true"
-                android:layout_marginLeft="10dp"
+
                 android:background="@drawable/button_border"
                 android:text="Atras"/>
         </LinearLayout>
@@ -83,7 +83,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/background_footer_item_grid_categorias"
                 android:textAllCaps="true"
-                android:layout_marginRight="10dp"
+
                 android:background="@drawable/button_border"
                 android:text="Continuar"/>
         </LinearLayout>

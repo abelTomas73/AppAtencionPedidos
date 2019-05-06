@@ -61,7 +61,7 @@ android:focusable="true">
             android:layout_width="wrap_content" />
 
         <TextView
-            android:id="@+id/descp"
+            android:id="@+id/descp_isla"
             android:layout_marginTop="5dp"
             android:textColor="#bebebe"
             android:textSize="12sp"

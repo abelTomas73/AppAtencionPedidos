@@ -15,12 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
+        android:fontFamily="@font/lato_regular"
         android:layout_marginBottom="32dp"
         android:paddingLeft="@dimen/espacio_norma_1"
         android:text="Large Text"
         android:textColor="@android:color/white"
-        android:textSize="48sp"
-        android:textStyle="italic" />
+        android:textSize="44sp"
+         />
 
     <TextView
         android:id="@+id/nombre_comida"
@@ -29,7 +30,7 @@
         android:layout_gravity="left|bottom"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:text="Medium Text"
+        android:text=" "
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@android:color/white" />
 </FrameLayout>

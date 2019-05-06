@@ -33,7 +33,7 @@ import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 import com.google.gson.Gson;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,7 +102,7 @@ public class FragmentoIslas extends Fragment {
 
         View view = inflater.inflate(R.layout.fragmento_islas, container, false);
         getActivity().setTitle("Islas");
-       
+
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
         btnSeleccionarIsla = view.findViewById(R.id.btnSeleccionarIsla);
         btnAtrasZonas = view.findViewById(R.id.btnAtrasZonas);
@@ -126,15 +128,17 @@ public class FragmentoIslas extends Fragment {
                 adaptador.notifyDataSetChanged();
                 islaList.clear();
                 servicioPoblarIslas();
-            }});
+            }
+        });
         //
         btnSeleccionarIsla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FragmentoIslas.ISLAELEGIDA==null){
+                if (FragmentoIslas.ISLAELEGIDA == null) {
 //                    Toast.makeText(getActivity(), "Eliga una Isla", Toast.LENGTH_SHORT).show();
-                    DynamicToast.makeError(getContext(), "Eliga una Isla", Toast.LENGTH_LONG).show();
-                }else{
+//                    DynamicToast.makeError(getContext(), "Eliga una Isla", Toast.LENGTH_LONG).show();
+                    Toasty.error(getContext(), "Eliga una Isla.", Toast.LENGTH_SHORT, true).show();
+                } else {
                     Fragment fragment = new FragmentoMaquinas();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.contenedor_principal, fragment);
@@ -148,7 +152,7 @@ public class FragmentoIslas extends Fragment {
         btnAtrasZonas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentoInicio.ZONAELEGIDA=null;
+                FragmentoInicio.ZONAELEGIDA = null;
                 Fragment fragment = new FragmentoInicio();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.contenedor_principal, fragment);
@@ -157,7 +161,6 @@ public class FragmentoIslas extends Fragment {
             }
         });
 
-      
 
         islaList = new ArrayList<>();
 
@@ -165,10 +168,10 @@ public class FragmentoIslas extends Fragment {
 
         servicioPoblarIslas();
         islaListFull.addAll(islaList);
-        
-        adaptador = new AdaptadorIslas(getContext(),islaList);
 
-        SearchView searchView =  view.findViewById(R.id.search_isla);
+        adaptador = new AdaptadorIslas(getContext(), islaList);
+
+        SearchView searchView = view.findViewById(R.id.search_isla);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -184,7 +187,7 @@ public class FragmentoIslas extends Fragment {
                 return true;
             }
         });
-        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),180);
+        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(), 180);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNoOfColumns);
 
@@ -195,8 +198,9 @@ public class FragmentoIslas extends Fragment {
         recyclerview_id.setHasFixedSize(true);
         recyclerview_id.setLayoutManager(manager);
         recyclerview_id.setAdapter(adaptador);
-        return  view;
+        return view;
     }
+
     public void servicioPoblarIslas() {
         islaList.clear();
         //https://api.myjson.com/bins/wicz0
@@ -207,14 +211,14 @@ public class FragmentoIslas extends Fragment {
 //        String URls = "http://192.168.1.58/online/Cortesias/ListarIslasxZona?fZona=7";
         String URls = "http://192.168.1.58/online/Cortesias/ListarIslasxZona";
 
-        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         progressBar.setVisibility(View.GONE);
                         progressDialog.dismiss();
 
-                        JSONArray jsondata=null;
+                        JSONArray jsondata = null;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             jsondata = jsonObject.getJSONArray("data");
@@ -225,22 +229,22 @@ public class FragmentoIslas extends Fragment {
                                 JSONObject jsonObject2 = jsondata.getJSONObject(i);
                                 Isla isla = new Isla();
 
-                                isla= gson.fromJson(jsonObject2.toString(), Isla.class);
-                                if(isla.getEstado()==1)
+                                isla = gson.fromJson(jsonObject2.toString(), Isla.class);
+                                if (isla.getEstado() == 1)
                                     islaList.add(isla);
 
                             }
 
 
                             adaptador.updateSearchedList();
-                            if (islaList==null || islaList.size()==0){
+                            if (islaList == null || islaList.size() == 0) {
                                 checkout_list_layout.setGravity(Gravity.CENTER);
 
                                 imagen_carrito_vacio.setVisibility(View.VISIBLE);
                                 texto_carrito_vacio.setVisibility(View.VISIBLE);
                                 recyclerview_id.setVisibility(View.GONE);
 
-                            }else{
+                            } else {
                                 checkout_list_layout.setGravity(Gravity.CENTER);
 
                                 imagen_carrito_vacio.setVisibility(View.GONE);
@@ -262,7 +266,8 @@ public class FragmentoIslas extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();swipeRefreshLayout.setRefreshing(false);
+                        progressDialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
 //                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //
 //                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
@@ -283,8 +288,7 @@ public class FragmentoIslas extends Fragment {
         VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
 
-
     }
-   
+
 
 }

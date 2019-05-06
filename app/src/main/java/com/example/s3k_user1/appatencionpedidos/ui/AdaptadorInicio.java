@@ -1,5 +1,9 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,9 @@ import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.SharePreferencesCheckOut;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
+import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.AdaptadorIslas;
+import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoArticulos;
+import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoMaquinas;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,6 +35,7 @@ public class AdaptadorInicio
 
     private List<Comida> exampleList;
     private List<Comida> exampleListFull;
+    private Context mContext ;
     private SharePreferencesCheckOut sharedPreference;
     @Override
     public Filter getFilter() {
@@ -80,7 +88,8 @@ public class AdaptadorInicio
     public AdaptadorInicio() {
     }
 
-    public AdaptadorInicio(List<Comida> exampleList) {
+    public AdaptadorInicio(Context mContext,List<Comida> exampleList) {
+        this.mContext = mContext;
         this.exampleList = exampleList;
         exampleListFull = new ArrayList<>(exampleList);
     }
@@ -90,10 +99,13 @@ public class AdaptadorInicio
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_lista_inicio, viewGroup, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_lista_inicio, parent, false);
+
         return new ViewHolder(v);
+
+
     }
 
     @Override
@@ -107,16 +119,30 @@ public class AdaptadorInicio
                 .load(item.getIdDrawable())
                 .centerCrop()
                 .into(viewHolder.imagen);
-        viewHolder.nombre.setText(item.getNombre());
-        viewHolder.precio.setText("M-" + item.getPrecio());
+//        viewHolder.nombre.setText("M-" +item.getPrecio());
+        viewHolder.precio.setText( item.getNombre());
 
         viewHolder.imagen.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
-                sharedPreference.seleccionarMaquina(item);
-
+                //sharedPreference.seleccionarMaquina(item);
+//                Fragment fragment = new FragmentoMaquinas();
+//                FragmentTransaction transaction = mContext
+//                transaction.replace(R.id.contenedor_principal, fragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
                 return true;
+            }
+        });
+        viewHolder.imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FragmentoArticulos();
+                FragmentTransaction transaction = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contenedor_principal, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }

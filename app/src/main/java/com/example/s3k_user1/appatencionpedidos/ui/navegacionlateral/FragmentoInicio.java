@@ -35,7 +35,6 @@ import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.AdaptadorZ
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 import com.google.gson.Gson;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +43,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Fragmento para la sección de "Inicio"
@@ -134,7 +135,8 @@ public class FragmentoInicio extends Fragment {
             public void onClick(View v) {
                 if (FragmentoInicio.ZONAELEGIDA==null){
 //                    Toast.makeText(getActivity(), "Eliga una Zona", Toast.LENGTH_SHORT).show();
-                    DynamicToast.makeError(getContext(), "Eliga una Zona", Toast.LENGTH_LONG).show();
+//                    DynamicToast.makeError(getContext(), "Eliga una Zona", Toast.LENGTH_LONG).show();
+                    Toasty.error(getContext(), "Eliga una Zona.", Toast.LENGTH_SHORT, true).show();
                 }else{
 //                    Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
                     Fragment fragment = new FragmentoIslas();

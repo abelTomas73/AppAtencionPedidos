@@ -2,6 +2,7 @@ package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,8 @@ import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoIn
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -60,6 +63,11 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         final Zona zonaE = mData.get(position);
+        Toasty.Config.getInstance()
+                .setErrorColor(ContextCompat.getColor(mContext,R.color.error_color))
+                .setInfoColor(ContextCompat.getColor(mContext,R.color.info_color))
+                .setSuccessColor(ContextCompat.getColor(mContext,R.color.success_color))
+                .apply();
 
         holder.tv_Zona_title.setText(mData.get(position).getNombre());
         holder.img_Zona_thumbnail.setImageResource(R.drawable.zonas);
@@ -68,7 +76,8 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             public void onClick(View v) {
                 //FragmentoZonas.ZONAELEGIDA = new Zona();
                 FragmentoInicio.ZONAELEGIDA = zonaE;
-                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getCodZona()+" elegida", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getCodZona()+" elegida", Toast.LENGTH_SHORT).show();
+                Toasty.success(mContext, FragmentoInicio.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT, true).show();
                 row_index=position;
                 notifyDataSetChanged();
 //                holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
@@ -88,7 +97,9 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
 //            holder.tv_Zona_title.Style(Color.parseColor("#ffffff"));
             holder.tv_Zona_title.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.tv_Zona_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
             holder.descp_book_title_id.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.descp_book_title_id.setTextColor(ContextCompat.getColor(mContext,R.color.white));
 
         }
         else
@@ -96,7 +107,9 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
 //            holder.tv_Zona_title.setTextColor(Color.parseColor("#000000"));
             holder.tv_Zona_title.setTypeface(Typeface.DEFAULT);
+            holder.tv_Zona_title.setTextColor(ContextCompat.getColor(mContext,R.color.primaryColor));
             holder.descp_book_title_id.setTypeface(Typeface.DEFAULT);
+            holder.descp_book_title_id.setTextColor(ContextCompat.getColor(mContext,R.color.color_descripcion));
         }
 
 
