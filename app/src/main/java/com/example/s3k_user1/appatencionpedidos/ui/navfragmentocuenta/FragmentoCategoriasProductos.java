@@ -8,11 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.ui.AdaptadorInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class FragmentoCategoriasProductos extends Fragment {
     private RecyclerView reciclador;
     private LinearLayoutManager layoutManager;
     private AdaptadorInicio adaptador;
-
+    private TextView categoriasTitulo;
     public FragmentoCategoriasProductos() {
         // Required empty public constructor
     }
@@ -41,12 +43,13 @@ public class FragmentoCategoriasProductos extends Fragment {
     private void poblarCategoriasCombos() {
         COMIDAS_POPULARES = new ArrayList<Comida>();
 
-        COMIDAS_POPULARES.add(new Comida(1,5, "Combos", R.drawable.camarones));
-        COMIDAS_POPULARES.add(new Comida(2,3.2f, "Bebidas", R.drawable.vino_tinto));
-        COMIDAS_POPULARES.add(new Comida(3,12f, "Platos Principales", R.drawable.sushi));
-        COMIDAS_POPULARES.add(new Comida(4,9, "Entradas", R.drawable.sandwich));
-        COMIDAS_POPULARES.add(new Comida(5,34f, "Piqueos", R.drawable.rosca));
-//        1	Bebidas	1
+
+        COMIDAS_POPULARES.add(new Comida(1,3.2f, "Bebidas", R.drawable.vino_tinto));
+        COMIDAS_POPULARES.add(new Comida(2,12f, "Platos Principales", R.drawable.sushi));
+        COMIDAS_POPULARES.add(new Comida(3,9, "Entradas", R.drawable.sandwich));
+        COMIDAS_POPULARES.add(new Comida(4,34f, "Piqueos", R.drawable.rosca));
+        COMIDAS_POPULARES.add(new Comida(5,5, "Combos", R.drawable.camarones));
+        //        1	Bebidas	1
 //        2	Plato Principal	1
 //        3	Entrada	1
 //        4	Piqueo	1
@@ -59,7 +62,15 @@ public class FragmentoCategoriasProductos extends Fragment {
 
                 View view = inflater.inflate(R.layout.fragmento_categorias_productos, container, false);
         poblarCategoriasCombos();
-        reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
+        reciclador = view.findViewById(R.id.reciclador);
+
+        categoriasTitulo = view.findViewById(R.id.categoriasTitulo);
+
+        String categoriaT = FragmentoInicio.ZONAELEGIDA.getNombre()+
+                            " - "+FragmentoIslas.ISLAELEGIDA.getNombre()+
+                            " - "+FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq();
+        categoriasTitulo.setText(categoriaT);
+
 
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);

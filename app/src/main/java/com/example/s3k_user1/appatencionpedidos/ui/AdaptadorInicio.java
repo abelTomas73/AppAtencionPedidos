@@ -1,6 +1,7 @@
 package com.example.s3k_user1.appatencionpedidos.ui;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.SharePreferencesCheckOut;
+import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.AdaptadorIslas;
@@ -109,7 +111,8 @@ public class AdaptadorInicio
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+
         sharedPreference = new SharePreferencesCheckOut(ActividadPrincipal.contextoAcPrincipal);
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
@@ -138,11 +141,27 @@ public class AdaptadorInicio
         viewHolder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                FragmentoArticulos fragment2 = new FragmentoArticulos();
+//                Bundle args = new Bundle();
+//                args.putString("idTipo", item.getcomidaId()+"");
+//                fragment2.setArguments(args);
+//                FragmentTransaction transaction2 = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
+//                transaction2.add(R.id.container, fragment2).commit();
+
                 Fragment fragment = new FragmentoArticulos();
                 FragmentTransaction transaction = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
+                Bundle args = new Bundle();
+                args.putString("categoria_idtipo", item.getcomidaId()+"");
+                args.putString("categoria_nombre", item.getNombre()+"");
+                fragment.setArguments(args);
                 transaction.replace(R.id.contenedor_principal, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+
+//                String tag = "android:switcher:" + R.id.viewPager + ":" + 1;
+//                FragmentTransaction transaction2 = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
+//                FragmentoArticulos f = getSupportFragmentManager().findFragmentByTag(tag);
+//                f.displayReceivedData(message);
             }
         });
     }

@@ -17,7 +17,8 @@ import android.widget.TextView;
 import com.example.s3k_user1.appatencionpedidos.adapter.CheckRecyclerViewAdapter;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.helpers.SimpleDividerItemDecoration;
-import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -48,7 +49,7 @@ public class CheckoutActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }
-    public static void  actualizarSubtotal(List<Comida> productList){
+    public static void  actualizarSubtotal(List<CortesiaProductos> productList){
         double mSubTotal = (double) getTotalPrice(productList);
         subTotal.setText("Subtotal : " +  "$ " +df2.format(mSubTotal ));
     }
@@ -78,7 +79,7 @@ public class CheckoutActivity extends AppCompatActivity {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
-        Comida[] addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), Comida[].class);
+        CortesiaProductos[] addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
         if (addCartProducts==null || addCartProducts.length==0){
             checkout_list_layout.setGravity(Gravity.CENTER);
 
@@ -91,7 +92,7 @@ public class CheckoutActivity extends AppCompatActivity {
         //if (addCartProducts==null) return;
 
 
-        List<Comida> productList = convertObjectArrayToListObject(addCartProducts);
+        List<CortesiaProductos> productList = convertObjectArrayToListObject(addCartProducts);
 
 
 
@@ -103,7 +104,7 @@ public class CheckoutActivity extends AppCompatActivity {
         mSubTotal = getTotalPrice(productList);
 
 
-        subTotal.setText("Subtotal : " +  "$ " + df2.format(mSubTotal ));
+        //subTotal.setText("Subtotal : " +  "$ " + df2.format(mSubTotal ));
 
 
 //        Button shoppingButton = (Button)findViewById(R.id.shopping);
@@ -127,16 +128,16 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
-    private List<Comida> convertObjectArrayToListObject(Comida[] allProducts){
-        List<Comida> mProduct = new ArrayList<Comida>();
+    private List<CortesiaProductos> convertObjectArrayToListObject(CortesiaProductos[] allProducts){
+        List<CortesiaProductos> mProduct = new ArrayList<CortesiaProductos>();
         Collections.addAll(mProduct, allProducts);
         return mProduct;
     }
 
-    private int returnQuantityByProductName(String productName, List<Comida> mProducts){
+    private int returnQuantityByProductName(String productName, List<CortesiaProductos> mProducts){
         int quantityCount = 0;
         for(int i = 0; i < mProducts.size(); i++){
-            Comida pObject = mProducts.get(i);
+            CortesiaProductos pObject = mProducts.get(i);
             if(pObject.getNombre().trim().equals(productName.trim())){
                 quantityCount++;
             }
@@ -144,11 +145,11 @@ public class CheckoutActivity extends AppCompatActivity {
         return quantityCount;
     }
 
-    private static double getTotalPrice(List<Comida> mProducts){
+    private static double getTotalPrice(List<CortesiaProductos> mProducts){
         double totalCost = 0;
         for(int i = 0; i < mProducts.size(); i++){
-            Comida pObject = mProducts.get(i);
-            totalCost = totalCost + pObject.getPrecio();
+            CortesiaProductos pObject = mProducts.get(i);
+            totalCost = totalCost;
         }
         return totalCost;
     }

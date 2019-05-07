@@ -1,5 +1,6 @@
 package com.example.s3k_user1.appatencionpedidos.navigation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.LayerDrawable;
@@ -34,7 +35,7 @@ private NavigationView navigationView;
 
     private MySharedPreference sharedPreference;
     public static Context contextoAcPrincipal;
-
+    public static Activity activitydelAcPrincipal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,7 +58,8 @@ public class FragmentoMaquinas extends Fragment {
     private Button btnSeleccionarMaquinaZona, btnAtrasIslas;
 
     public static MaquinaZona MAQUINAELEGIDA;
-    
+
+    private TextView textZonasIslasMaquinas;
     public FragmentoMaquinas() {
         // Required empty public constructor
     }
@@ -90,6 +92,11 @@ public class FragmentoMaquinas extends Fragment {
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
         btnSeleccionarMaquinaZona = view.findViewById(R.id.btnSeleccionarMaquina);
         btnAtrasIslas = view.findViewById(R.id.btnAtrasIslas);
+
+        textZonasIslasMaquinas= view.findViewById(R.id.textZonasIslasMaquinas);
+
+        String zonaeIslaElegida = FragmentoInicio.ZONAELEGIDA.getNombre()+ " - "+FragmentoIslas.ISLAELEGIDA.getNombre();
+        textZonasIslasMaquinas.setText(zonaeIslaElegida);
 
         btnSeleccionarMaquinaZona.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +151,7 @@ public class FragmentoMaquinas extends Fragment {
                 return true;
             }
         });
-        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),180);
+        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),200);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNoOfColumns);
 

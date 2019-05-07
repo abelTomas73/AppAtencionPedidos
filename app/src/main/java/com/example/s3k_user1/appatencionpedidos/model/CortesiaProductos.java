@@ -35,6 +35,12 @@ public class CortesiaProductos {
     @Expose
     private int estado;
 
+    @SerializedName("nombreArchivo")
+    @Expose
+    private String nombreArchivo;
+    @SerializedName("Archivo64String")
+    @Expose
+    private String Archivo64String;
     /**
      * No args constructor for use in serialization
      *
@@ -42,21 +48,7 @@ public class CortesiaProductos {
     public CortesiaProductos() {
     }
 
-    /**
-     *
-     * @param nombreTipo
-     * @param nombre
-     * @param estado
-     * @param descripcion
-     * @param codCortesiaProductos
-     * @param fechaRegistro
-     * @param codCortesiaSubTipo
-     * @param nombreSubTipo
-     * @param usuarioID
-     * @param codCortesiaTipo
-     */
-    public CortesiaProductos(int codCortesiaProductos, int codCortesiaTipo, int codCortesiaSubTipo, int usuarioID, String nombre, String nombreTipo, String nombreSubTipo, String descripcion, String fechaRegistro, int estado) {
-        super();
+    public CortesiaProductos(int codCortesiaProductos, int codCortesiaTipo, int codCortesiaSubTipo, int usuarioID, String nombre, String nombreTipo, String nombreSubTipo, String descripcion, String fechaRegistro, int estado, String nombreArchivo, String archivo64String) {
         this.codCortesiaProductos = codCortesiaProductos;
         this.codCortesiaTipo = codCortesiaTipo;
         this.codCortesiaSubTipo = codCortesiaSubTipo;
@@ -67,6 +59,8 @@ public class CortesiaProductos {
         this.descripcion = descripcion;
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
+        this.nombreArchivo = nombreArchivo;
+        Archivo64String = archivo64String;
     }
 
     public int getCodCortesiaProductos() {
@@ -147,5 +141,21 @@ public class CortesiaProductos {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
+    }
+
+    public String getArchivo64String() {
+        return Archivo64String;
+    }
+
+    public void setArchivo64String(String archivo64String) {
+        Archivo64String = archivo64String;
     }
 }

@@ -74,7 +74,7 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FragmentoZonas.ZONAELEGIDA = new Zona();
+                //FragmentoInicio.ZONAELEGIDA = new Zona();
                 FragmentoInicio.ZONAELEGIDA = zonaE;
 //                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getCodZona()+" elegida", Toast.LENGTH_SHORT).show();
                 Toasty.success(mContext, FragmentoInicio.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT, true).show();

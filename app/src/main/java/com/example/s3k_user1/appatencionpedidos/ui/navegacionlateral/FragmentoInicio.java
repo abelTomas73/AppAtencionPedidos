@@ -1,6 +1,9 @@
 package com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +15,9 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -28,8 +34,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
+import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.AdaptadorZonas;
 import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
@@ -80,11 +88,28 @@ public class FragmentoInicio extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     private List<Zona> zonaListEstatica;
 
+    private MySharedPreference sharedPreference;
+    private Context viewfragmentcontext;
+    public static Activity activitydelFragmento;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     View view;
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_categorias, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_carrito);
+        int mCount = sharedPreference.retrieveProductCount();
+        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+        //menuItem.setIcon(buildCounterDrawable(mCount, R.drawable.cart));
+        Utils.setBadgeCount(viewfragmentcontext, icon, mCount);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -191,6 +216,11 @@ public class FragmentoInicio extends Fragment {
 //        recyclerview_id.setLayoutManager(new GridLayoutManager(getContext(),mNoOfColumns));
         recyclerview_id.setLayoutManager(manager);
         recyclerview_id.setAdapter(adaptador);
+
+        sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+        viewfragmentcontext = ActividadPrincipal.contextoAcPrincipal;
+
+        activitydelFragmento= getActivity();
 
         return view;
     }

@@ -10,6 +10,17 @@
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textZonasIslasMaquinas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/background_header_seccion_inicio"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="ZonasIslasMaquinas"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_light" />
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_maquina"

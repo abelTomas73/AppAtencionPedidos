@@ -74,6 +74,7 @@ public class FragmentoIslas extends Fragment {
     private TextView texto_carrito_vacio;
     SwipeRefreshLayout swipeRefreshLayout;
 
+    TextView textZonasIslas;
     public FragmentoIslas() {
         // Required empty public constructor
     }
@@ -107,7 +108,8 @@ public class FragmentoIslas extends Fragment {
         btnSeleccionarIsla = view.findViewById(R.id.btnSeleccionarIsla);
         btnAtrasZonas = view.findViewById(R.id.btnAtrasZonas);
 
-
+        textZonasIslas= view.findViewById(R.id.textZonasIslas);
+        textZonasIslas.setText(FragmentoInicio.ZONAELEGIDA.getNombre());
         //
         progressBar = view.findViewById(R.id.progressBar);
         progressDialog = new ProgressDialog(getContext());
