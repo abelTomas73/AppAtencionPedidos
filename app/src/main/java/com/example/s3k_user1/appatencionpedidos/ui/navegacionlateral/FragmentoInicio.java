@@ -35,6 +35,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
@@ -50,6 +51,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -83,6 +85,8 @@ public class FragmentoInicio extends Fragment {
     private LinearLayout checkout_list_layout;
     private ImageView imagen_carrito_vacio;
     private TextView texto_carrito_vacio;
+    private SessionManager session;
+
     public FragmentoInicio() {
     }
     SwipeRefreshLayout swipeRefreshLayout;
@@ -92,6 +96,13 @@ public class FragmentoInicio extends Fragment {
     private Context viewfragmentcontext;
     public static Activity activitydelFragmento;
 
+    String sesion_usuario = "";
+    String sesion_usuario_id = "";
+
+    // id
+    String sesion_id = "";
+
+    String sesion_empleado = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +141,12 @@ public class FragmentoInicio extends Fragment {
         view = inflater.inflate(R.layout.fragmento_zonas,container,false);
         getActivity().setTitle("Zonas");
 
+        session = new SessionManager(getActivity().getApplicationContext());
+        session.checkLogin();
+
+        HashMap<String, String> user = session.getUserDetails();
+        sesion_usuario = user.get(SessionManager.KEY_USUARIO_NOMBRE);
+        sesion_usuario_id = user.get(SessionManager.KEY_USUARIO_ID);
 
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
         btnSeleccionarZona = view.findViewById(R.id.btnSeleccionarZona);

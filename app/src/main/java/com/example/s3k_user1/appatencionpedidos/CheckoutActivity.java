@@ -1,12 +1,17 @@
 package com.example.s3k_user1.appatencionpedidos;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,18 +19,40 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.adapter.CheckRecyclerViewAdapter;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.example.s3k_user1.appatencionpedidos.helpers.SimpleDividerItemDecoration;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.example.s3k_user1.appatencionpedidos.model.CortesiaAtencion;
 import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 
+import com.example.s3k_user1.appatencionpedidos.model.CortesiasProductosAtencion;
+import com.example.s3k_user1.appatencionpedidos.model.Login;
+import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
+import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoMaquinas;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -41,6 +68,19 @@ public class CheckoutActivity extends AppCompatActivity {
     private LinearLayout checkout_list_layout;
     private ImageView imagen_carrito_vacio;
     private TextView texto_carrito_vacio;
+
+    CortesiaProductos[] addCartProducts;
+
+    List<CortesiaProductos> productList;
+
+    List<CortesiaProductos> productListParaEnviar;
+    private SessionManager session;
+    private String sesion_usuario;
+    private String sesion_usuario_id;
+    MySharedPreference mShared;
+    View vista;
+    private CheckRecyclerViewAdapter mAdapter;
+
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,7 +102,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setTitle("Pedidos");
 
         subTotal = (TextView )findViewById(R.id.sub_total);
-
+        vista= findViewById(R.id.vistaCheckOut);
         checkRecyclerView = (RecyclerView)findViewById(R.id.checkout_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CheckoutActivity.this);
         checkRecyclerView.setLayoutManager(linearLayoutManager);
@@ -74,12 +114,12 @@ public class CheckoutActivity extends AppCompatActivity {
         imagen_carrito_vacio = findViewById(R.id.imagen_carrito_vacio);
         texto_carrito_vacio = findViewById(R.id.texto_carrito_vacio);
         // get content of cart
-        MySharedPreference mShared = new MySharedPreference(CheckoutActivity.this);
+       mShared = new MySharedPreference(CheckoutActivity.this);
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
-        CortesiaProductos[] addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
+        addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
         if (addCartProducts==null || addCartProducts.length==0){
             checkout_list_layout.setGravity(Gravity.CENTER);
 
@@ -91,12 +131,22 @@ public class CheckoutActivity extends AppCompatActivity {
         }
         //if (addCartProducts==null) return;
 
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
 
-        List<CortesiaProductos> productList = convertObjectArrayToListObject(addCartProducts);
+        HashMap<String, String> user = session.getUserDetails();
+        sesion_usuario = user.get(SessionManager.KEY_USUARIO_NOMBRE);
+        sesion_usuario_id = user.get(SessionManager.KEY_USUARIO_ID);
 
+        productList = convertObjectArrayToListObject(addCartProducts);
+//        productListParaEnviar = new ArrayList<>();
+//        productListParaEnviar.addAll(productList);
+//
+//        for (int i = 0; i < productListParaEnviar.size(); i++) {
+//            productListParaEnviar.get(i).setArchivo64String("");
+//        }
 
-
-        CheckRecyclerViewAdapter mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
+        mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
         checkRecyclerView.setAdapter(mAdapter);
 
         //mAdapter.notifyDataSetChanged();
@@ -123,7 +173,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //MySharedPreference sharedPreference = new MySharedPreference(getBaseContext());
-
+                GuardarCortesiaAtencion();
             }
         });
     }
@@ -152,5 +202,106 @@ public class CheckoutActivity extends AppCompatActivity {
             totalCost = totalCost;
         }
         return totalCost;
+    }
+    public void GuardarCortesiaAtencion() {
+
+        if (addCartProducts.length==0) {
+            Snackbar.make(vista, "No hay Productos", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
+
+        productListParaEnviar = new ArrayList<>();
+        productListParaEnviar.addAll(productList);
+
+        for (int i = 0; i < productListParaEnviar.size(); i++) {
+            productListParaEnviar.get(i).setArchivo64String("");
+        }
+
+        CortesiaAtencion atencion= new CortesiaAtencion();
+        atencion.setCodMaq(FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq());
+        atencion.setUsuarioRegistroID(sesion_usuario_id);
+        atencion.setCodTurno("1");
+        atencion.setCodSala(LoginActivity.LOGIN_SALA.getCodSala());
+        atencion.setCodEmpresa(LoginActivity.LOGIN_EMPRESA.getCodEmpresa());
+        atencion.setComentario("");
+        atencion.setEstado("0");
+        CortesiasProductosAtencion cortesiasProductosAtencion =new CortesiasProductosAtencion();
+
+        cortesiasProductosAtencion.setCortesiaAtencion(atencion);
+        cortesiasProductosAtencion.setCortesiaProductosList(productListParaEnviar);
+        JSONObject js = new JSONObject();
+
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(cortesiasProductosAtencion);// obj is your object
+        JSONObject jsonObj = null;;
+        try {
+
+            jsonObj = new JSONObject(json);
+            //js.put("documentoId","A");
+
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String URls = "http://192.168.1.58/online/Cortesias/GuardarCortesiaAtencionProductos";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
+                URls,
+                jsonObj,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+                        try {
+
+                            //if no error in response
+                            if (response.getBoolean("respuesta")) {
+
+                                //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+
+
+                                //Intent intentPantalla = new Intent(LoginActivity.this,ActividadPrincipal.class);
+                                //startActivity(intentPantalla);
+
+                                mShared.deleteAllProductsFromTheCart();
+                                mAdapter.notifyDataSetChanged();
+                                ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
+                            } else {
+                                //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //progressDialog.dismiss();
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            //DynamicToast.makeWarning(getBaseContext(), "Error Tiempo de Respuesta Inicio de Sesión", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }
+                ) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<String, String>();
+                        //params.put("Content-Type","application/x-www-form-urlencoded");
+                        //params.put("nombre",edtNombreImagen);
+                        return params;
+                    }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+
     }
 }

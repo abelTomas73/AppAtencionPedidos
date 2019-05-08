@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:background="@color/primaryDarkColor"
+    android:id="@+id/vistaLogin"
     tools:context=".loginSistema.LoginActivity">
 
 
@@ -125,7 +126,7 @@
 
                             android:paddingLeft="15dp"
                             android:paddingStart="15dp"
-                            android:text="admin"
+                            android:text="administrador"
                             android:textColor="#fff" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -147,8 +148,9 @@
                         android:textColorHint="@color/backgroundactivity"
 
                         app:errorEnabled="true"
+                        app:passwordToggleEnabled="true"
 
-                        >
+                        app:passwordToggleTint="@color/accentColor">
 
                         <android.support.v7.widget.AppCompatEditText
                             android:id="@+id/edtcontrasena"
@@ -160,7 +162,7 @@
                             android:inputType="textPassword"
                             android:paddingLeft="15dp"
                             android:paddingStart="15dp"
-                            android:text="1111"
+                            android:text="dm1nPJ"
                             android:textAllCaps="true"
                             android:textColor="#fff" />
 

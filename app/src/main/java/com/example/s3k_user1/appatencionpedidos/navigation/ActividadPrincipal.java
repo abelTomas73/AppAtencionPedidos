@@ -15,15 +15,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCuenta;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
+
+import java.util.HashMap;
 
 public class ActividadPrincipal extends AppCompatActivity {
 
@@ -36,6 +42,13 @@ private NavigationView navigationView;
     private MySharedPreference sharedPreference;
     public static Context contextoAcPrincipal;
     public static Activity activitydelAcPrincipal;
+    SessionManager session;
+    String sesion_usuario = "";
+
+    // id
+    String sesion_id = "";
+
+    String sesion_empleado = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +64,17 @@ private NavigationView navigationView;
             // Seleccionar item por defecto
             seleccionarItem(navigationView.getMenu().getItem(0));
         }
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+
+        HashMap<String, String> user = session.getUserDetails();
+        sesion_usuario = user.get(SessionManager.KEY_USUARIO_NOMBRE);
+        sesion_id = user.get(SessionManager.KEY_USUARIO_ID);
+        sesion_empleado = user.get(SessionManager.KEY_USUARIO_EMPLEADO);
+
+        View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+        ((TextView) header.findViewById(R.id.usuario_sesion_navegacion)).setText(sesion_usuario);
+        ((TextView) header.findViewById(R.id.nombreusuario_sesion_navegacion)).setText(sesion_empleado);
         sharedPreference = new MySharedPreference(this.getApplicationContext());
         contextoAcPrincipal = this.getApplicationContext();
 
@@ -116,6 +140,13 @@ private NavigationView navigationView;
                 item=3;
                 fragmentoGenerico = new FragmentoProductos();
                 break;
+            case R.id.item_cerrarsesion:
+
+                session.logoutUser();
+                Intent intent1 = new Intent(this,LoginActivity.class);
+                startActivity(intent1);
+                break;
+
             case R.id.item_configuracion:
                 item=4;
                 startActivity(new Intent(this, ActividadConfiguracion.class));

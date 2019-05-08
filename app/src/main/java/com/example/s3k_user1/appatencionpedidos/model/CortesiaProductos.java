@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CortesiaProductos {
+
+
+
     @SerializedName("codCortesiaProductos")
     @Expose
     private int codCortesiaProductos;

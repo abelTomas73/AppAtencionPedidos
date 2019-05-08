@@ -41,7 +41,7 @@
                 android:src="@drawable/ic_store_white_24dp" />
 
             <TextView
-                android:id="@+id/etiqueta_carrito"
+                android:id="@+id/usuario_sesion_navegacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -56,7 +56,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/texto_maquina_elegida_cabeceradrawer"
+                android:id="@+id/nombreusuario_sesion_navegacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"

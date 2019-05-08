@@ -231,7 +231,5 @@ public class FragmentoMaquinas extends Fragment {
         //AppSin
         VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
-
-
     }
 }

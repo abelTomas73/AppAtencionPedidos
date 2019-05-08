@@ -130,10 +130,10 @@ public class FragmentoArticulos extends Fragment {
 
                             for (int i = 0; i < jsondata.length(); i++) {
                                 JSONObject jsonObject2 = jsondata.getJSONObject(i);
-                                CortesiaProductos maquina = new CortesiaProductos();
+                                CortesiaProductos productos = new CortesiaProductos();
 
-                                maquina= gson.fromJson(jsonObject2.toString(), CortesiaProductos.class);
-                                cortesiaProductosList.add(maquina);
+                                productos= gson.fromJson(jsonObject2.toString(), CortesiaProductos.class);
+                                cortesiaProductosList.add(productos);
                             }
 
                             //adaptador.updateSearchedList();
