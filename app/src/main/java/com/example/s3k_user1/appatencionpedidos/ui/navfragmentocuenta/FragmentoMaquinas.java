@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
@@ -172,7 +173,7 @@ public class FragmentoMaquinas extends Fragment {
         String IP_LUDOPATA = "http://localhost:55406/Cortesias/ListarMaquinaZonas";
 
 //        String URls = "http://192.168.1.58/online/Cortesias/ListarMaquinaZonasxZona?fZona=7";
-        String URls = "http://192.168.1.58/online/Cortesias/ListarMaquinasxIsla";
+        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarMaquinasxIsla";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {

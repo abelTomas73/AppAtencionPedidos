@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
@@ -113,7 +114,7 @@ public class FragmentoArticulos extends Fragment {
 
     public void servicioPoblarCortesiaProductos() {
         cortesiaProductosList.clear();
-        String URls = "http://192.168.1.58/online/Cortesias/ListarCortesiaProductosImagenesxTipo";
+        String URls = LoginActivity.IP_APK+"online/Cortesias/ListarCortesiaProductosImagenesxTipo";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {

@@ -36,6 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.model.Zona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
@@ -257,7 +258,7 @@ public class FragmentoInicio extends Fragment {
         zonaList.clear();
 
 //        String URls = "http://localhost:55406/Cortesias/ListarZonas";
-        String URls = "http://192.168.1.58/online/Cortesias/ListarZonas";
+        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarZonas";
 
         JsonObjectRequest  stringRequest = new JsonObjectRequest (Request.Method.POST, URls,null,
                 new Response.Listener<JSONObject>() {

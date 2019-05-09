@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     ProgressDialog progressDialog;
-    public static String IP_APK =  "http://192.168.1.58";
+    public static String IP_APK =  "http://192.168.0.12";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String URls = "http://192.168.1.58/online/Usuario/ValidacionLogin";
+        String URls = LoginActivity.IP_APK+"/online/Usuario/ValidacionLogin";
         //http://192.168.1.38/SysLudopatas/Login/ValidacionLoginExternoJson?usuLogin=admin&usuPassword=102030
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {
@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                             //DynamicToast.makeWarning(getBaseContext(), "Error Tiempo de Respuesta Inicio de Sesión", Toast.LENGTH_LONG).show();

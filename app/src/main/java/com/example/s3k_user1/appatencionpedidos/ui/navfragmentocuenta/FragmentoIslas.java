@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.model.Isla;
 import com.example.s3k_user1.appatencionpedidos.model.Isla;
 import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
@@ -210,8 +211,8 @@ public class FragmentoIslas extends Fragment {
 
         String IP_LUDOPATA = "http://localhost:55406/Cortesias/ListarIslas";
 
-//        String URls = "http://192.168.1.58/online/Cortesias/ListarIslasxZona?fZona=7";
-        String URls = "http://192.168.1.58/online/Cortesias/ListarIslasxZona";
+//        String URls = online/Cortesias/ListarIslasxZona?fZona=7";
+        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarIslasxZona";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {
