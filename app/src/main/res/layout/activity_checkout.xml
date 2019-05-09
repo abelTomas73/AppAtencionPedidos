@@ -61,7 +61,18 @@
         android:background="@color/accentColor"
         >
 
+        <android.support.design.widget.TextInputEditText
+            android:background="@color/color_descripcion"
+            android:id="@+id/checkout_comentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:inputType="text|textMultiLine"
+            android:padding="@dimen/activity_vertical_margin"
+            android:hint="Ingrese un comentario o detalles acerca del Pedido"
+            android:gravity="top"/>
         <TextView
+
             android:id="@+id/sub_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

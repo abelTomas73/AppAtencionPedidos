@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     ProgressDialog progressDialog;
-    public static String IP_APK =  "http://192.168.0.12";
+    public static String IP_APK =  "http://192.168.1.58";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 LOGIN_EMPRESA = login.getEmpresa();
                                 LOGIN_SALA= login.getSala();
-                                session.createLoginSession(USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL);
+                                session.createLoginSession(USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL,login.getSala().getCodSala(),login.getEmpresa().getCodEmpresa());
 
                                 //starting the profile activity
                                 //finish();

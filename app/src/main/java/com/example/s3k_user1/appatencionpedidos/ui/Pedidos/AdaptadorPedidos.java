@@ -1,4 +1,4 @@
-package com.example.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
+package com.example.s3k_user1.appatencionpedidos.ui.Pedidos;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,9 +16,8 @@ import android.widget.Toast;
 
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
-import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
+import com.example.s3k_user1.appatencionpedidos.model.CortesiaPedido;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
-import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,43 +26,43 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyViewHolder> implements Filterable {
+public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyViewHolder> implements Filterable {
 
     private Context mContext ;
-    private List<MaquinaZona> mDataMaquinaZona ;
+    private List<CortesiaPedido> mDataCortesiaPedido ;
 
-    private List<MaquinaZona> mDataMaquinaZonaListFull;
+    private List<CortesiaPedido> mDataCortesiaPedidoListFull;
     private int row_index=-1;
 
     private MySharedPreference sharedPreference;
 
-    public AdaptadorMaquina(Context mContext, List<MaquinaZona> mDataMaquinaZona) {
+    public AdaptadorPedidos(Context mContext, List<CortesiaPedido> mDataCortesiaPedido) {
         this.mContext = mContext;
-        this.mDataMaquinaZona = mDataMaquinaZona;
+        this.mDataCortesiaPedido = mDataCortesiaPedido;
 
-        this.mDataMaquinaZonaListFull = new ArrayList<>();
-        this.mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
+        this.mDataCortesiaPedidoListFull = new ArrayList<>();
+        this.mDataCortesiaPedidoListFull.addAll(mDataCortesiaPedido);
     }
     public void updateSearchedList() {
 
-        mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
+        mDataCortesiaPedidoListFull.addAll(mDataCortesiaPedido);
     }
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdaptadorPedidos.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         int width = parent.getMeasuredWidth() / 2;
         view = mInflater.inflate(R.layout.cardview_item_maquina,parent,false);
-        return new MyViewHolder(view,width);
+        return new AdaptadorPedidos.MyViewHolder(view,width);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final MaquinaZona maquinaE = mDataMaquinaZona.get(position);
+    public void onBindViewHolder(AdaptadorPedidos.MyViewHolder holder, final int position) {
+        final CortesiaPedido maquinaE = mDataCortesiaPedido.get(position);
 
-        holder.tv_MaquinaZona_title.setText(mDataMaquinaZona.get(position).getCodMaq());
-        holder.img_MaquinaZona_thumbnail.setImageResource(R.drawable.maquinas);
+        holder.tv_CortesiaPedido_title.setText(mDataCortesiaPedido.get(position).getCodMaq());
+        holder.img_CortesiaPedido_thumbnail.setImageResource(R.drawable.maquinas);
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +73,11 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
 
-                FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
-                sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
-
-//                Toast.makeText(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT).show();
-                Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
+//                FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
+//                sharedPreference.guardarPreferenciaCortesiaPedido(FragmentoMaquinas.MAQUINAELEGIDA);
+//
+//
+//                Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
 
 
                 row_index=position;
@@ -88,9 +87,9 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         });
         if(row_index==position){
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
-//            holder.tv_MaquinaZona_title.setTextColor(Color.parseColor("#
-            holder.tv_MaquinaZona_title.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.tv_MaquinaZona_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
+//            holder.tv_CortesiaPedido_title.setTextColor(Color.parseColor("#
+            holder.tv_CortesiaPedido_title.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.tv_CortesiaPedido_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
 
             holder.descp_maquinas.setTypeface(Typeface.DEFAULT);
             holder.descp_maquinas.setTextColor(ContextCompat.getColor(mContext,R.color.white));
@@ -98,9 +97,9 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         else
         {
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona));
-//            holder.tv_MaquinaZona_title.setTextColor(Color.parseColor("#000000"));
-            holder.tv_MaquinaZona_title.setTypeface(Typeface.DEFAULT);
-            holder.tv_MaquinaZona_title.setTextColor(ContextCompat.getColor(mContext,R.color.primaryColor));
+//            holder.tv_CortesiaPedido_title.setTextColor(Color.parseColor("#000000"));
+            holder.tv_CortesiaPedido_title.setTypeface(Typeface.DEFAULT);
+            holder.tv_CortesiaPedido_title.setTextColor(ContextCompat.getColor(mContext,R.color.primaryColor));
 
             holder.descp_maquinas.setTypeface(Typeface.DEFAULT);
             holder.descp_maquinas.setTextColor(ContextCompat.getColor(mContext,R.color.color_descripcion));
@@ -111,7 +110,7 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
     @Override
     public int getItemCount() {
-        return mDataMaquinaZona.size();
+        return mDataCortesiaPedido.size();
     }
 
     @Override
@@ -122,14 +121,14 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<MaquinaZona> filteredList = new ArrayList<>();
+            List<CortesiaPedido> filteredList = new ArrayList<>();
             //filtros recibe el texto si y filtra
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mDataMaquinaZonaListFull);
+                filteredList.addAll(mDataCortesiaPedidoListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (MaquinaZona item : mDataMaquinaZonaListFull) {
+                for (CortesiaPedido item : mDataCortesiaPedidoListFull) {
                     if (item.getCodMaq().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
@@ -144,24 +143,24 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mDataMaquinaZona.clear();
-            mDataMaquinaZona.addAll((List) results.values);
+            mDataCortesiaPedido.clear();
+            mDataCortesiaPedido.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_MaquinaZona_title;
+        TextView tv_CortesiaPedido_title;
         TextView descp_maquinas;
-        ImageView img_MaquinaZona_thumbnail;
+        ImageView img_CortesiaPedido_thumbnail;
         MaterialCardView cardView ;
 
         public MyViewHolder(View itemView,int width) {
             super(itemView);
 
-            tv_MaquinaZona_title = itemView.findViewById(R.id.book_title_id) ;
+            tv_CortesiaPedido_title = itemView.findViewById(R.id.book_title_id) ;
             descp_maquinas = itemView.findViewById(R.id.descp_maquinas) ;
-            img_MaquinaZona_thumbnail = itemView.findViewById(R.id.book_img_id);
+            img_CortesiaPedido_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_item_maquina);
 //            cardView.getLayoutParams().width = width-200;
 

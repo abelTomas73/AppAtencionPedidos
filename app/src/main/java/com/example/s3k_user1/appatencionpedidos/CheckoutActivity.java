@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 
 import com.example.s3k_user1.appatencionpedidos.model.CortesiasProductosAtencion;
 import com.example.s3k_user1.appatencionpedidos.model.Login;
+import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.example.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
@@ -70,17 +72,23 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView texto_carrito_vacio;
 
     CortesiaProductos[] addCartProducts;
-
+    CortesiaProductos[] addCartProductsActualizadosGuardar;
     List<CortesiaProductos> productList;
 
     List<CortesiaProductos> productListParaEnviar;
     private SessionManager session;
     private String sesion_usuario;
     private String sesion_usuario_id;
+    private String sesion_sala_id;
+    private String sesion_empresa_id;
     MySharedPreference mShared;
     View vista;
     private CheckRecyclerViewAdapter mAdapter;
+    private Gson gson;
+    private GsonBuilder builder;
+    private CortesiaAtencion atencion;
 
+    private TextInputEditText checkout_comentarios;
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +109,13 @@ public class CheckoutActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setTitle("Pedidos");
 
-        subTotal = (TextView )findViewById(R.id.sub_total);
+
+
+        subTotal = findViewById(R.id.sub_total);
+
+        checkout_comentarios = findViewById(R.id.checkout_comentarios);
+
+        subTotal.setText("Sin Registros");
         vista= findViewById(R.id.vistaCheckOut);
         checkRecyclerView = (RecyclerView)findViewById(R.id.checkout_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CheckoutActivity.this);
@@ -116,8 +130,8 @@ public class CheckoutActivity extends AppCompatActivity {
         // get content of cart
        mShared = new MySharedPreference(CheckoutActivity.this);
 
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        builder = new GsonBuilder();
+        gson = builder.create();
 
         addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
         if (addCartProducts==null || addCartProducts.length==0){
@@ -137,15 +151,32 @@ public class CheckoutActivity extends AppCompatActivity {
         HashMap<String, String> user = session.getUserDetails();
         sesion_usuario = user.get(SessionManager.KEY_USUARIO_NOMBRE);
         sesion_usuario_id = user.get(SessionManager.KEY_USUARIO_ID);
+        sesion_sala_id=user.get(SessionManager.KEY_SALA);
+        sesion_empresa_id=user.get(SessionManager.KEY_EMPRESA);
 
         productList = convertObjectArrayToListObject(addCartProducts);
-//        productListParaEnviar = new ArrayList<>();
-//        productListParaEnviar.addAll(productList);
-//
-//        for (int i = 0; i < productListParaEnviar.size(); i++) {
-//            productListParaEnviar.get(i).setArchivo64String("");
-//        }
 
+
+        //TODO DATOS ATENCION
+
+        MaquinaZona maquinaZona= gson.fromJson(mShared.recibirPreferenciaMaquinaGuardada(), MaquinaZona.class);
+        atencion= new CortesiaAtencion();
+//        atencion.setCodMaq(FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq());
+        atencion.setCodMaq(maquinaZona.getCodMaq());
+
+        atencion.setUsuarioRegistroID(sesion_usuario_id);
+        atencion.setCodTurno("1");
+        atencion.setCodSala(sesion_sala_id);
+        atencion.setCodEmpresa(sesion_empresa_id);
+
+
+        atencion.setEstado("0");
+        String PreferenciaEmpresaSalaMaquina ="Sala: "+atencion.getCodSala() +
+                "  Empresa: "+atencion.getCodEmpresa()+
+                "  Maquina: "+atencion.getCodMaq();
+
+        subTotal.setText(PreferenciaEmpresaSalaMaquina);
+        //
         mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
         checkRecyclerView.setAdapter(mAdapter);
 
@@ -156,16 +187,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         //subTotal.setText("Subtotal : " +  "$ " + df2.format(mSubTotal ));
 
-
-//        Button shoppingButton = (Button)findViewById(R.id.shopping);
-//        assert shoppingButton != null;
-//        shoppingButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent shoppingIntent = new Intent(CheckoutActivity.this, FragmentoCategorias.class);
-//                startActivity(shoppingIntent);
-//            }
-//        });
 
         Button checkButton = (Button)findViewById(R.id.checkout);
         assert checkButton != null;
@@ -204,28 +225,23 @@ public class CheckoutActivity extends AppCompatActivity {
         return totalCost;
     }
     public void GuardarCortesiaAtencion() {
-
-        if (addCartProducts.length==0) {
+        addCartProductsActualizadosGuardar = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
+        if (addCartProductsActualizadosGuardar.length==0) {
             Snackbar.make(vista, "No hay Productos", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
         }
+        atencion.setComentario(checkout_comentarios.getText().toString());
 
         productListParaEnviar = new ArrayList<>();
-        productListParaEnviar.addAll(productList);
+        productListParaEnviar = convertObjectArrayToListObject(addCartProductsActualizadosGuardar);
+        //productListParaEnviar.addAll(productList);
 
         for (int i = 0; i < productListParaEnviar.size(); i++) {
             productListParaEnviar.get(i).setArchivo64String("");
         }
 
-        CortesiaAtencion atencion= new CortesiaAtencion();
-        atencion.setCodMaq(FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq());
-        atencion.setUsuarioRegistroID(sesion_usuario_id);
-        atencion.setCodTurno("1");
-        atencion.setCodSala(LoginActivity.LOGIN_SALA.getCodSala());
-        atencion.setCodEmpresa(LoginActivity.LOGIN_EMPRESA.getCodEmpresa());
-        atencion.setComentario("");
-        atencion.setEstado("0");
+
         CortesiasProductosAtencion cortesiasProductosAtencion =new CortesiasProductosAtencion();
 
         cortesiasProductosAtencion.setCortesiaAtencion(atencion);
@@ -268,6 +284,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 mShared.deleteAllProductsFromTheCart();
                                 mAdapter.notifyDataSetChanged();
                                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
+
                             } else {
                                 //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
                                 Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG)

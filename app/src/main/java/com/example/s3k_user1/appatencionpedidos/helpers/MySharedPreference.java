@@ -3,6 +3,8 @@ package com.example.s3k_user1.appatencionpedidos.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.s3k_user1.appatencionpedidos.model.CortesiaProductos;
+import com.example.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.example.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,11 +19,18 @@ public class MySharedPreference {
         this.context = context;
         prefs = context.getSharedPreferences(Constants.SHARED_PREF, Context.MODE_PRIVATE);
     }
-    public void seleccionarMaquina(Comida comidaproducto){
+    public void guardarPreferenciaMaquinaZona(MaquinaZona maquinaZona){
         SharedPreferences.Editor edits = prefs.edit();
-        String newMaquinaproducto = gson.toJson(comidaproducto);
-        edits.putString(Constants.PRODUCT_ID, newMaquinaproducto);
+        String newMaquinaproducto = gson.toJson(maquinaZona);
+        edits.putString(Constants.MAQUINA_ID, newMaquinaproducto);
         edits.apply();
+    }
+
+
+    public String recibirPreferenciaMaquinaGuardada(){
+
+        //gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
+        return prefs.getString(Constants.MAQUINA_ID, "");
     }
 
     public void addProductToTheCart(String product){

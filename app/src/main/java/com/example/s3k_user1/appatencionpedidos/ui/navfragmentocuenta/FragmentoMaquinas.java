@@ -152,7 +152,7 @@ public class FragmentoMaquinas extends Fragment {
                 return true;
             }
         });
-        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),200);
+        int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),245);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNoOfColumns);
 
@@ -167,12 +167,7 @@ public class FragmentoMaquinas extends Fragment {
     }
     public void servicioPoblarMaquinas() {
         maquinaList.clear();
-        //https://api.myjson.com/bins/wicz0
 
-
-        String IP_LUDOPATA = "http://localhost:55406/Cortesias/ListarMaquinaZonas";
-
-//        String URls = "http://192.168.1.58/online/Cortesias/ListarMaquinaZonasxZona?fZona=7";
         String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarMaquinasxIsla";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,

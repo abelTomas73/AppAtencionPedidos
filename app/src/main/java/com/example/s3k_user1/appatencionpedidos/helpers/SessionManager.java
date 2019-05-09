@@ -41,6 +41,11 @@ public class SessionManager {
     public static final String KEY_USUARIO_CORREO = "usuarioCorreo";
 
     public static final String KEY_USUARIO_ROL = "usuarioRol";
+
+    public static final String KEY_SALA= "salaSesion";
+
+    public static final String KEY_EMPRESA = "empresaSesion";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -51,7 +56,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String usuarioNombre,String empleadoId, String usuarioId,String empleado, String correo, String rol){
+    public void createLoginSession(String usuarioNombre,String empleadoId, String usuarioId,String empleado, String correo, String rol,String sala, String empresa){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -67,6 +72,8 @@ public class SessionManager {
         editor.putString(KEY_USUARIO_CORREO, correo);
 
         editor.putString(KEY_USUARIO_ROL, rol);
+        editor.putString(KEY_SALA, sala);
+        editor.putString(KEY_EMPRESA, empresa);
         // commit changes
         editor.commit();
     }
@@ -113,6 +120,8 @@ public class SessionManager {
         user.put(KEY_USUARIO_CORREO, pref.getString(KEY_USUARIO_CORREO, null));
 
         user.put(KEY_USUARIO_ROL, pref.getString(KEY_USUARIO_ROL, null));
+        user.put(KEY_SALA, pref.getString(KEY_SALA, null));
+        user.put(KEY_EMPRESA, pref.getString(KEY_EMPRESA, null));
 
         // return user
         return user;

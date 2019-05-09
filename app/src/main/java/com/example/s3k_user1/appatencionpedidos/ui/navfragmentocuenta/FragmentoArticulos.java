@@ -114,7 +114,7 @@ public class FragmentoArticulos extends Fragment {
 
     public void servicioPoblarCortesiaProductos() {
         cortesiaProductosList.clear();
-        String URls = LoginActivity.IP_APK+"online/Cortesias/ListarCortesiaProductosImagenesxTipo";
+        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarCortesiaProductosImagenesxTipo";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {

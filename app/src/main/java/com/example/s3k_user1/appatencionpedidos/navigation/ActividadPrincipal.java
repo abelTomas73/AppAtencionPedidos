@@ -26,6 +26,7 @@ import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCuenta;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
+import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoPedidos;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
@@ -136,8 +137,12 @@ private NavigationView navigationView;
                 fragmentoGenerico = new FragmentoCategorias();
                 item=2;
                 break;
+            case R.id.item_pedidos:
+                item=4;
+                fragmentoGenerico = new FragmentoPedidos();
+                break;
             case R.id.item_productos:
-                item=3;
+                item=5;
                 fragmentoGenerico = new FragmentoProductos();
                 break;
             case R.id.item_cerrarsesion:
@@ -148,7 +153,7 @@ private NavigationView navigationView;
                 break;
 
             case R.id.item_configuracion:
-                item=4;
+                item=6;
                 startActivity(new Intent(this, ActividadConfiguracion.class));
                 break;
 
