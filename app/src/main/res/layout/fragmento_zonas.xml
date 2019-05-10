@@ -83,7 +83,8 @@
             android:paddingLeft="70dp"
             android:paddingRight="70dp"
             android:textSize="14sp"
-            android:textColor="@color/background_footer_item_grid_categorias"
+            android:textColor="@color/white"
+            android:drawableRight="@mipmap/confirm_shopping_cart"
             android:textAllCaps="true"
 
             android:background="@drawable/button_border"

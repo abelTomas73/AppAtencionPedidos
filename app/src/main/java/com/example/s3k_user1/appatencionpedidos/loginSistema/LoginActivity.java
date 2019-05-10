@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     ProgressDialog progressDialog;
-    public static String IP_APK =  "http://192.168.1.58";
+    public static String IP_APK =  "http://192.168.0.12";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
