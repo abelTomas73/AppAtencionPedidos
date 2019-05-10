@@ -168,7 +168,7 @@ public class FragmentoMaquinas extends Fragment {
     public void servicioPoblarMaquinas() {
         maquinaList.clear();
 
-        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarMaquinasxIsla";
+        String URls = LoginActivity.IP_APK+"/Cortesias/ListarMaquinasxIsla";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {

@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,12 +21,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.example.s3k_user1.appatencionpedidos.R;
 import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.example.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.example.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCuenta;
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
@@ -30,7 +40,14 @@ import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoPe
 import com.example.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
 import com.example.s3k_user1.appatencionpedidos.utils.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ActividadPrincipal extends AppCompatActivity {
 
@@ -79,9 +96,82 @@ private NavigationView navigationView;
         sharedPreference = new MySharedPreference(this.getApplicationContext());
         contextoAcPrincipal = this.getApplicationContext();
 
+        seguirPeticiciones();
+    }
+    public void seguirPeticiciones() {
+
+        final Handler handler = new Handler();
+        Timer timer = new Timer(false);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //estado 2 por recoger
+                        peticiconesServicioPedidosPorRecoger("2");
+
+                    }
+                });
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 5000, 5000); // every 5 seconds.
+        //timer.cancel();
 
     }
+    public void peticiconesServicioPedidosPorRecoger(final String estado){
 
+        //String URls = "http://192.168.1.37:1234/api/ApiAutorizacion/MaquinaSinClienteList";
+
+        String URls = LoginActivity.IP_APK+"/Cortesias/ListarCortesiaPedidoPendientesPorEstado";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URls, new com.android.volley.Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                JSONArray jsondata=null;
+                try {
+                    //converting response to json object
+                    JSONObject jsonObject = new JSONObject(response);
+
+
+//                    JSONArray datosArray = new JSONArray(response);
+                    jsondata = jsonObject.getJSONArray("data");
+
+                    if (jsondata.length()!=0){
+                        Toast.makeText(getApplicationContext(), "Tiene Pedidos por Recoger", Toast.LENGTH_SHORT).show();
+                        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(200);
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("estado", estado);
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest); //en un activity
+
+        //AppSin
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -129,32 +219,34 @@ private NavigationView navigationView;
                 fragmentoGenerico = new FragmentoInicio();
                 item=0;
                 break;
-            case R.id.item_cuenta:
-                fragmentoGenerico = new FragmentoCuenta();
-                item=1;
-                break;
+//            case R.id.item_cuenta:
+//                fragmentoGenerico = new FragmentoCuenta();
+//                item=1;
+//                break;
             case R.id.item_categorias:
                 fragmentoGenerico = new FragmentoCategorias();
-                item=2;
+                item=1;
                 break;
             case R.id.item_pedidos:
-                item=4;
+
                 fragmentoGenerico = new FragmentoPedidos();
+                item=2;
                 break;
             case R.id.item_productos:
-                item=5;
+
                 fragmentoGenerico = new FragmentoProductos();
+                item=3;
                 break;
             case R.id.item_cerrarsesion:
-
                 session.logoutUser();
                 Intent intent1 = new Intent(this,LoginActivity.class);
                 startActivity(intent1);
+                item=4;
                 break;
 
             case R.id.item_configuracion:
-                item=6;
                 startActivity(new Intent(this, ActividadConfiguracion.class));
+                item=5;
                 break;
 
         }

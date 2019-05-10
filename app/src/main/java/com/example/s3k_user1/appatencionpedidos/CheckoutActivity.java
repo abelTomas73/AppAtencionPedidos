@@ -259,7 +259,7 @@ public class CheckoutActivity extends AppCompatActivity {
         }catch (JSONException e) {
             e.printStackTrace();
         }
-        String URls = LoginActivity.IP_APK+"/online/Cortesias/GuardarCortesiaAtencionProductos";
+        String URls = LoginActivity.IP_APK+"/Cortesias/GuardarCortesiaAtencionProductos";
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
                 URls,
                 jsonObj,

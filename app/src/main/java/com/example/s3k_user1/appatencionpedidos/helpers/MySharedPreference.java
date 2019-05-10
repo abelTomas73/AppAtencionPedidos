@@ -19,6 +19,21 @@ public class MySharedPreference {
         this.context = context;
         prefs = context.getSharedPreferences(Constants.SHARED_PREF, Context.MODE_PRIVATE);
     }
+
+    public String ObtenerIp(){
+
+        String ip =prefs.getString("ip", "");
+        return ip ;
+    }
+
+    public void GuardarReferenciaIp(String ip) {
+        SharedPreferences.Editor edits = prefs.edit();
+        edits.putString("ip", ip);
+        edits.apply();
+
+    }
+
+
     public void guardarPreferenciaMaquinaZona(MaquinaZona maquinaZona){
         SharedPreferences.Editor edits = prefs.edit();
         String newMaquinaproducto = gson.toJson(maquinaZona);
@@ -62,4 +77,7 @@ public class MySharedPreference {
         editor.remove(Constants.PRODUCT_ID);
         editor.commit();
     }
+
+
+
 }

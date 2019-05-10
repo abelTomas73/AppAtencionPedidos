@@ -2,8 +2,11 @@ package com.example.s3k_user1.appatencionpedidos.loginSistema;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -15,7 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -25,6 +31,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.s3k_user1.appatencionpedidos.R;
+import com.example.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.example.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.example.s3k_user1.appatencionpedidos.model.Empresa;
 import com.example.s3k_user1.appatencionpedidos.model.Login;
@@ -36,6 +43,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,21 +68,28 @@ public class LoginActivity extends AppCompatActivity {
     public static Empresa LOGIN_EMPRESA;
     public static Sala LOGIN_SALA;
     boolean respuestaLogin = false;
-    Dialog myDialogIP;
+
     Button botonAprobarIP;
 
     Toolbar toolbar;
 
     ProgressBar progressBar;
     ProgressDialog progressDialog;
-    public static String IP_APK =  "http://192.168.0.12";
+        //configurar ip
+    Dialog myDialogIP;
+    ImageView btnConfigurarIP;
+    public static String IP_APK =  "http://192.168.1.58/online";
+    private MySharedPreference sharedPreference;
+    private Button btnAprobarIP;
+
+    public static Context contextoLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_splash);
 
 
-
+        contextoLogin = this.getApplicationContext();
         session = new SessionManager(getApplicationContext());
         if(session.isLoggedIn()){
             Intent intentPantalla = new Intent(LoginActivity.this,ActividadPrincipal.class);
@@ -82,6 +99,19 @@ public class LoginActivity extends AppCompatActivity {
         edtusuario = findViewById(R.id.edtusuario);
         edtcontrasena = findViewById(R.id.edtcontrasena);
 
+        sharedPreference = new MySharedPreference(getApplicationContext());
+
+
+        myDialogIP = new Dialog(LoginActivity.this);
+
+        btnConfigurarIP = findViewById(R.id.btnConfigurar);
+        btnConfigurarIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openDialog();
+            }
+        });
         btnIngresarLogin = findViewById(R.id.btnIngresarLogin);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -115,6 +145,59 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    public String ObtenerIp(){
+
+        SharedPreferences sharedPreferences =getSharedPreferences("Protocol", Context.MODE_PRIVATE);
+        String ip =sharedPreferences.getString("ip","");
+        return ip ;
+    }
+
+    public void CargarReferenciaIp() {
+        //myDialogIP = new Dialog(LoginActivity.this);
+        myDialogIP.setContentView(R.layout.dialog_cambiar);
+        //SharedPreferences sharedPreferences = getSharedPreferences("Protocol", MODE_PRIVATE);
+        //String ip = sharedPreferences.getString("ip", "");
+        String ip = sharedPreference.ObtenerIp();
+
+        EditText dialog_edt_ip = myDialogIP.findViewById(R.id.dialog_edt_ip);
+        if (ip.equals("")){
+            dialog_edt_ip.setText(LoginActivity.IP_APK);
+        }else{
+            dialog_edt_ip.setText(ip);
+        }
+        //sharedPreference.GuardarReferenciaIp(ip);
+
+    }
+
+    public void openDialog() {
+
+        //myDialogIP = new Dialog(LoginActivity.this);
+        myDialogIP.setContentView(R.layout.dialog_cambiar);
+        CargarReferenciaIp();
+        final EditText dialog_edt_ip = myDialogIP.findViewById(R.id.dialog_edt_ip);
+
+        btnAprobarIP = myDialogIP.findViewById(R.id.btnAprobarIP);
+        myDialogIP.show();
+        btnAprobarIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String ip = dialog_edt_ip.getText().toString();
+
+                //GuardarReferenciaIp(dialog_edt_ip.getText().toString());
+
+                LoginActivity.IP_APK = dialog_edt_ip.getText().toString();
+                dialog_edt_ip.setText(LoginActivity.IP_APK);
+
+                sharedPreference.GuardarReferenciaIp(LoginActivity.IP_APK);
+                myDialogIP.hide();
+
+            }
+
+        });
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sesion_usuario, menu);
@@ -124,6 +207,7 @@ public class LoginActivity extends AppCompatActivity {
     public void GuardarReferenciaIp(String ip) {
         SharedPreferences sharedPreferences = getSharedPreferences("Protocol", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         editor.putString("ip", ip);
         editor.commit();
     }
@@ -145,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String URls = LoginActivity.IP_APK+"/online/Usuario/ValidacionLogin";
+        String URls = LoginActivity.IP_APK+"/Usuario/ValidacionLogin";
         //http://192.168.1.38/SysLudopatas/Login/ValidacionLoginExternoJson?usuLogin=admin&usuPassword=102030
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {

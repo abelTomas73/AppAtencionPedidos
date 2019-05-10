@@ -212,7 +212,7 @@ public class FragmentoIslas extends Fragment {
         String IP_LUDOPATA = "http://localhost:55406/Cortesias/ListarIslas";
 
 //        String URls = online/Cortesias/ListarIslasxZona?fZona=7";
-        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarIslasxZona";
+        String URls = LoginActivity.IP_APK+"/Cortesias/ListarIslasxZona";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {

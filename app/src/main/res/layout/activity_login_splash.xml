@@ -12,6 +12,15 @@
     android:id="@+id/vistaLogin"
     tools:context=".loginSistema.LoginActivity">
 
+    <ImageView
+        android:id="@+id/btnConfigurar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/button_ip_circular"
+        android:padding="10dp"
+        android:src="@drawable/connected" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

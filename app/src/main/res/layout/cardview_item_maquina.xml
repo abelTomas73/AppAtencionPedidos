@@ -9,8 +9,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-
-
     app:cardCornerRadius="4dp"
 
     android:layout_gravity="center"
@@ -75,7 +73,21 @@
                 android:text="Maquina"
                 android:layout_width="wrap_content" />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="match_parent"
+            android:gravity="end"
 
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_finalizarPedido"
+                android:visibility="gone"
+                android:text="Finalizar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.design.card.MaterialCardView>

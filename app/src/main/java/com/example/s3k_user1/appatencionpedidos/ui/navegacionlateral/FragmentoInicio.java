@@ -258,7 +258,7 @@ public class FragmentoInicio extends Fragment {
         zonaList.clear();
 
 //        String URls = "http://localhost:55406/Cortesias/ListarZonas";
-        String URls = LoginActivity.IP_APK+"/online/Cortesias/ListarZonas";
+        String URls = LoginActivity.IP_APK+"/Cortesias/ListarZonas";
 
         JsonObjectRequest  stringRequest = new JsonObjectRequest (Request.Method.POST, URls,null,
                 new Response.Listener<JSONObject>() {
