@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:inputType="text|textMultiLine"
-            android:padding="@dimen/activity_vertical_margin"
+            android:padding="@dimen/badge_text_size"
             android:hint="Ingrese un comentario o detalles acerca del Pedido"
             android:gravity="top"/>
         <TextView
@@ -89,7 +89,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
+        android:minHeight="80dp"
         android:orientation="vertical"
         android:gravity="bottom"
         android:layout_weight="1">
@@ -116,6 +116,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:background="@color/primaryDarkColor"
 
                 android:textColor="@color/window_background"

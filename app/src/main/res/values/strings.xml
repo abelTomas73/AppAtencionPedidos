@@ -123,6 +123,7 @@
     <string name="item_cerrarsesion">Salir</string>
     <string name="item_productos">items</string>
     <string name="sin_registro">sin registros</string>
+    <string name="password">\@dm1nPJ</string>
 
 
     <string-array name="stepLabels">

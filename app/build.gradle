@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     //buildToolsVersion '28.0.2'
     defaultConfig {
-        applicationId "com.example.s3k_user1.appatencionpedidos"
+        applicationId "com.software3000.s3k_user1.appatencionpedidos"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
@@ -28,7 +28,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
 
