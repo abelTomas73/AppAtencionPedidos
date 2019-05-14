@@ -1,6 +1,7 @@
 package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
@@ -14,15 +15,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaConfiguracion;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaPedido;
+import com.software3000.s3k_user1.appatencionpedidos.model.GetConfiguracionCortesia;
 import com.software3000.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -33,8 +51,13 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
     private List<MaquinaZona> mDataMaquinaZonaListFull;
     private int row_index=-1;
-
+    private List<CortesiaPedido> cortesiaPedidosPendientesList;
+    private List<CortesiaPedido> pedidosComparar;
     private MySharedPreference sharedPreference;
+
+
+    boolean invalidarPedidoDeMaquinaElegida= false;
+    GetConfiguracionCortesia getConfiguracionCortesia = new GetConfiguracionCortesia();
 
     public AdaptadorMaquina(Context mContext, List<MaquinaZona> mDataMaquinaZona) {
         this.mContext = mContext;
@@ -42,6 +65,12 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
         this.mDataMaquinaZonaListFull = new ArrayList<>();
         this.mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
+        cortesiaPedidosPendientesList= new ArrayList<>();
+        cortesiaPedidosPendientesList.clear();
+
+        servicioPoblarListarCortesiaPedidoPendientes();
+
+
     }
     public void updateSearchedList() {
 
@@ -57,31 +86,198 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         return new MyViewHolder(view,width);
     }
 
+    public String ObtenerIp(){
+
+        SharedPreferences sharedPreferences =mContext.getSharedPreferences("Protocol", Context.MODE_PRIVATE);
+        String ip =sharedPreferences.getString("ip","");
+        return ip ;
+    }
+
+    public void servicioPoblarListarCortesiaPedidoPendientes() {
+
+        cortesiaPedidosPendientesList.clear();
+        String URls =  ObtenerIp()+"/Cortesias/ListarCortesiaPedidoPendientes";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsondata = jsonObject.getJSONArray("data");
+                            Gson gson = new Gson();
+
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject2 = jsondata.getJSONObject(i);
+                                CortesiaPedido cortesiapedido = new CortesiaPedido();
+                                cortesiapedido= gson.fromJson(jsonObject2.toString(), CortesiaPedido.class);
+                                cortesiaPedidosPendientesList.add(cortesiapedido);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+        //AppSin
+        VolleySingleton.getInstance(mContext).addToRequestQueue(stringRequest);
+
+    }
+
+    public void GetConfiguracionCortesia() {
+
+        cortesiaPedidosPendientesList.clear();
+        String URls =  ObtenerIp()+"/Cortesias/GetConfiguracionCortesia";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            String errormensaje =jsonObject.getString("mensaje");
+
+                            if (jsonObject.getBoolean("respuesta") ) {
+
+                                Gson gson = new Gson();
+
+                                getConfiguracionCortesia= gson.fromJson(jsonObject.toString(), GetConfiguracionCortesia.class);
+
+
+                                invalidarPedidoDeMaquinaElegida=true;
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("cortesiaConfiguracionId", "1");
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+        //AppSin
+        VolleySingleton.getInstance(mContext).addToRequestQueue(stringRequest);
+
+    }
+
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final MaquinaZona maquinaE = mDataMaquinaZona.get(position);
 
+        final CortesiaPedido cortesiaPedidoSeleccionado = new CortesiaPedido();
         holder.tv_MaquinaZona_title.setText(mDataMaquinaZona.get(position).getCodMaq());
         holder.img_MaquinaZona_thumbnail.setImageResource(R.drawable.maquinas);
+
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+                boolean maquinaOcupada= false;
 
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
 
-                FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
-                sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
+                pedidosComparar = new ArrayList<>();
+
+                for (int i = 0; i < cortesiaPedidosPendientesList.size(); i++) {
+                    if(cortesiaPedidosPendientesList.get(i).getCodMaq().equals( maquinaE.getCodMaq()) ){
+                        cortesiaPedidoSeleccionado.setFechaRegistro(cortesiaPedidosPendientesList.get(i).getFechaRegistro());
+                        maquinaOcupada=true;
+                    }
+
+                }
+                GetConfiguracionCortesia();
+
+                //pedidosComparar.addAll(cortesiaPedidosPendientesList);
+                if (invalidarPedidoDeMaquinaElegida){
+
+                    Calendar now = Calendar.getInstance();
+
+                    now = Calendar.getInstance();
+                    now.add(Calendar.MINUTE, -getConfiguracionCortesia.getTiempoAtencion().getTipo());
+                    int tiemppoResta= now.get(Calendar.MINUTE);
+                    if (tiemppoResta>0){
+
+                        sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+
+                        GsonBuilder builder = new GsonBuilder();
+                        Gson gson = builder.create();
+
+                        FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
+                        sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
+                        Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
+
+
+                        row_index=position;
+                        notifyDataSetChanged();
+                    }else{
+                        Toast.makeText(mContext, "Maquina Ocupada", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else {
+                    sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+
+                    FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
+                    sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
 
 //                Toast.makeText(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT).show();
-                Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
+                    Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
 
 
-                row_index=position;
-                notifyDataSetChanged();
+                    row_index=position;
+                    notifyDataSetChanged();
+                }
+
 
             }
         });

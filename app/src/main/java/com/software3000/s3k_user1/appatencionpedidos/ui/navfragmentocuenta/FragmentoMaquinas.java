@@ -183,6 +183,7 @@ public class FragmentoMaquinas extends Fragment {
         String ip =sharedPreferences.getString("ip","");
         return ip ;
     }
+
     public void servicioPoblarMaquinas() {
         maquinaList.clear();
 
@@ -235,8 +236,9 @@ public class FragmentoMaquinas extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
+
                 params.put("StrUsuario", sesion_usuario_id);
+                params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
                 return params;
             }
         };

@@ -32,6 +32,7 @@ import com.software3000.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.SimpleDividerItemDecoration;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaAtencion;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaCombo;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiasProductosAtencion;
@@ -67,6 +68,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView texto_carrito_vacio;
 
     CortesiaProductos[] addCartProducts;
+    CortesiaCombo[] addCartCombos;
+
     CortesiaProductos[] addCartProductsActualizadosGuardar;
     List<CortesiaProductos> productList;
 
@@ -129,6 +132,10 @@ public class CheckoutActivity extends AppCompatActivity {
         gson = builder.create();
 
         addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
+
+//        addCartCombos = gson.fromJson(mShared.retrieveComboFromCart(), CortesiaCombo[].class);
+
+
         if (addCartProducts==null || addCartProducts.length==0){
             checkout_list_layout.setGravity(Gravity.CENTER);
 
@@ -150,6 +157,14 @@ public class CheckoutActivity extends AppCompatActivity {
         sesion_empresa_id=user.get(SessionManager.KEY_EMPRESA);
 
         productList = convertObjectArrayToListObject(addCartProducts);
+//        if (addCartCombos!=null){
+//            for (int i = 0; i < addCartCombos.length; i++) {
+//                CortesiaProductos cortPro = new CortesiaProductos();
+//                cortPro.setArchivo64String("");
+//                cortPro.setNombre(addCartCombos[i].getNombre());
+//                productList.add(cortPro);
+//            }
+//        }
 
 
         //TODO DATOS ATENCION
@@ -200,6 +215,12 @@ public class CheckoutActivity extends AppCompatActivity {
         return mProduct;
     }
 
+    private List<CortesiaCombo> convertObjectArrayToListObject(CortesiaCombo[] allCombos){
+        List<CortesiaCombo> mCombo = new ArrayList<>();
+        Collections.addAll(mCombo, allCombos);
+        return mCombo;
+    }
+
     private int returnQuantityByProductName(String productName, List<CortesiaProductos> mProducts){
         int quantityCount = 0;
         for(int i = 0; i < mProducts.size(); i++){
@@ -239,6 +260,7 @@ public class CheckoutActivity extends AppCompatActivity {
         //productListParaEnviar.addAll(productList);
 
         for (int i = 0; i < productListParaEnviar.size(); i++) {
+
             productListParaEnviar.get(i).setArchivo64String("");
         }
 

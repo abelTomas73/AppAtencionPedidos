@@ -10,4 +10,6 @@ public class Constants {
     public static final String PRODUCT_COUNT = "product_count";
     public static final String PRODUCT_ID = "product_id";
     public static final String MAQUINA_ID = "maquina_id";
+
+    public static final String COMBO_ID = "combo_id";
 }

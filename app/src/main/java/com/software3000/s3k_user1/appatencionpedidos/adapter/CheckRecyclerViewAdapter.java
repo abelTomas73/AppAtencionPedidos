@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.software3000.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaCombo;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 
 import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
@@ -62,8 +63,13 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         Collections.addAll(mProduct, allProducts);
         return mProduct;
     }
-
+    private List<CortesiaCombo> convertObjectArrayToListObjectCombo(CortesiaCombo[] allCombos){
+        List<CortesiaCombo> mCombo = new ArrayList<>();
+        Collections.addAll(mCombo, allCombos);
+        return mCombo;
+    }
     // fin mis meth
+
     @Override
     public void onBindViewHolder(final CheckRecyclerViewHolder holder, final int position) {
         sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
@@ -71,22 +77,37 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         final Gson gson = builder.create();
 
         String productsInCart = sharedPreference.retrieveProductFromCart();
+
+//        String combosInCart = sharedPreference.retrieveComboFromCart();
+
         CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
 
+//        CortesiaCombo[] storedCombos = gson.fromJson(combosInCart, CortesiaCombo[].class);
+//        if(storedCombos!=null){
+//            final List<CortesiaCombo> allNewCombos = convertObjectArrayToListObjectCombo(storedCombos);
+//        }
         final List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
-
 
 
 
         //get product quantity
         holder.quantity.setText("1");
-        byte[] bytearray = Base64.decode(mProductObject.get(position).getArchivo64String(), 0);
-        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
-        Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+        if (!mProductObject.get(position).getArchivo64String().equals(""))
+        {
+            byte[] bytearray = Base64.decode(mProductObject.get(position).getArchivo64String(), 0);
+            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
+            Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+            holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,192, false));
+
+        }else{
+            holder.imagen_product.setImageResource(R.drawable.ingredients);
+        }
 
 
-        holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,
-                192, false));
+
+//        holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,192, false));
+
+//        holder.imagen_product.setImageResource(R.drawable.ingredients);
         holder.productName.setText(mProductObject.get(position).getNombre());
         holder.productPrice.setText("");
 
@@ -117,7 +138,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
                 //notifyItemChanged(holder.getAdapterPosition());
 
 
-                CheckoutActivity.actualizarSubtotal(mProductObject);
+                //CheckoutActivity.actualizarSubtotal(mProductObject);
 
                 sharedPreference.addProductCount(cartProductNumber);
                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);

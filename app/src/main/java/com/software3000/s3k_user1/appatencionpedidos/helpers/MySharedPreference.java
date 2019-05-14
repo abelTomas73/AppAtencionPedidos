@@ -31,7 +31,7 @@ public class MySharedPreference {
 
     }
 
-
+    //Maquina
     public void guardarPreferenciaMaquinaZona(MaquinaZona maquinaZona){
         SharedPreferences.Editor edits = prefs.edit();
         String newMaquinaproducto = gson.toJson(maquinaZona);
@@ -45,6 +45,7 @@ public class MySharedPreference {
         //gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
         return prefs.getString(Constants.MAQUINA_ID, "");
     }
+    //FIN Maquina
 
     public void addProductToTheCart(String product){
         SharedPreferences.Editor edits = prefs.edit();
@@ -54,11 +55,23 @@ public class MySharedPreference {
     public String retrieveProductFromCart(){
         return prefs.getString(Constants.PRODUCT_ID, "");
     }
+
+    public void addComboToTheCart(String product){
+        SharedPreferences.Editor edits = prefs.edit();
+        edits.putString(Constants.COMBO_ID, product);
+        edits.apply();
+    }
+    public String retrieveComboFromCart(){
+        return prefs.getString(Constants.COMBO_ID, "");
+    }
+    //CANTIDADES
     public void addProductCount(int productCount){
         SharedPreferences.Editor edits = prefs.edit();
         edits.putInt(Constants.PRODUCT_COUNT, productCount);
         edits.apply();
     }
+
+
     public int retrieveProductCount(){
         return prefs.getInt(Constants.PRODUCT_COUNT, 0);
     }

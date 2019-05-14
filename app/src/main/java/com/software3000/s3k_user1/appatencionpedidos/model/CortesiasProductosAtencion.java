@@ -5,6 +5,15 @@ import java.util.List;
 public class CortesiasProductosAtencion {
     private List<CortesiaProductos> cortesiaProductosList;
     private CortesiaAtencion cortesiaAtencion;
+    public List<CortesiaCombo> cortesiaCombosList;
+
+    public List<CortesiaCombo> getCortesiaCombosList() {
+        return cortesiaCombosList;
+    }
+
+    public void setCortesiaCombosList(List<CortesiaCombo> cortesiaCombosList) {
+        this.cortesiaCombosList = cortesiaCombosList;
+    }
 
     public CortesiasProductosAtencion() {
 

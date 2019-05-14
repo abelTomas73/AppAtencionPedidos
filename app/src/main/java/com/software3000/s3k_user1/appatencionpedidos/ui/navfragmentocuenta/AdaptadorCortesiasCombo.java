@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaCombo;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -80,7 +81,14 @@ public class AdaptadorCortesiasCombo
     }
 
     // DATOS NUEVOS DEL CARRITO
-    private List<CortesiaCombo> convertObjectArrayToListObject(CortesiaCombo[] allProducts){
+        //productos
+    private List<CortesiaProductos> convertObjectArrayToListObjectProducto(CortesiaProductos[] allProducts){
+        List<CortesiaProductos> mProduct = new ArrayList<CortesiaProductos>();
+        Collections.addAll(mProduct, allProducts);
+        return mProduct;
+    }
+        //combos
+    private List<CortesiaCombo> convertObjectArrayToListObjectCombo(CortesiaCombo[] allProducts){
         List<CortesiaCombo> mProduct = new ArrayList<CortesiaCombo>();
         Collections.addAll(mProduct, allProducts);
         return mProduct;
@@ -138,21 +146,32 @@ public class AdaptadorCortesiasCombo
 
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
-                String stringObjectRepresentation = gson.toJson(item);
-                final CortesiaCombo singleProduct = gson.fromJson(stringObjectRepresentation, CortesiaCombo.class);
+
+                CortesiaProductos cortePRo= new CortesiaProductos();
+                cortePRo.setArchivo64String("");//sin imagen combo
+                cortePRo.setNombre(item.getNombre());
+                cortePRo.setCodCortesiaProductos(item.getCodCortesiaCombo());
+                cortePRo.setDescripcion(item.getDescripcion());
+
+                String stringObjectRepresentation = gson.toJson(cortePRo);
+
+                final CortesiaProductos singleProduct = gson.fromJson(stringObjectRepresentation, CortesiaProductos.class);
+                final CortesiaCombo singleCombo = gson.fromJson(stringObjectRepresentation, CortesiaCombo.class);
 
                 String productsFromCart = sharedPreference.retrieveProductFromCart();
+                String comboFromCart = sharedPreference.retrieveComboFromCart();
                 if(productsFromCart.equals("")){
-                    List<CortesiaCombo> cartProductList = new ArrayList<CortesiaCombo>();
+
+                    List<CortesiaProductos> cartProductList = new ArrayList<CortesiaProductos>();
                     cartProductList.add(singleProduct);
                     String cartValue = gson.toJson(cartProductList);
                     sharedPreference.addProductToTheCart(cartValue);
                     cartProductNumber = cartProductList.size();
                 }else{
                     String productsInCart = sharedPreference.retrieveProductFromCart();
-                    CortesiaCombo[] storedProducts = gson.fromJson(productsInCart, CortesiaCombo[].class);
+                    CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
 
-                    List<CortesiaCombo> allNewProduct = convertObjectArrayToListObject(storedProducts);
+                    List<CortesiaProductos> allNewProduct = convertObjectArrayToListObjectProducto(storedProducts);
                     allNewProduct.add(singleProduct);
                     String addAndStoreNewProduct = gson.toJson(allNewProduct);
                     sharedPreference.addProductToTheCart(addAndStoreNewProduct);
