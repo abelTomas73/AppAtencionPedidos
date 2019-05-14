@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaCombo;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 import com.software3000.s3k_user1.appatencionpedidos.modelo.Comida;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
@@ -53,10 +54,12 @@ public class FragmentoArticulos extends Fragment {
 
     private GridLayoutManager layoutManager;
     private AdaptadorArticulos adaptador;
+    private AdaptadorCortesiasCombo adaptadorCortesiasCombo;
 
 
 
     private List<CortesiaProductos> cortesiaProductosList;
+    private List<CortesiaCombo> cortesiaComboList;
 
     private RecyclerView recyclerview_id;
 
@@ -103,12 +106,25 @@ public class FragmentoArticulos extends Fragment {
 
 
         cortesiaProductosList = new ArrayList<>();
-        servicioPoblarCortesiaProductos();
-        adaptador = new AdaptadorArticulos(cortesiaProductosList);
+        cortesiaComboList = new ArrayList<>();
 
         layoutManager = new GridLayoutManager(getActivity(), mNoOfColumns);
         reciclador.setLayoutManager(layoutManager);
-        reciclador.setAdapter(adaptador);
+
+        if (categoria_idtipo.equals("9")){//codigo combo 8
+            servicioPoblarListarCombos();
+            adaptadorCortesiasCombo= new AdaptadorCortesiasCombo(cortesiaComboList);
+            reciclador.setAdapter(adaptadorCortesiasCombo);
+        }else{
+            servicioPoblarCortesiaProductos();
+            adaptador = new AdaptadorArticulos(cortesiaProductosList);
+            reciclador.setAdapter(adaptador);
+        }
+
+
+
+
+
         return view;
     }
     public String ObtenerIp(){
@@ -166,6 +182,67 @@ public class FragmentoArticulos extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("cortesiaTipoid", categoria_idtipo);
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+        //AppSin
+        VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
+
+
+
+    }
+    public void servicioPoblarListarCombos() {
+        cortesiaComboList.clear();
+        String URls =  ObtenerIp()+"/Cortesias/ListarCombos";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+                        JSONArray jsondata=null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsondata = jsonObject.getJSONArray("data");
+                            Gson gson = new Gson();
+
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject2 = jsondata.getJSONObject(i);
+                                CortesiaCombo cortesiaCombo = new CortesiaCombo();
+
+                                cortesiaCombo= gson.fromJson(jsonObject2.toString(), CortesiaCombo.class);
+                                cortesiaComboList.add(cortesiaCombo);
+                            }
+
+                            //adaptador.updateSearchedList();
+                            // refreshing recycler view
+                            adaptadorCortesiasCombo.notifyDataSetChanged();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //progressDialog.dismiss();
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //params.put("cortesiaTipoid", categoria_idtipo);
                 return params;
             }
         };

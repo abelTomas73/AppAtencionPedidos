@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String URls = ObtenerIp()+"/Usuario/ValidacionLogin";
+        String URls = ObtenerIp()+"/Usuario/ValidacionLoginAndroid";
         //http://192.168.1.38/SysLudopatas/Login/ValidacionLoginExternoJson?usuLogin=admin&usuPassword=102030
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {
@@ -239,44 +239,52 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             //converting response to json object
                             JSONObject jsonObject = new JSONObject(response);
-
+                            String errormensaje =jsonObject.getString("mensaje");
                             //if no error in response
-                            if (jsonObject.getBoolean("respuesta")) {
-
-                                //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                Snackbar.make(vista, jsonObject.getString("mensaje"), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                            if (jsonObject.getBoolean("respuesta") ) {
+                                errormensaje =jsonObject.getString("mensaje");
+                                if (jsonObject.getBoolean("esAnfitriona")){
 
 
-                                Gson gson = new Gson();
-                                Login login = new Login();
-
-                                login= gson.fromJson(jsonObject.toString(), Login.class);
-
-
-                                USUARIOID =login.getUsuario().getUsuarioID()+"";
-                                USUARIONOMBRE =login.getUsuario().getUsuarioNombre();
-                                EMPLEADOID=login.getEmpleado().getEmpleadoID()+"";
-                                USUARIOEMPLEADO=login.getEmpleado().getNombres();
-                                USUARIOROL=login.getRolUsuario().getWEBRolID()+"";
-                                respuestaLogin = jsonObject.getBoolean("respuesta");
-                                Log.e("Respuesta Login", String.valueOf(respuestaLogin));
+                                    //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(vista, errormensaje, Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
 
 
-                                LOGIN_EMPRESA = login.getEmpresa();
-                                LOGIN_SALA= login.getSala();
-                                session.createLoginSession(USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL,login.getSala().getCodSala(),login.getEmpresa().getCodEmpresa());
+                                    Gson gson = new Gson();
+                                    Login login = new Login();
 
-                                //starting the profile activity
-                                //finish();
-                                //startActivity(new Intent(getApplicationContext(), BusquerdaDniActivity.class));
-                                Intent intentPantalla = new Intent(LoginActivity.this,ActividadPrincipal.class);
-                                startActivity(intentPantalla);
-                            } else {
-                                //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                Snackbar.make(vista, jsonObject.getString("mensaje"), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                    login= gson.fromJson(jsonObject.toString(), Login.class);
+
+
+                                    USUARIOID =login.getUsuario().getUsuarioID()+"";
+                                    USUARIONOMBRE =login.getUsuario().getUsuarioNombre();
+                                    EMPLEADOID=login.getEmpleado().getEmpleadoID()+"";
+                                    USUARIOEMPLEADO=login.getEmpleado().getNombres();
+                                    USUARIOROL=login.getRolUsuario().getWEBRolID()+"";
+                                    respuestaLogin = jsonObject.getBoolean("respuesta");
+                                    Log.e("Respuesta Login", String.valueOf(respuestaLogin));
+
+
+                                    LOGIN_EMPRESA = login.getEmpresa();
+                                    LOGIN_SALA= login.getSala();
+                                    session.createLoginSession(USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL,login.getSala().getCodSala(),login.getEmpresa().getCodEmpresa());
+
+                                    //starting the profile activity
+                                    //finish();
+                                    //startActivity(new Intent(getApplicationContext(), BusquerdaDniActivity.class));
+                                    Intent intentPantalla = new Intent(LoginActivity.this,ActividadPrincipal.class);
+                                    startActivity(intentPantalla);
+                                }else{
+                                    errormensaje="Tipo de usuario no es anfitriona";
+                                }
                             }
+
+                                //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(vista, errormensaje, Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

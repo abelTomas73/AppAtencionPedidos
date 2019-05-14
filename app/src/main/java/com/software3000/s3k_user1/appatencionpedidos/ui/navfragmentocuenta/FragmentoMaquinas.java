@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.software3000.s3k_user1.appatencionpedidos.R;
+import com.software3000.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.software3000.s3k_user1.appatencionpedidos.model.MaquinaZona;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
@@ -60,6 +61,9 @@ public class FragmentoMaquinas extends Fragment {
     public static MaquinaZona MAQUINAELEGIDA;
 
     private TextView textZonasIslasMaquinas;
+    private SessionManager session;
+    private String sesion_usuario_id;
+
     public FragmentoMaquinas() {
         // Required empty public constructor
     }
@@ -88,6 +92,15 @@ public class FragmentoMaquinas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragmento_maquinas, container, false);
         getActivity().setTitle("Maquinas");
+
+
+        session = new SessionManager(getActivity().getApplicationContext());
+        session.checkLogin();
+
+        HashMap<String, String> user = session.getUserDetails();
+
+        sesion_usuario_id = user.get(SessionManager.KEY_USUARIO_ID);
+
 
         recyclerview_id = view.findViewById(R.id.recyclerview_id);
         btnSeleccionarMaquinaZona = view.findViewById(R.id.btnSeleccionarMaquina);
@@ -223,6 +236,7 @@ public class FragmentoMaquinas extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
+                params.put("StrUsuario", sesion_usuario_id);
                 return params;
             }
         };
