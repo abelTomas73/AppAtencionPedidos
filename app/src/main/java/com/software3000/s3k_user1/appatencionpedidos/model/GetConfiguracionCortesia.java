@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetConfiguracionCortesia {
 
-    @SerializedName("codCortesiaConfiguracion")
+    @SerializedName("respuesta")
     @Expose
     private boolean respuesta;
 
@@ -26,7 +26,7 @@ public class GetConfiguracionCortesia {
         this.mensaje = mensaje;
     }
 
-    public boolean isRespuesta() {
+    public boolean getRespuesta() {
         return respuesta;
     }
 

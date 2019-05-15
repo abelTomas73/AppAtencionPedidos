@@ -37,6 +37,12 @@ public class CortesiaPedido {
     @SerializedName("fechaRegistro")
     @Expose
     private String fechaRegistro;
+
+    @SerializedName("fechaRegistroDetalle")
+    @Expose
+    private String fechaRegistroDetalle;
+
+
     @SerializedName("FechaAtencion")
     @Expose
     private String fechaAtencion;
@@ -160,6 +166,15 @@ public class CortesiaPedido {
 
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+
+    public String getFechaRegistroDetalle() {
+        return fechaRegistroDetalle;
+    }
+
+    public void setFechaRegistroDetalle(String fechaRegistroDetalle) {
+        this.fechaRegistroDetalle = fechaRegistroDetalle;
     }
 
     public Object getFechaAtencion() {

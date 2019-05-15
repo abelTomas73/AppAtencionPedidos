@@ -21,10 +21,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.GsonBuilder;
 import com.software3000.s3k_user1.appatencionpedidos.R;
+import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaPedido;
+import com.software3000.s3k_user1.appatencionpedidos.model.GetConfiguracionCortesia;
 import com.software3000.s3k_user1.appatencionpedidos.model.MaquinaZona;
+import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.software3000.s3k_user1.appatencionpedidos.utils.Utils;
@@ -35,7 +40,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,22 +73,16 @@ public class FragmentoMaquinas extends Fragment {
     private SessionManager session;
     private String sesion_usuario_id;
 
+    private List<CortesiaPedido>cortesiaPedidosPendientesList;
+
+    boolean invalidarPedidoDeMaquinaElegida=false;
+    GetConfiguracionCortesia getConfiguracionCortesia= new GetConfiguracionCortesia();
+
     public FragmentoMaquinas() {
         // Required empty public constructor
     }
 
-    private void poblarMaquinaZonas() {
-        maquinaList = new ArrayList<>();
-        maquinaList.add(new MaquinaZona("1","MAQ-1","2","1","3"));
-        maquinaList.add(new MaquinaZona("2","MAQ-2","2","1","2"));
-        maquinaList.add(new MaquinaZona("3","MAQ-4","1","3","3"));
-        maquinaList.add(new MaquinaZona("4","MAQ-3","3","3","3"));
-        maquinaList.add(new MaquinaZona("5","MAQ-6","2","2","1"));
-        maquinaList.add(new MaquinaZona("6","MAQ-7","3","1","2"));
-        maquinaList.add(new MaquinaZona("7","MAQ-8","1","1","2"));
-        maquinaList.add(new MaquinaZona("8","MAQ-9","1","3","3"));
 
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,18 +117,26 @@ public class FragmentoMaquinas extends Fragment {
         btnSeleccionarMaquinaZona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                servicioPoblarListarCortesiaPedidoPendientes();
                 if (FragmentoMaquinas.MAQUINAELEGIDA==null){
 //                    Toast.makeText(getActivity(), "Eliga una Maquina", Toast.LENGTH_SHORT).show();
 //                    DynamicToast.makeError(getContext(), "Eliga una Maquina", Toast.LENGTH_LONG).show();
                     Toasty.error(getContext(), "Eliga una Maquina.", Toast.LENGTH_SHORT, true).show();
-                }else{
-                    Fragment fragment = new FragmentoCategoriasProductos();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contenedor_principal, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-
+                }else {
+                    GetConfiguracionCortesia();
                 }
+//                if (FragmentoMaquinas.MAQUINAELEGIDA==null){
+////                    Toast.makeText(getActivity(), "Eliga una Maquina", Toast.LENGTH_SHORT).show();
+////                    DynamicToast.makeError(getContext(), "Eliga una Maquina", Toast.LENGTH_LONG).show();
+//                    Toasty.error(getContext(), "Eliga una Maquina.", Toast.LENGTH_SHORT, true).show();
+//                }else{
+//                    Fragment fragment = new FragmentoCategoriasProductos();
+//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.contenedor_principal, fragment);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
+//
+//                }
 
             }
         });
@@ -176,6 +187,189 @@ public class FragmentoMaquinas extends Fragment {
         recyclerview_id.setLayoutManager(manager);
         recyclerview_id.setAdapter(adaptador);
         return  view;
+    }
+    public void servicioPoblarListarCortesiaPedidoPendientes() {
+        cortesiaPedidosPendientesList = new ArrayList<>();
+
+        cortesiaPedidosPendientesList.clear();
+        String URls =  ObtenerIp()+"/Cortesias/ListarCortesiaPedidoPendientes";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsondata = jsonObject.getJSONArray("data");
+                            Gson gson = new Gson();
+
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject2 = jsondata.getJSONObject(i);
+                                CortesiaPedido cortesiapedido = new CortesiaPedido();
+                                cortesiapedido= gson.fromJson(jsonObject2.toString(), CortesiaPedido.class);
+                                cortesiaPedidosPendientesList.add(cortesiapedido);
+                            }
+                            callbackvalidarMaquinaElegidayOcupada(cortesiaPedidosPendientesList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+        //AppSin
+        VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
+
+    }
+
+    public void GetConfiguracionCortesia() {
+
+        //cortesiaPedidosPendientesList.clear();
+        String URls =  ObtenerIp()+"/Cortesias/GetConfiguracionCortesia";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            String errormensaje =jsonObject.getString("mensaje");
+                            Gson gson = new Gson();
+
+                            getConfiguracionCortesia= gson.fromJson(jsonObject.toString(), GetConfiguracionCortesia.class);
+                            callbackfuncionConfiguracionTiempoCortesiaActivadoEnviarDatos(getConfiguracionCortesia.getRespuesta());
+//                            if (getConfiguracionCortesia.getRespuesta()) {
+//
+//
+//                                invalidarPedidoDeMaquinaElegida=true;
+//
+//                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("cortesiaConfiguracionId", "1");
+                return params;
+            }
+        };
+
+        //VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+        //AppSin
+        VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
+
+    }
+    public void callbackfuncionConfiguracionTiempoCortesiaActivadoEnviarDatos(boolean tiempoConfiguracionEstaActivo){
+        if (tiempoConfiguracionEstaActivo){
+            servicioPoblarListarCortesiaPedidoPendientes();
+        }else {
+                Fragment fragment = new FragmentoCategoriasProductos();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.contenedor_principal, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+        }
+    }
+    public void callbackvalidarMaquinaElegidayOcupada(List<CortesiaPedido> pedidoList){
+        CortesiaPedido cortesiaPedidoSeleccionado = new CortesiaPedido();
+        //servicioPoblarListarCortesiaPedidoPendientes();
+        boolean maquinaOcupada=false;
+        for (int i = 0; i < pedidoList.size(); i++) {
+            if(pedidoList.get(i).getCodMaq().equals( FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()) ){
+                cortesiaPedidoSeleccionado.setFechaRegistro(pedidoList.get(i).getFechaRegistro());
+                cortesiaPedidoSeleccionado.setCodMaq(pedidoList.get(i).getCodMaq());
+                cortesiaPedidoSeleccionado.setFechaRegistroDetalle(pedidoList.get(i).getFechaRegistroDetalle());
+                maquinaOcupada=true;
+            }
+
+        }
+        Date dtIn = null;
+        if(maquinaOcupada){
+            //2019-05-14 13:50:33
+//            SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat inFormat;
+            inFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                dtIn = inFormat.parse(cortesiaPedidoSeleccionado.getFechaRegistroDetalle());
+
+                String asf="";
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar now = Calendar.getInstance();
+            Calendar fechaPedido = Calendar.getInstance();
+
+            fechaPedido.setTime(dtIn);
+
+            int tiemppoRestaAntes= fechaPedido.get(Calendar.MINUTE);
+            fechaPedido.add(Calendar.MINUTE, getConfiguracionCortesia.getTiempoAtencion().getTipo());
+
+            int tiemppoRestaDespues= fechaPedido.get(Calendar.MINUTE);
+
+
+            if ( now.after(fechaPedido) ){
+                Fragment fragment = new FragmentoCategoriasProductos();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.contenedor_principal, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+            else {
+                Toast.makeText(getContext(), "Maquina Ocupada", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }else{
+            Fragment fragment = new FragmentoCategoriasProductos();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.contenedor_principal, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
     public String ObtenerIp(){
 

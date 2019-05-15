@@ -68,8 +68,8 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         cortesiaPedidosPendientesList= new ArrayList<>();
         cortesiaPedidosPendientesList.clear();
 
-        servicioPoblarListarCortesiaPedidoPendientes();
-
+        //servicioPoblarListarCortesiaPedidoPendientes();
+        //GetConfiguracionCortesia();
 
     }
     public void updateSearchedList() {
@@ -117,7 +117,10 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
                                 CortesiaPedido cortesiapedido = new CortesiaPedido();
                                 cortesiapedido= gson.fromJson(jsonObject2.toString(), CortesiaPedido.class);
                                 cortesiaPedidosPendientesList.add(cortesiapedido);
+
+
                             }
+                            setearValorPeticion(cortesiaPedidosPendientesList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -206,7 +209,9 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         VolleySingleton.getInstance(mContext).addToRequestQueue(stringRequest);
 
     }
-
+    public void setearValorPeticion(List<CortesiaPedido> seteararray){
+        cortesiaPedidosPendientesList.addAll(seteararray);
+    }
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final MaquinaZona maquinaE = mDataMaquinaZona.get(position);
@@ -216,52 +221,12 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         holder.img_MaquinaZona_thumbnail.setImageResource(R.drawable.maquinas);
 
 
-
+        //GetConfiguracionCortesia();
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean maquinaOcupada= false;
 
-
-                pedidosComparar = new ArrayList<>();
-
-                for (int i = 0; i < cortesiaPedidosPendientesList.size(); i++) {
-                    if(cortesiaPedidosPendientesList.get(i).getCodMaq().equals( maquinaE.getCodMaq()) ){
-                        cortesiaPedidoSeleccionado.setFechaRegistro(cortesiaPedidosPendientesList.get(i).getFechaRegistro());
-                        maquinaOcupada=true;
-                    }
-
-                }
-                GetConfiguracionCortesia();
-
-                //pedidosComparar.addAll(cortesiaPedidosPendientesList);
-                if (invalidarPedidoDeMaquinaElegida){
-
-                    Calendar now = Calendar.getInstance();
-
-                    now = Calendar.getInstance();
-                    now.add(Calendar.MINUTE, -getConfiguracionCortesia.getTiempoAtencion().getTipo());
-                    int tiemppoResta= now.get(Calendar.MINUTE);
-                    if (tiemppoResta>0){
-
-                        sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
-
-                        GsonBuilder builder = new GsonBuilder();
-                        Gson gson = builder.create();
-
-                        FragmentoMaquinas.MAQUINAELEGIDA = maquinaE;
-                        sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
-                        Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
-
-
-                        row_index=position;
-                        notifyDataSetChanged();
-                    }else{
-                        Toast.makeText(mContext, "Maquina Ocupada", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }else {
                     sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
 
                     GsonBuilder builder = new GsonBuilder();
@@ -276,7 +241,7 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
                     row_index=position;
                     notifyDataSetChanged();
-                }
+
 
 
             }
