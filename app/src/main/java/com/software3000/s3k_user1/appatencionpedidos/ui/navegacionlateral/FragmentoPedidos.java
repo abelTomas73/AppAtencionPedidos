@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.software3000.s3k_user1.appatencionpedidos.R;
+import com.software3000.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaPedido;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
@@ -52,6 +53,9 @@ public class FragmentoPedidos extends Fragment {
     SearchView mSearchView;
     List<CortesiaPedido> cortesiaPedidosPendientesList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SessionManager session;
+    private String sesion_usuario;
+    private String sesion_usuario_id;
 
     public FragmentoPedidos() {
         // Required empty public constructor
@@ -73,6 +77,13 @@ public class FragmentoPedidos extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_pedidos, container, false);
         //poblarPedidosPorTraer();
         reciclador =  view.findViewById(R.id.reciclador_pedidos);
+
+        session = new SessionManager(getActivity().getApplicationContext());
+        session.checkLogin();
+
+        HashMap<String, String> user = session.getUserDetails();
+        sesion_usuario = user.get(SessionManager.KEY_USUARIO_NOMBRE);
+        sesion_usuario_id = user.get(SessionManager.KEY_USUARIO_ID);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -157,7 +168,7 @@ public class FragmentoPedidos extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                //params.put("fIsla", String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla()));
+                params.put("usuarioRegistroId", sesion_usuario_id);
                 return params;
             }
         };

@@ -33,6 +33,7 @@ import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.SessionManager;
 import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaAtencion;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
@@ -44,7 +45,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -143,7 +146,8 @@ private NavigationView navigationView;
 
 //                    JSONArray datosArray = new JSONArray(response);
                     jsondata = jsonObject.getJSONArray("data");
-
+                    List<CortesiaAtencion> cortesiaAtencions = new ArrayList<>();
+                    
                     if (jsondata.length()!=0){
                         Toast.makeText(getApplicationContext(), "Tiene Pedidos por Recoger", Toast.LENGTH_SHORT).show();
                         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
