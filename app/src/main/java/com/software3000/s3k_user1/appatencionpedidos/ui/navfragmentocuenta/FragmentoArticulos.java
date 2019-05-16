@@ -62,7 +62,8 @@ public class FragmentoArticulos extends Fragment {
     private List<CortesiaCombo> cortesiaComboList;
 
     private RecyclerView recyclerview_id;
-
+    public static String CATEGORIA_IDTIPO;
+    public static String CATEGORIA_NOMBRE;
     //parametrso
     String categoria_idtipo="";
     public FragmentoArticulos() {
@@ -90,8 +91,10 @@ public class FragmentoArticulos extends Fragment {
         //poblarArticulos();
 
         categoria_idtipo = getArguments().getString("categoria_idtipo");
-        String categoria_nombre = getArguments().getString("categoria_nombre");
+        CATEGORIA_IDTIPO=categoria_idtipo;
 
+        String categoria_nombre = getArguments().getString("categoria_nombre");
+        CATEGORIA_NOMBRE=categoria_nombre;
         reciclador = view.findViewById(R.id.reciclador);
 
         textZonasIslasMaquinasCategorias = view.findViewById(R.id.textZonasIslasMaquinasCategorias);

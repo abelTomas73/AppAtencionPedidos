@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +46,7 @@ import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoArticulos;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
 import com.software3000.s3k_user1.appatencionpedidos.utils.Utils;
 
@@ -319,10 +324,13 @@ public class CheckoutActivity extends AppCompatActivity {
                                 mAdapter.notifyDataSetChanged();
 
                                 mShared.deleteAllProductsFromTheCart();
+                                mShared.addProductCount(0);
                                 mostrarImagenCarritoVacion();
                                 //Utils.setBadgeCount(FragmentoInicio.viewfragmentcontext, FragmentoInicio.icon, 0);
+//                                invalidateOptionsMenu();
+
+
                                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
-                                //invalidateOptionsMenu();
 
                             } else {
                                 //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
