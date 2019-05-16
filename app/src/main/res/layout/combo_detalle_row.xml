@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/textview_pedido_product_nombre"
+        android:layout_width="match_parent"
+        android:text="Detalle 1"
+        android:textColor="@color/primaryDarkColor"
+        android:layout_height="wrap_content"
+
+
+        android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/tipo_detalle"
+
+        android:layout_width="match_parent"
+        android:text="Detalle 2"
+        android:textColor="@color/primaryColor"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+</LinearLayout>

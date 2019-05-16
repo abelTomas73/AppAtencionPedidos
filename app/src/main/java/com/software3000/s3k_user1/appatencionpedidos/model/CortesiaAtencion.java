@@ -9,9 +9,20 @@ public class CortesiaAtencion {
     @SerializedName("codCortesiaAtencion")
     @Expose
     private String codCortesiaAtencion;
+
     @SerializedName("CodMaq")
     @Expose
     private String codMaq;
+
+    @SerializedName("Codzona")
+    @Expose
+    private String Codzona;
+
+    @SerializedName("codisla")
+    @Expose
+    private String codisla;
+
+
     @SerializedName("UsuarioRegistroID")
     @Expose
     private String usuarioRegistroID;
@@ -84,6 +95,22 @@ public class CortesiaAtencion {
         this.fechaRegistro = fechaRegistro;
         this.fechaAtencion = fechaAtencion;
         this.fechaTermino = fechaTermino;
+    }
+
+    public String getCodzona() {
+        return Codzona;
+    }
+
+    public void setCodzona(String codzona) {
+        Codzona = codzona;
+    }
+
+    public String getCodisla() {
+        return codisla;
+    }
+
+    public void setCodisla(String codisla) {
+        this.codisla = codisla;
     }
 
     public String getCodCortesiaAtencion() {

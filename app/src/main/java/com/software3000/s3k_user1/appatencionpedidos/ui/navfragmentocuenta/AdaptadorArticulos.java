@@ -2,6 +2,7 @@ package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.FloatRange;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -117,50 +118,50 @@ public class AdaptadorArticulos
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.precio.setText(item.getDescripcion());
 
+
+        if ( item.getEstadoTurnoValido()==0){
+            //viewHolder.imagen.getResources().getColor(R.color.transparent);
+            viewHolder.imagen.setAlpha(0.4f);
+        }else {
+            viewHolder.imagen.setAlpha(1.0f);
+        }
         viewHolder.agregar_item_al_carrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),  viewHolder.nombre.getText() +" agregado al Pedido", Toast.LENGTH_SHORT).show();
+                if (item.getEstadoTurnoValido()==1){
+                    Toast.makeText(v.getContext(),  viewHolder.nombre.getText() +" agregado al Pedido", Toast.LENGTH_SHORT).show();
 
-//
-//                Menu menu;
-//                menu = ActividadPrincipal.menuclasprincipal;
-//                MenuItem item = menu.findItem(R.id.action_carrito);
-//
-//                // Obtener drawable del item
-//                LayerDrawable icon = (LayerDrawable) item.getIcon();
-//
-//                aumentar++;
-//                // Actualizar el contador
-//                Utils.setBadgeCount(v.getContext(), icon, aumentar);
+                    sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
 
-                sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+                    String stringObjectRepresentation = gson.toJson(item);
+                    final CortesiaProductos singleProduct = gson.fromJson(stringObjectRepresentation, CortesiaProductos.class);
 
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-                String stringObjectRepresentation = gson.toJson(item);
-                final CortesiaProductos singleProduct = gson.fromJson(stringObjectRepresentation, CortesiaProductos.class);
+                    String productsFromCart = sharedPreference.retrieveProductFromCart();
+                    if(productsFromCart.equals("")){
+                        List<CortesiaProductos> cartProductList = new ArrayList<CortesiaProductos>();
+                        cartProductList.add(singleProduct);
+                        String cartValue = gson.toJson(cartProductList);
+                        sharedPreference.addProductToTheCart(cartValue);
+                        cartProductNumber = cartProductList.size();
+                    }else{
+                        String productsInCart = sharedPreference.retrieveProductFromCart();
+                        CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
 
-                String productsFromCart = sharedPreference.retrieveProductFromCart();
-                if(productsFromCart.equals("")){
-                    List<CortesiaProductos> cartProductList = new ArrayList<CortesiaProductos>();
-                    cartProductList.add(singleProduct);
-                    String cartValue = gson.toJson(cartProductList);
-                    sharedPreference.addProductToTheCart(cartValue);
-                    cartProductNumber = cartProductList.size();
+                        List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
+                        allNewProduct.add(singleProduct);
+                        String addAndStoreNewProduct = gson.toJson(allNewProduct);
+                        sharedPreference.addProductToTheCart(addAndStoreNewProduct);
+                        cartProductNumber = allNewProduct.size();
+                    }
+
+                    sharedPreference.addProductCount(cartProductNumber);
+                    ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
                 }else{
-                    String productsInCart = sharedPreference.retrieveProductFromCart();
-                    CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
-
-                    List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
-                    allNewProduct.add(singleProduct);
-                    String addAndStoreNewProduct = gson.toJson(allNewProduct);
-                    sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-                    cartProductNumber = allNewProduct.size();
+                    Toast.makeText(v.getContext(),  "Producto "+item.getNombre()+" no apto en este turno", Toast.LENGTH_SHORT).show();
                 }
 
-                sharedPreference.addProductCount(cartProductNumber);
-                ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
                 //invalidateCart();
             }
         });

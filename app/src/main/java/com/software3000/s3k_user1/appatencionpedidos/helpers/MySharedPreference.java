@@ -78,7 +78,8 @@ public class MySharedPreference {
 
 
     public void deleteAllProductsFromTheCart( ){
-        prefs.edit().clear().commit();
+        //prefs.edit().clear().apply();
+        prefs.edit().remove(Constants.PRODUCT_ID).apply();
     }
 
     public void deleteProductfromTheCart(String product){

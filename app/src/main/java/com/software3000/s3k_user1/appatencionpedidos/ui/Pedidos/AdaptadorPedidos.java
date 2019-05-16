@@ -1,11 +1,13 @@
 package com.software3000.s3k_user1.appatencionpedidos.ui.Pedidos;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +25,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
-import com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity;
+import com.software3000.s3k_user1.appatencionpedidos.model.ComboDetalle;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaPedido;
+import com.software3000.s3k_user1.appatencionpedidos.model.ListaPedido;
+import com.software3000.s3k_user1.appatencionpedidos.model.ListadoAnfitrionasPedidos;
 import com.software3000.s3k_user1.appatencionpedidos.model.Login;
 import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +49,9 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
     private List<CortesiaPedido> mDataCortesiaPedido ;
 
     private List<CortesiaPedido> mDataCortesiaPedidoListFull;
+    private List<ComboDetalle> ComboDetallesList;
+    private List<ListadoAnfitrionasPedidos> listadoAnfitrionasPedidosList;
+    private List<ListaPedido> listaPedidoList;
     private int row_index=-1;
     View view ;
     private MySharedPreference sharedPreference;
@@ -78,6 +84,146 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         return productHolder;
     }
 
+    public void ListarCombosxCodCombo() {
+        ComboDetallesList = new ArrayList<>();
+        ComboDetallesList.clear();
+
+//        ListarCombosxCodCombo?codCombo=4
+        String URls =  ObtenerIp()+"/Cortesias/ListarCombosxCodCombo";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsondata = jsonObject.getJSONArray("data");
+                            Gson gson = new Gson();
+
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject2 = jsondata.getJSONObject(i);
+                                ComboDetalle comboDetalle = new ComboDetalle();
+
+                                comboDetalle= gson.fromJson(jsonObject2.toString(), ComboDetalle.class);
+
+                                ComboDetallesList.add(comboDetalle);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //progressDialog.dismiss();
+                        //swipeRefreshLayout.setRefreshing(false);
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("codCombo", String.valueOf(2));
+                return params;
+            }
+        };
+        //AppSin
+        VolleySingleton.getInstance(mContext).addToRequestQueue(stringRequest);
+
+    }
+
+    public void ListadoAnfitrionasPedidos(final int codCortePedido) {
+
+        listadoAnfitrionasPedidosList.clear();
+
+//        ListarCombosxCodCombo?codCombo=4
+        String URls =  ObtenerIp()+"/Cortesias/ListadoAnfitrionasPedidos";
+
+        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        progressBar.setVisibility(View.GONE);
+//                        progressDialog.dismiss();
+
+                        JSONArray jsondata=null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsondata = jsonObject.getJSONArray("data");
+                            Gson gson = new Gson();
+
+
+                            for (int i = 0; i < jsondata.length(); i++) {
+                                JSONObject jsonObject2 = jsondata.getJSONObject(i);
+                                ListadoAnfitrionasPedidos anfitrionasPedidos = new ListadoAnfitrionasPedidos();
+                                ListaPedido pedido = new ListaPedido();
+                                anfitrionasPedidos= gson.fromJson(jsonObject2.toString(), ListadoAnfitrionasPedidos.class);
+                                if (anfitrionasPedidos.getCodPedido()==codCortePedido){
+
+                                    listadoAnfitrionasPedidosList.add(anfitrionasPedidos);
+
+                                    listaPedidoList =anfitrionasPedidos.getListaPedido();
+                                    openDialog();
+                                }
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //progressDialog.dismiss();
+                        //swipeRefreshLayout.setRefreshing(false);
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//
+//                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
+//                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //params.put("codCombo", String.valueOf(2));
+                return params;
+            }
+        };
+        //AppSin
+        VolleySingleton.getInstance(mContext).addToRequestQueue(stringRequest);
+
+    }
+    public void openDialog() {
+        RecyclerView reciclador;
+        Dialog myDialogIP = new Dialog(mContext);
+        //myDialogIP = new Dialog(LoginActivity.this);
+        myDialogIP.setContentView(R.layout.dialog_detallescombos);
+//        CargarReferenciaIp();
+
+        reciclador =  myDialogIP.findViewById(R.id.pedidosdetalleslist);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        reciclador.setLayoutManager(layoutManager);
+        AdaptadorPedidosDetalles adaptador = new AdaptadorPedidosDetalles(mContext, listaPedidoList);
+
+        reciclador.setAdapter(adaptador);
+        myDialogIP.show();
+    }
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final CortesiaPedido pedidoE = mDataCortesiaPedido.get(position);
@@ -91,14 +237,13 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
             public void onClick(View v) {
                 sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
 
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-
-//                FragmentoMaquinas.MAQUINAELEGIDA = pedidoE;
-//                sharedPreference.guardarPreferenciaCortesiaPedido(FragmentoMaquinas.MAQUINAELEGIDA);
-//                Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
+                listadoAnfitrionasPedidosList = new ArrayList<>();
+                listaPedidoList = new ArrayList<>();
+                ListadoAnfitrionasPedidos(pedidoE.getCodCortesiaPedido());
                 row_index=position;
                 notifyDataSetChanged();
+
+
 
             }
         });

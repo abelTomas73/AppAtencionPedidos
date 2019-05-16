@@ -37,10 +37,13 @@ import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
 
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiasProductosAtencion;
 import com.software3000.s3k_user1.appatencionpedidos.model.MaquinaZona;
+import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta.FragmentoIslas;
+import com.software3000.s3k_user1.appatencionpedidos.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,15 +139,14 @@ public class CheckoutActivity extends AppCompatActivity {
 //        addCartCombos = gson.fromJson(mShared.retrieveComboFromCart(), CortesiaCombo[].class);
 
 
-        if (addCartProducts==null || addCartProducts.length==0){
-            checkout_list_layout.setGravity(Gravity.CENTER);
+        if (addCartProducts==null){
+            mostrarImagenCarritoVacion();
 
-            imagen_carrito_vacio.setVisibility(View.VISIBLE);
-            texto_carrito_vacio.setVisibility(View.VISIBLE);
-            checkRecyclerView.setVisibility(View.GONE);
 
-            return;
         }
+        else {
+
+
         //if (addCartProducts==null) return;
 
         session = new SessionManager(getApplicationContext());
@@ -178,8 +180,9 @@ public class CheckoutActivity extends AppCompatActivity {
         atencion.setCodTurno("1");
         atencion.setCodSala(sesion_sala_id);
         atencion.setCodEmpresa(sesion_empresa_id);
-
-
+        atencion.setCodzona(maquinaZona.getCodZona());
+        atencion.setCodisla( String.valueOf(FragmentoIslas.ISLAELEGIDA.getCodIsla() )) ;
+//Codzona y codisla
         atencion.setEstado("0");
         String PreferenciaEmpresaSalaMaquina ="Sala: "+atencion.getCodSala() +
                 "  Empresa: "+atencion.getCodEmpresa()+
@@ -196,19 +199,26 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
         //subTotal.setText("Subtotal : " +  "$ " + df2.format(mSubTotal ));
-
+        }
 
         Button checkButton = (Button)findViewById(R.id.checkout);
-        assert checkButton != null;
+        //assert checkButton != null;
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //MySharedPreference sharedPreference = new MySharedPreference(getBaseContext());
+
                 GuardarCortesiaAtencion();
             }
         });
     }
+    private void mostrarImagenCarritoVacion(){
+        checkout_list_layout.setGravity(Gravity.CENTER);
 
+        imagen_carrito_vacio.setVisibility(View.VISIBLE);
+        texto_carrito_vacio.setVisibility(View.VISIBLE);
+        checkRecyclerView.setVisibility(View.GONE);
+    }
     private List<CortesiaProductos> convertObjectArrayToListObject(CortesiaProductos[] allProducts){
         List<CortesiaProductos> mProduct = new ArrayList<CortesiaProductos>();
         Collections.addAll(mProduct, allProducts);
@@ -248,7 +258,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
     public void GuardarCortesiaAtencion() {
         addCartProductsActualizadosGuardar = gson.fromJson(mShared.retrieveProductFromCart(), CortesiaProductos[].class);
-        if (addCartProductsActualizadosGuardar.length==0) {
+        if (addCartProductsActualizadosGuardar==null) {
             Snackbar.make(vista, "No hay Productos", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
@@ -297,21 +307,26 @@ public class CheckoutActivity extends AppCompatActivity {
                             if (response.getBoolean("respuesta")) {
 
                                 //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG).show();
 
 
                                 //Intent intentPantalla = new Intent(LoginActivity.this,ActividadPrincipal.class);
                                 //startActivity(intentPantalla);
+                                //mAdapter.notify();
+//                                mAdapter.notifyItemRangeRemoved(0, productList.size());
+
+                                productList.clear();
+                                mAdapter.notifyDataSetChanged();
 
                                 mShared.deleteAllProductsFromTheCart();
-                                mAdapter.notifyDataSetChanged();
+                                mostrarImagenCarritoVacion();
+                                //Utils.setBadgeCount(FragmentoInicio.viewfragmentcontext, FragmentoInicio.icon, 0);
                                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
+                                //invalidateOptionsMenu();
 
                             } else {
                                 //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                Snackbar.make(vista, response.getString("mensaje"), Snackbar.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {

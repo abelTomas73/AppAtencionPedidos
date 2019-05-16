@@ -38,6 +38,11 @@ public class CortesiaProductos {
     @Expose
     private int estado;
 
+    @SerializedName("estadoTurnoValido")
+    @Expose
+    private int estadoTurnoValido;
+
+
     @SerializedName("nombreArchivo")
     @Expose
     private String nombreArchivo;
@@ -49,6 +54,14 @@ public class CortesiaProductos {
      *
      */
     public CortesiaProductos() {
+    }
+
+    public int getEstadoTurnoValido() {
+        return estadoTurnoValido;
+    }
+
+    public void setEstadoTurnoValido(int estadoTurnoValido) {
+        this.estadoTurnoValido = estadoTurnoValido;
     }
 
     public CortesiaProductos(int codCortesiaProductos, int codCortesiaTipo, int codCortesiaSubTipo, int usuarioID, String nombre, String nombreTipo, String nombreSubTipo, String descripcion, String fechaRegistro, int estado, String nombreArchivo, String archivo64String) {
