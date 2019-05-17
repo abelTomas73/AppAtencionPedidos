@@ -104,7 +104,7 @@ private NavigationView navigationView;
     public void seguirPeticiciones() {
 
         final Handler handler = new Handler();
-        Timer timer = new Timer(false);
+        final Timer timer = new Timer(false);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -112,7 +112,12 @@ private NavigationView navigationView;
                     @Override
                     public void run() {
                         //estado 2 por recoger
-                        peticiconesServicioPedidosPorRecoger("2");
+                        if (session.isLoggedIn()){
+                            peticiconesServicioPedidosPorRecoger("2");
+                        }else{
+                            timer.cancel();
+                        }
+
 
                     }
                 });
@@ -129,10 +134,11 @@ private NavigationView navigationView;
         String ip =sharedPreferences.getString("ip","");
         return ip ;
     }
+
     public void peticiconesServicioPedidosPorRecoger(final String estado){
 
-        //String URls = "http://192.168.1.37:1234/api/ApiAutorizacion/MaquinaSinClienteList";
-
+        //la lista  tambien  eenvio la sessionid del usuario para encuentre si tiene
+        //pedidos para recoger solo  por ese usuario
         String URls =  ObtenerIp()+"/Cortesias/ListarCortesiaPedidoPendientesPorEstado";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URls, new com.android.volley.Response.Listener<String>() {
 
@@ -149,7 +155,7 @@ private NavigationView navigationView;
                     List<CortesiaAtencion> cortesiaAtencions = new ArrayList<>();
                     
                     if (jsondata.length()!=0){
-                        Toast.makeText(getApplicationContext(), "Tiene Pedidos por Recoger", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), sesion_usuario+" Tiene Pedidos por Recoger", Toast.LENGTH_SHORT).show();
                         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                         if (Build.VERSION.SDK_INT >= 26) {
                             vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -173,6 +179,7 @@ private NavigationView navigationView;
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("estado", estado);
+                params.put("usuarioRegistroId", sesion_id);
                 return params;
             }
         };

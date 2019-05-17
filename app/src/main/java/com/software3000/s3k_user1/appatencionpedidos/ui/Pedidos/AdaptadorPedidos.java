@@ -249,6 +249,8 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         });
 
         if(pedidoE.getEstado()==1){//pendientes
+            holder.btn_cancelarPedido.setVisibility(View.VISIBLE);
+            holder.btn_finalizarPedido.setVisibility(View.GONE);
 //            holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));
 ////            holder.tv_CortesiaPedido_title.setTextColor(Color.parseColor("#
 //            holder.tv_CortesiaPedido_title.setTypeface(Typeface.DEFAULT_BOLD);
@@ -260,6 +262,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         else if(pedidoE.getEstado()==2)//pedidos preparados
         {
             holder.btn_finalizarPedido.setVisibility(View.VISIBLE);
+            holder.btn_cancelarPedido.setVisibility(View.GONE);
 
             holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.btn_rounded_color));
 //            holder.tv_CortesiaPedido_title.setTextColor(Color.parseColor("#000000"));
@@ -276,12 +279,26 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
 //            1 pendientes
 //            2 por recoger
 //            3 finalizado
+            //4 cancelado
             public void onClick(View v) {
+
                 ActualizarEstadoCortesiaPedido(pedidoE.getCodCortesiaPedido(),3, holder);
 
             }
         });
 
+        holder.btn_cancelarPedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+//            1 pendientes
+//            2 por recoger
+//            3 finalizado
+            //4 cancelado
+            public void onClick(View v) {
+
+                ActualizarEstadoCortesiaPedido(pedidoE.getCodCortesiaPedido(),4, holder);
+
+            }
+        });
     }
 
     @Override
@@ -331,6 +348,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         ImageView img_CortesiaPedido_thumbnail;
         MaterialCardView cardView ;
         Button btn_finalizarPedido;
+        Button btn_cancelarPedido;
         public MyViewHolder(View itemView) {
             super(itemView);
 
@@ -339,6 +357,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
             img_CortesiaPedido_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_item_maquina);
             btn_finalizarPedido = itemView.findViewById(R.id.btn_finalizarPedido);
+            btn_cancelarPedido = itemView.findViewById(R.id.btn_cancelarPedido);
 //            cardView.getLayoutParams().width = width-200;
 
         }

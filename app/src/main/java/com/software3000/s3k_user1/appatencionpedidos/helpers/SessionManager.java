@@ -132,9 +132,24 @@ public class SessionManager {
      * */
     public void logoutUser(){
         // Clearing all data from Shared Preferences
-        editor.clear();
-        editor.commit();
+        editor.clear(); //comente esto
+//        prefs.edit().remove(Constants.PRODUCT_ID).apply();
 
+        editor.remove(IS_LOGIN).apply();
+        editor.remove(KEY_USUARIO_NOMBRE).apply();
+        editor.remove(KEY_EMPLEADO_ID).apply();
+        editor.remove(KEY_USUARIO_ID).apply();
+
+        editor.remove(KEY_USUARIO_EMPLEADO).apply();
+
+        editor.remove(KEY_USUARIO_CORREO).apply();
+
+        editor.remove(KEY_USUARIO_ROL).apply();
+        editor.remove(KEY_SALA).apply();
+        editor.remove(KEY_EMPRESA).apply();
+
+
+        //editor.commit(); //comente esto
         // After logout redirect user to Loing Activity
         Intent i = new Intent(_context, LoginActivity.class);
         // Closing all the Activities

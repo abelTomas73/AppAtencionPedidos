@@ -10,6 +10,7 @@
         <item
             android:id="@+id/item_cuenta"
             android:icon="@drawable/cuenta"
+            android:visible="false"
             android:title="@string/item_cuenta" />
         <item
             android:id="@+id/item_categorias"

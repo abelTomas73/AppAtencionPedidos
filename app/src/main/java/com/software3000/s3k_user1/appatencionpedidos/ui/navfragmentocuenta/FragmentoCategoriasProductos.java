@@ -48,11 +48,11 @@ public class FragmentoCategoriasProductos extends Fragment {
         COMIDAS_POPULARES.add(new Comida(2,12f, "Bocadito", R.drawable.rosca));
         COMIDAS_POPULARES.add(new Comida(3,9, "Postre", R.drawable.postre_vainilla));
         COMIDAS_POPULARES.add(new Comida(4,34f, "Bebidas Calientes", R.drawable.cafe));
-        COMIDAS_POPULARES.add(new Comida(5,5, "Bebidas Sin Alcohol", R.drawable.vino_tinto));
+        COMIDAS_POPULARES.add(new Comida(5,5, "Bebidas Sin Alcohol", R.drawable.coctel));
         COMIDAS_POPULARES.add(new Comida(6,5, "Jugo", R.drawable.jugo_natural));
         COMIDAS_POPULARES.add(new Comida(7,5, "Snacks", R.drawable.sushi));
-        COMIDAS_POPULARES.add(new Comida(8,5, "Bebidas Con Alcohol", R.drawable.coctel));
-        COMIDAS_POPULARES.add(new Comida(9,5, "Combos", R.drawable.food_combo));
+        COMIDAS_POPULARES.add(new Comida(8,5, "Bebidas Con Alcohol", R.drawable.coctel_jordano));
+        COMIDAS_POPULARES.add(new Comida(9,5, "Combos", R.drawable.camarones));
 
         //COMIDAS_POPULARES_COPIA.addAll(COMIDAS_POPULARES);
     }

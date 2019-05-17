@@ -320,17 +320,24 @@ public class CheckoutActivity extends AppCompatActivity {
                                 //mAdapter.notify();
 //                                mAdapter.notifyItemRangeRemoved(0, productList.size());
 
+                                checkout_comentarios.setText("");
                                 productList.clear();
                                 mAdapter.notifyDataSetChanged();
 
                                 mShared.deleteAllProductsFromTheCart();
                                 mShared.addProductCount(0);
                                 mostrarImagenCarritoVacion();
-                                //Utils.setBadgeCount(FragmentoInicio.viewfragmentcontext, FragmentoInicio.icon, 0);
 //                                invalidateOptionsMenu();
 
 
-                                ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
+//                                Fragment fragmentoGenerico = null;
+//                                fragmentoGenerico = new FragmentoInicio();
+//
+//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                                ft.replace(R.id.container, fragmentoGenerico);
+//                                ft.commit();
+
+//                                ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
 
                             } else {
                                 //Toast.makeText(getApplicationContext(), jsonObject.getString("mensaje"), Toast.LENGTH_SHORT).show();
