@@ -19,7 +19,7 @@ import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincip
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoCategorias;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.thekhaeng.pushdownanim.PushDownAnim;
+//import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,8 +53,8 @@ public class AdaptadorCategorias
 
             agregar_item_al_carrito = v.findViewById(R.id.agregar_item_al_carrito);
 
-            PushDownAnim.setPushDownAnimTo(agregar_item_al_carrito)
-                        .setScale(PushDownAnim.MODE_SCALE,0.89F);
+//            PushDownAnim.setPushDownAnimTo(agregar_item_al_carrito)
+//                        .setScale(PushDownAnim.MODE_SCALE,0.89F);
             nombre = (TextView) v.findViewById(R.id.nombre_comida);
             precio = (TextView) v.findViewById(R.id.precio_comida);
             imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
