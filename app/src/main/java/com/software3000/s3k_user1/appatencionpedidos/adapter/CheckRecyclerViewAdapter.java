@@ -246,7 +246,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
                 //sharedPreference.deleteProductfromTheCart(addAndStoreNewProduct);
 
-                Toast.makeText(context, "Item removido de la carta", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Item removido de la carta", Toast.LENGTH_LONG).show();
 
                 mProductObject.remove(holder.getAdapterPosition());
 

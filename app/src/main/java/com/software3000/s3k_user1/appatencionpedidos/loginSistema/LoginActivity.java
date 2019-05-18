@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -177,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText dialog_edt_ip = myDialogIP.findViewById(R.id.dialog_edt_ip);
 
         btnAprobarIP = myDialogIP.findViewById(R.id.btnAprobarIP);
+        myDialogIP.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialogIP.show();
         btnAprobarIP.setOnClickListener(new View.OnClickListener() {
             @Override

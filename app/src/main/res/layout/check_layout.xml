@@ -69,14 +69,21 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:clickable="true"
             android:id="@+id/remove_from_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
+            android:gravity="center"
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:text="Remover"
+            android:background="@drawable/border_remover"
+            android:paddingVertical="1dp"
+
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/item_remover"
+            android:fontFamily="@font/average_sans"
             />
     </LinearLayout>
 

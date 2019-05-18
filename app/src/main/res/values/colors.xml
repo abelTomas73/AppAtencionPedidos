@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Combiacion
+    https://coolors.co/export/pdf/50514f-f25f5c-ffe066-247ba0-70c1b3
 
+    https://coolors.co/browser/best/1
+    DARK LIVER
+    #50514F
 
+    SUNSET ORANGE
+    #F25F5C
 
+    MUSTARD
+    #FFE066
 
+    LAPIS LAZULI
+    #247BA0
 
+    GREEN SHEEN
+    #70C1B3
+    -->
+    <color name="c_darkliver">#50514F</color>
+    <color name="c_sunsetorange">#F25F5C</color>
+    <color name="c_mustard">#FFE066</color>
+    <color name="c_lapislazuli">#247BA0</color>
+    <color name="c_greensheen">#70C1B3</color>
+
+    <!--fin-->
     <color name="colorAppAtencionPedidos">#9F8F82</color>
 
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#1D3557</color>
     <color name="colorAccent">#9F8F82</color>
 
     <color name="bgBottomNavigation">#484848</color>
@@ -20,13 +41,13 @@
 
     <color name="window_background">#ffffff</color>
     <color name="primaryDarkColor">#323232</color>
-    <color name="primaryColor">#484848</color>
+    <color name="primaryColor">#2B2D42</color>
     <color name="accentColorAnterior">#ff5f5c</color>
-    <color name="accentColor">#f13f5d</color>
+    <color name="accentColor">#E63946</color>
     <color name="accentColor2">#F87652</color>
-    <color name="background_footer_item_grid_categorias">#90000000</color>
+    <color name="background_footer_item_grid_categorias">#2B2D42</color>
     <color name="color_light">#ffffff</color>
-    <color name="background_header_seccion_inicio">#4B4B4B</color>
+    <color name="background_header_seccion_inicio">#2B2D42</color>
 
     <color name="bgSearchBar">#edecec</color>
     <color name="color_descripcion">#bebebe</color>
