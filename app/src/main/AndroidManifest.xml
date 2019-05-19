@@ -33,6 +33,7 @@
             android:name="com.software3000.s3k_user1.appatencionpedidos.SettingsActivity"
             android:label="@string/app_name" />
         <activity
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:name="com.software3000.s3k_user1.appatencionpedidos.loginSistema.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity

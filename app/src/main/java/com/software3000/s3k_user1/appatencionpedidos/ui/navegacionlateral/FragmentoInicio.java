@@ -241,17 +241,6 @@ public class FragmentoInicio extends Fragment {
         return view;
     }
 
-    private void poblarZonas() {
-        zonaList = new ArrayList<>();
-        zonaList.add(new Zona("Zona 1"));
-        zonaList.add(new Zona("Zona 2"));
-        zonaList.add(new Zona("Zona 3"));
-        zonaList.add(new Zona("Zona 4"));
-        zonaList.add(new Zona("Zona 6"));
-        zonaList.add(new Zona("Zona 7"));
-        zonaList.add(new Zona("Zona 8"));
-        zonaList.add(new Zona("Zona 77"));
-    }
 
     public String ObtenerIp(){
 

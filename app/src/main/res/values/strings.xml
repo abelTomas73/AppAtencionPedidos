@@ -125,6 +125,7 @@
     <string name="sin_registro">sin registros</string>
     <string name="password">\@dm1nPJ</string>
     <string name="item_remover">Remover</string>
+    <string name="login_titulo_atencion">Atención de Pedidos</string>
 
 
     <string-array name="stepLabels">

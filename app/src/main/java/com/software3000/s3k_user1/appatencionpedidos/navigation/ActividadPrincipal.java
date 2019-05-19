@@ -240,30 +240,29 @@ private NavigationView navigationView;
 //                fragmentoGenerico = new FragmentoCuenta();
 //                item=1;
 //                break;
-            case R.id.item_categorias:
-                fragmentoGenerico = new FragmentoCategorias();
+//            case R.id.item_categorias:
+//                fragmentoGenerico = new FragmentoCategorias();
+//                item=1;
+//                break;
+            case R.id.item_pedidos:
+                fragmentoGenerico = new FragmentoPedidos();
                 item=1;
                 break;
-            case R.id.item_pedidos:
-
-                fragmentoGenerico = new FragmentoPedidos();
-                item=2;
-                break;
-            case R.id.item_productos:
-
-                fragmentoGenerico = new FragmentoProductos();
-                item=3;
-                break;
+//            case R.id.item_productos:
+//
+//                fragmentoGenerico = new FragmentoProductos();
+//                item=3;
+//                break;
             case R.id.item_cerrarsesion:
                 session.logoutUser();
                 Intent intent1 = new Intent(this,LoginActivity.class);
                 startActivity(intent1);
-                item=4;
+                item=2;
                 break;
 
             case R.id.item_configuracion:
                 startActivity(new Intent(this, ActividadConfiguracion.class));
-                item=5;
+                item=3;
                 break;
 
         }

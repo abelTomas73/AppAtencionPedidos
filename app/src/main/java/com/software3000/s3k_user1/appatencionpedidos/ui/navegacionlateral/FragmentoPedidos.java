@@ -56,6 +56,7 @@ public class FragmentoPedidos extends Fragment {
     private SessionManager session;
     private String sesion_usuario;
     private String sesion_usuario_id;
+    private View view;
 
     public FragmentoPedidos() {
         // Required empty public constructor
@@ -74,7 +75,7 @@ public class FragmentoPedidos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragmento_pedidos, container, false);
+        view = inflater.inflate(R.layout.fragmento_pedidos, container, false);
         //poblarPedidosPorTraer();
         reciclador =  view.findViewById(R.id.reciclador_pedidos);
 
