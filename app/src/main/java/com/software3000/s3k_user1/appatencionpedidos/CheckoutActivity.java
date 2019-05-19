@@ -1,6 +1,7 @@
 package com.software3000.s3k_user1.appatencionpedidos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -326,16 +327,13 @@ public class CheckoutActivity extends AppCompatActivity {
 
                                 mShared.deleteAllProductsFromTheCart();
                                 mShared.addProductCount(0);
+                                mShared.deleteAllProductCount();
                                 mostrarImagenCarritoVacion();
 //                                invalidateOptionsMenu();
 
 
-//                                Fragment fragmentoGenerico = null;
-//                                fragmentoGenerico = new FragmentoInicio();
-//
-//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                                ft.replace(R.id.container, fragmentoGenerico);
-//                                ft.commit();
+                                Intent checkoutIntent = new Intent(CheckoutActivity.this, ActividadPrincipal.class);
+                                startActivity(checkoutIntent);
 
 //                                ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
 

@@ -14,13 +14,16 @@
 
     <ImageView
         android:id="@+id/btnConfigurar"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_ip_circular"
         android:padding="10dp"
-        android:src="@drawable/connected" />
+        android:src="@drawable/connected"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -39,17 +42,18 @@
             android:id="@+id/r_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_marginTop="44dp">
 
             <ImageView
                 android:id="@+id/imagen_logo_splash_screen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_width="94dp"
+                android:layout_height="96dp"
+
+
                 android:layout_centerHorizontal="true"
-
-
-                android:layout_centerInParent="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="65dp"
                 android:adjustViewBounds="true"
                 android:foregroundGravity="center_vertical"
                 android:scaleType="fitCenter"

@@ -75,7 +75,10 @@ public class MySharedPreference {
     public int retrieveProductCount(){
         return prefs.getInt(Constants.PRODUCT_COUNT, 0);
     }
-
+    public void deleteAllProductCount( ){
+        //prefs.edit().clear().apply();
+        prefs.edit().remove(Constants.PRODUCT_COUNT).apply();
+    }
 
     public void deleteAllProductsFromTheCart( ){
         //prefs.edit().clear().apply();

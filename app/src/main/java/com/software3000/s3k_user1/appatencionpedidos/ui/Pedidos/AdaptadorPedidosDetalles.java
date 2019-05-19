@@ -115,11 +115,6 @@ public class AdaptadorPedidosDetalles extends RecyclerView.Adapter<AdaptadorPedi
 
         }
     }
-    public String ObtenerIp(){
 
-        SharedPreferences sharedPreferences =mContext.getSharedPreferences("Protocol", Context.MODE_PRIVATE);
-        String ip =sharedPreferences.getString("ip","");
-        return ip ;
-    }
 
 }

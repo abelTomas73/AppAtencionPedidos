@@ -82,19 +82,26 @@
 
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/btn_cancelarPedido"
                 android:visibility="gone"
-                android:text="Cancelar"
+                android:id="@+id/btn_cancelarPedido"
+                android:textSize="12sp"
+                android:text="Cancelar\nPedido"
+                android:textAllCaps="false"
                 android:backgroundTint="@color/color_descripcion"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                />
             <Button
                 android:id="@+id/btn_finalizarPedido"
                 android:visibility="gone"
-                android:text="Finalizar"
-                android:backgroundTint="@color/color_descripcion"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:text="Finalizar\nPedido"
+                android:textColor="@color/c_darkliver"
+                android:backgroundTint="@color/c_sunsetorange"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
     </LinearLayout>
 

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.card.MaterialCardView;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +57,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
     private int row_index=-1;
     View view ;
     private MySharedPreference sharedPreference;
+    private BottomSheetDialog dialog;
 
     public AdaptadorPedidos(Context mContext, List<CortesiaPedido> mDataCortesiaPedido) {
         this.mContext = mContext;
@@ -174,7 +177,8 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
                                     listadoAnfitrionasPedidosList.add(anfitrionasPedidos);
 
                                     listaPedidoList =anfitrionasPedidos.getListaPedido();
-                                    openDialog();
+//                                    openDialog();
+                                    showBottomSheetDialog();
                                 }
 
                             }
@@ -224,6 +228,37 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         myDialogIP.show();
     }
 
+    public void showBottomSheetDialog() {
+        View view = ((FragmentActivity)mContext).getLayoutInflater().inflate(R.layout.fragment_bottom_sheet, null);
+        TextView detallepedidos_productos ;
+        TextView detallepedidos_combos ;
+        String productostext="";
+        detallepedidos_productos= view.findViewById(R.id.detallepedidos_productos);
+        detallepedidos_combos= view.findViewById(R.id.detallepedidos_combos);
+        String combostext="";
+
+        for (ListaPedido pedido :
+                listaPedidoList) {
+            if (pedido.getTipoCortesia()==1){
+                combostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
+            }else{
+
+                productostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
+            }
+
+        }
+        detallepedidos_productos.setText(productostext);
+        detallepedidos_combos.setText(combostext);
+
+//        dialog = new BottomSheetDialog(mContext);
+//        dialog.setContentView(view);
+//        dialog.show();
+        if ((dialog == null) || !dialog.isShowing()){
+            dialog = new BottomSheetDialog(mContext); // initiate it the way you need
+            dialog.setContentView(view);
+            dialog.show();
+        }
+    }
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final CortesiaPedido pedidoE = mDataCortesiaPedido.get(position);
@@ -264,14 +299,14 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
             holder.btn_finalizarPedido.setVisibility(View.VISIBLE);
             holder.btn_cancelarPedido.setVisibility(View.GONE);
 
-            holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.btn_rounded_color));
+//            holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.btn_rounded_color));
 //            holder.tv_CortesiaPedido_title.setTextColor(Color.parseColor("#000000"));
             holder.tv_CortesiaPedido_title.setTypeface(Typeface.DEFAULT);
-            holder.tv_CortesiaPedido_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
+//            holder.tv_CortesiaPedido_title.setTextColor(ContextCompat.getColor(mContext,R.color.white));
 
             holder.descp_maquinas.setTypeface(Typeface.DEFAULT);
             holder.descp_maquinas.setText("Pedido Listo para Recoger");
-            holder.descp_maquinas.setTextColor(ContextCompat.getColor(mContext,R.color.white));
+//            holder.descp_maquinas.setTextColor(ContextCompat.getColor(mContext,R.color.white));
         }
 
         holder.btn_finalizarPedido.setOnClickListener(new View.OnClickListener() {
