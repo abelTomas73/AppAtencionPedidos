@@ -29,6 +29,9 @@ public class CortesiaCombo {
     @SerializedName("estado")
     @Expose
     private Integer estado;
+    @SerializedName("estadoTurnoValido")
+    @Expose
+    private Integer estadoTurnoValido;
 
     /**
      * No args constructor for use in serialization
@@ -58,6 +61,14 @@ public class CortesiaCombo {
         this.codProductos = codProductos;
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
+    }
+
+    public Integer getEstadoTurnoValido() {
+        return estadoTurnoValido;
+    }
+
+    public void setEstadoTurnoValido(Integer estadoTurnoValido) {
+        this.estadoTurnoValido = estadoTurnoValido;
     }
 
     public Integer getCodCortesiaCombo() {

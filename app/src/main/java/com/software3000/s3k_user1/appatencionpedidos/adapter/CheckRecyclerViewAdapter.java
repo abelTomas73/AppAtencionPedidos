@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.software3000.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
@@ -199,19 +200,36 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         final List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
 
         holder.quantity.setText("1");
-        if (!mProductObject.get(position).getArchivo64String().equals(""))
-        {
-            byte[] bytearray = Base64.decode(mProductObject.get(position).getArchivo64String(), 0);
-            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
-            Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
-            holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,192, false));
 
-        }else{
-            String tipo="0";
-            holder.imagen_product.setImageResource(R.drawable.ingredients);
+        if (proE.getArchivo64String()==null){
+//            RequestOptions requestOptions = new RequestOptions()
+//                    .fitCenter()
+//                    .placeholder(R.drawable.loading)
+//                    .centerInside()
+//                    .error(R.drawable.images_not_available)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .priority(Priority.HIGH)
+//                    .dontAnimate()
+//                    .dontTransform();
+
+            Glide.with(holder.itemView.getContext())
+                    .load(R.drawable.images_not_available)
+                    .into(holder.imagen_product);
+
+        }else {
+            if (!mProductObject.get(position).getArchivo64String().equals(""))
+            {
+                byte[] bytearray = Base64.decode(mProductObject.get(position).getArchivo64String(), 0);
+                ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
+                Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+                holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,192, false));
+
+            }else{
+                String tipo="0";
+                holder.imagen_product.setImageResource(R.drawable.ingredients);
+            }
+
         }
-
-
         holder.linear_producto_nombre_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -125,22 +125,22 @@ public class AdaptadorCortesiasCombo
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.precio.setText(item.getDescripcion());
 
+        if ( item.getEstadoTurnoValido()==1){
+            //viewHolder.imagen.getResources().getColor(R.color.transparent);
+            viewHolder.imagen.setAlpha(1.0f);
+            viewHolder.agregar_item_al_carrito.setText("Agregar al carrito");
+        }else {
+            viewHolder.imagen.setAlpha(0.4f);
+            viewHolder.agregar_item_al_carrito.setText("Combo no disponible en este turno");
+        }
+
         viewHolder.agregar_item_al_carrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (item.getEstadoTurnoValido()==1){
                 Toast.makeText(v.getContext(),  viewHolder.nombre.getText() +" agregado al Pedido", Toast.LENGTH_SHORT).show();
 
-//
-//                Menu menu;
-//                menu = ActividadPrincipal.menuclasprincipal;
-//                MenuItem item = menu.findItem(R.id.action_carrito);
-//
-//                // Obtener drawable del item
-//                LayerDrawable icon = (LayerDrawable) item.getIcon();
-//
-//                aumentar++;
-//                // Actualizar el contador
-//                Utils.setBadgeCount(v.getContext(), icon, aumentar);
 
                 sharedPreference = new MySharedPreference(ActividadPrincipal.contextoAcPrincipal);
 
@@ -181,6 +181,9 @@ public class AdaptadorCortesiasCombo
                 sharedPreference.addProductCount(cartProductNumber);
                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
                 //invalidateCart();
+                }else{
+                    Toast.makeText(v.getContext(),  "Combo "+item.getNombre()+" no apto en este turno", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

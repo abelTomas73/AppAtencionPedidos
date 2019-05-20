@@ -236,6 +236,7 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
                     sharedPreference.guardarPreferenciaMaquinaZona(FragmentoMaquinas.MAQUINAELEGIDA);
 
 //                Toast.makeText(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT).show();
+
                     Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
 
 

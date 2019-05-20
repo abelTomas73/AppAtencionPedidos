@@ -76,7 +76,9 @@ public class AdaptadorZonas extends RecyclerView.Adapter<AdaptadorZonas.MyViewHo
                 //FragmentoInicio.ZONAELEGIDA = new Zona();
                 FragmentoInicio.ZONAELEGIDA = zonaE;
 //                Toast.makeText(mContext, FragmentoInicio.ZONAELEGIDA.getCodZona()+" elegida", Toast.LENGTH_SHORT).show();
+
                 Toasty.success(mContext, FragmentoInicio.ZONAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT, true).show();
+
                 row_index=position;
                 notifyDataSetChanged();
 //                holder.cardView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_itemzona_selected));

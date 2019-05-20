@@ -2,8 +2,10 @@ package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.annotation.FloatRange;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -11,9 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
@@ -23,6 +30,7 @@ import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincip
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.software3000.s3k_user1.appatencionpedidos.utils.ColorTransparentUtils;
 //import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.ByteArrayInputStream;
@@ -46,13 +54,14 @@ public class AdaptadorArticulos
         public TextView precio;
         public ImageView imagen;
         public Button agregar_item_al_carrito;
-
+        public LinearLayout producto_seleccion;
 
 
         public ViewHolder(View v) {
             super(v);
             //sharedPreference = new MySharedPreference(v.getContext());
 
+            producto_seleccion = v.findViewById(R.id.producto_seleccion);
             agregar_item_al_carrito = v.findViewById(R.id.agregar_item_al_carrito);
 
 //            PushDownAnim.setPushDownAnimTo(agregar_item_al_carrito)
@@ -107,23 +116,44 @@ public class AdaptadorArticulos
 //                //.placeholder(R.drawable.load)
 //                .into(viewHolder.imagen);
 
-        byte[] bytearray = Base64.decode(item.getArchivo64String(), 0);
 
-        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
-        Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+        if (item.getArchivo64String()==null){
+//            RequestOptions requestOptions = new RequestOptions()
+//                    .fitCenter()
+//                    .placeholder(R.drawable.loading)
+//                    .centerInside()
+//                    .error(R.drawable.images_not_available)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .priority(Priority.HIGH)
+//                    .dontAnimate()
+//                    .dontTransform();
 
-        viewHolder.imagen.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,
-                192, false));
+            Glide.with(viewHolder.itemView.getContext())
+                    .load(R.drawable.images_not_available)
+                    .into(viewHolder.imagen);
 
+
+
+        }else {
+            byte[] bytearray = Base64.decode(item.getArchivo64String(), 0);
+            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
+            Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+            viewHolder.imagen.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,
+                    192, false));
+            viewHolder.imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.precio.setText(item.getDescripcion());
 
-
-        if ( item.getEstadoTurnoValido()==0){
+        if (item.getEstadoTurnoValido()==1){
             //viewHolder.imagen.getResources().getColor(R.color.transparent);
-            viewHolder.imagen.setAlpha(0.4f);
-        }else {
+            //viewHolder.producto_seleccion.getBackground().setAlpha(255);
             viewHolder.imagen.setAlpha(1.0f);
+            viewHolder.agregar_item_al_carrito.setText("Agregar al carrito");
+        }else if(item.getEstadoTurnoValido()==0){
+            //viewHolder.producto_seleccion.getBackground().setAlpha(127);
+            viewHolder.imagen.setAlpha(0.4f);
+            viewHolder.agregar_item_al_carrito.setText("Producto no disponible en este turno");
         }
         viewHolder.agregar_item_al_carrito.setOnClickListener(new View.OnClickListener() {
             @Override

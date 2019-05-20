@@ -61,7 +61,9 @@ public class AdaptadorIslas extends RecyclerView.Adapter<AdaptadorIslas.MyViewHo
             public void onClick(View v) {
                 FragmentoIslas.ISLAELEGIDA = islaE;
 //                Toast.makeText(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT).show();
+
                 Toasty.success(mContext, FragmentoIslas.ISLAELEGIDA.getNombre()+" elegida", Toast.LENGTH_SHORT, true).show();
+
                 row_index=position;
                 notifyDataSetChanged();
 
