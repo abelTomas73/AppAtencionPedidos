@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,7 +124,8 @@ public class FragmentoMaquinas extends Fragment {
 //                    DynamicToast.makeError(getContext(), "Eliga una Maquina", Toast.LENGTH_LONG).show();
                     Toasty.error(getContext(), "Eliga una Maquina.", Toast.LENGTH_SHORT, true).show();
                 }else {
-                    GetConfiguracionCortesia();
+                    GetConfiguracionCortesiaPorMaquinaElegida(FragmentoMaquinas.MAQUINAELEGIDA);
+
                 }
 //                if (FragmentoMaquinas.MAQUINAELEGIDA==null){
 ////                    Toast.makeText(getActivity(), "Eliga una Maquina", Toast.LENGTH_SHORT).show();
@@ -214,7 +216,7 @@ public class FragmentoMaquinas extends Fragment {
                                 cortesiapedido= gson.fromJson(jsonObject2.toString(), CortesiaPedido.class);
                                 cortesiaPedidosPendientesList.add(cortesiapedido);
                             }
-                            callbackvalidarMaquinaElegidayOcupada(cortesiaPedidosPendientesList);
+                            //callbackvalidarMaquinaElegidayOcupada(cortesiaPedidosPendientesList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -244,12 +246,24 @@ public class FragmentoMaquinas extends Fragment {
         VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
     }
+    public void enviarRespuestaMaquinaOcupada(boolean respuesta){
+        if (respuesta){
 
-    public void GetConfiguracionCortesia() {
+            Fragment fragment = new FragmentoCategoriasProductos();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.contenedor_principal, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else {
+            Toast.makeText(getContext(), "Maquina "+ FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq() + " ocupada", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void GetConfiguracionCortesiaPorMaquinaElegida(final MaquinaZona maquinaElegida) {
 
         //cortesiaPedidosPendientesList.clear();
-        String URls =  ObtenerIp()+"/Cortesias/GetConfiguracionCortesia";
-
+        String URls =  ObtenerIp()+"/Cortesias/GetConfiguracionCortesiaPorMaquinaElegida";
+        Log.e("Dato Maquina: ", MAQUINAELEGIDA.getCodMaq());
+        Log.e("codigo Usuario : ", sesion_usuario_id);
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {
                     @Override
@@ -262,17 +276,10 @@ public class FragmentoMaquinas extends Fragment {
 
                             JSONObject jsonObject = new JSONObject(response);
                             String errormensaje =jsonObject.getString("mensaje");
+                            boolean respuesta =jsonObject.getBoolean("respuesta");
                             Gson gson = new Gson();
 
-                            getConfiguracionCortesia= gson.fromJson(jsonObject.toString(), GetConfiguracionCortesia.class);
-                            callbackfuncionConfiguracionTiempoCortesiaActivadoEnviarDatos(getConfiguracionCortesia.getRespuesta());
-//                            if (getConfiguracionCortesia.getRespuesta()) {
-//
-//
-//                                invalidarPedidoDeMaquinaElegida=true;
-//
-//                            }
-
+                            enviarRespuestaMaquinaOcupada(respuesta);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -292,7 +299,9 @@ public class FragmentoMaquinas extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("cortesiaConfiguracionId", "1");
+                params.put("maquinaElegida", maquinaElegida.getCodMaq());
+
+                params.put("usuarioRegistroId", sesion_usuario_id);
                 return params;
             }
         };

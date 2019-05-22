@@ -176,7 +176,7 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
                                 getConfiguracionCortesia= gson.fromJson(jsonObject.toString(), GetConfiguracionCortesia.class);
 
 
-                                invalidarPedidoDeMaquinaElegida=true;
+                                //invalidarPedidoDeMaquinaElegida=true;
                             }
 
 
@@ -237,7 +237,7 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
 
 //                Toast.makeText(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT).show();
 
-                    Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
+                    //Toasty.success(mContext, FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" elegida", Toast.LENGTH_SHORT, true).show();
 
 
                     row_index=position;
