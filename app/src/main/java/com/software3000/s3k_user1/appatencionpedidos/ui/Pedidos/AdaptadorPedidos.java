@@ -151,7 +151,8 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         listadoAnfitrionasPedidosList.clear();
 
 //        ListarCombosxCodCombo?codCombo=4
-        String URls =  ObtenerIp()+"/Cortesias/ListadoAnfitrionasPedidos";
+
+        String URls =  ObtenerIp()+"/Cortesias/ListadoAnfitrionasPedidosPendientesyPreparados";
 
         StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
                 new Response.Listener<String>() {
@@ -178,7 +179,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
 
                                     listaPedidoList =anfitrionasPedidos.getListaPedido();
 //                                    openDialog();
-                                    showBottomSheetDialog();
+                                    showBottomSheetDialog(anfitrionasPedidos);
                                 }
 
                             }
@@ -228,25 +229,34 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         myDialogIP.show();
     }
 
-    public void showBottomSheetDialog() {
+    public void showBottomSheetDialog(ListadoAnfitrionasPedidos pedidoAnfitriona) {
         View view = ((FragmentActivity)mContext).getLayoutInflater().inflate(R.layout.fragment_bottom_sheet, null);
         TextView detallepedidos_productos ;
         TextView detallepedidos_combos ;
+        TextView detallepedidos_fechaRegistroPedido ;
         String productostext="";
         detallepedidos_productos= view.findViewById(R.id.detallepedidos_productos);
         detallepedidos_combos= view.findViewById(R.id.detallepedidos_combos);
+        detallepedidos_fechaRegistroPedido= view.findViewById(R.id.detallepedidos_fechaRegistroPedido);
         String combostext="";
 
-        for (ListaPedido pedido :
-                listaPedidoList) {
+        for (ListaPedido pedido : listaPedidoList) {
             if (pedido.getTipoCortesia()==1){
                 combostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
+
+                for (int i = 0; i < pedido.getCortesiaComboDetalle().size(); i++) {
+//                    if(i==pedido.getCortesiaComboDetalle().size()-1){
+//
+//                    }
+                    combostext+=pedido.getCortesiaComboDetalle().get(i).getCantidad() + "X " +pedido.getCortesiaComboDetalle().get(i).getNombreProducto()+"\n";
+                }
             }else{
 
                 productostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
             }
 
         }
+        detallepedidos_fechaRegistroPedido.setText(pedidoAnfitriona.getFechaRegistroPedido());
         detallepedidos_productos.setText(productostext);
         detallepedidos_combos.setText(combostext);
 

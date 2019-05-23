@@ -24,21 +24,23 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/espacio_norma_2"
             android:layout_weight="2"
-            android:text="Detalles de la Orden"
+            android:text="Pedido"
             android:textColor="#444"
             android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/detallepedidos_fechaRegistroPedido"
+            android:layout_width="wrap_content"
             android:gravity="right"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
             android:textSize="15dp"
-            android:text=""
+            android:textColor="@color/c_sunsetorange"
+            android:text="Fecha"
             />
     </LinearLayout>
 

@@ -11,6 +11,11 @@ public class ListadoAnfitrionasPedidos {
     @SerializedName("codPedido")
     @Expose
     private int codPedido;
+
+    @SerializedName("fechaRegistroPedido")
+    @Expose
+    private String fechaRegistroPedido;
+
     @SerializedName("codMaq")
     @Expose
     private String codMaq;
@@ -41,6 +46,14 @@ public class ListadoAnfitrionasPedidos {
         this.codMaq = codMaq;
         this.usuarioID = usuarioID;
         this.listaPedido = listaPedido;
+    }
+
+    public String getFechaRegistroPedido() {
+        return fechaRegistroPedido;
+    }
+
+    public void setFechaRegistroPedido(String fechaRegistroPedido) {
+        this.fechaRegistroPedido = fechaRegistroPedido;
     }
 
     public int getCodPedido() {

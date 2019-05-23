@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -58,6 +60,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
     private List<ComboDetalle> ComboDetallesList;
 
     private int row_index=-1;
+
     View view ;
     public CheckRecyclerViewAdapter(Context context, List<CortesiaProductos> mProductObject) {
         this.context = context;
@@ -173,19 +176,37 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
     public void openDialog() {
         RecyclerView reciclador;
-        Dialog myDialogIP = new Dialog(context);
-        //myDialogIP = new Dialog(LoginActivity.this);
-        myDialogIP.setContentView(R.layout.dialog_detallescombos_checkout);
+        TextView detallescombos_productos;
+        TextView detallescombos_productos_cantidad;
+        Dialog myDialogIP;
+            myDialogIP = new Dialog(context);
+            //myDialogIP = new Dialog(LoginActivity.this);
+            myDialogIP.setContentView(R.layout.dialog_detallescombos_checkout);
 //        CargarReferenciaIp();
 
-        reciclador =  myDialogIP.findViewById(R.id.pedidosdetallesCheckoutlist);
+            //reciclador =  myDialogIP.findViewById(R.id.pedidosdetallesCheckoutlist);
+            detallescombos_productos =  myDialogIP.findViewById(R.id.detallescombos_productos_nombre);
+            detallescombos_productos_cantidad =  myDialogIP.findViewById(R.id.detallescombos_productos_cantidad);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        reciclador.setLayoutManager(layoutManager);
-        AdaptadorComboDetalles adaptador = new AdaptadorComboDetalles(context, ComboDetallesList);
+            String combosDatalletext="";
+            String combosdetallescombos_productos_cantidad="";
 
-        reciclador.setAdapter(adaptador);
-        myDialogIP.show();
+            for (int i = 0; i < ComboDetallesList.size(); i++) {
+                ComboDetalle detalle = ComboDetallesList.get(i);
+                if(i==ComboDetallesList.size()-1){
+                    combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X ";
+                    combosDatalletext += detalle.getNombreProducto();
+                }else {
+                    combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X \n";
+                    combosDatalletext += detalle.getNombreProducto() + "\n";
+                }
+            }
+            detallescombos_productos.setText(combosDatalletext);
+           detallescombos_productos_cantidad.setText(combosdetallescombos_productos_cantidad);
+
+            myDialogIP.show();
+
+
     }
 
     @Override

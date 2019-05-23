@@ -3,6 +3,8 @@ package com.software3000.s3k_user1.appatencionpedidos.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ListaPedido {
 
     @SerializedName("codCortesiaProducto")
@@ -27,6 +29,9 @@ public class ListaPedido {
     @Expose
     private String nombreArchivo;
 
+    @SerializedName("cortesiaComboDetalle")
+    @Expose
+    private List<ComboDetalle> cortesiaComboDetalle = null;
     /**
      * No args constructor for use in serialization
      *
@@ -53,6 +58,14 @@ public class ListaPedido {
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
         this.nombreArchivo = nombreArchivo;
+    }
+
+    public List<ComboDetalle> getCortesiaComboDetalle() {
+        return cortesiaComboDetalle;
+    }
+
+    public void setCortesiaComboDetalle(List<ComboDetalle> cortesiaComboDetalle) {
+        this.cortesiaComboDetalle = cortesiaComboDetalle;
     }
 
     public int getCodCortesiaProducto() {
