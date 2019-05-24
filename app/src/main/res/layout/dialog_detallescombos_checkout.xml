@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
     android:layout_gravity="center"
-    android:padding="@dimen/espacio_norma_1"
+    android:padding="@dimen/espacio_norma_2"
 
     android:layout_height="wrap_content">
 
@@ -14,7 +14,7 @@
         android:background="@drawable/btn_rounded"
 
 
-        android:gravity="center_vertical">
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_margin="@dimen/espacio_norma_1"
@@ -49,12 +49,6 @@
                 android:text=" Coca Cola 500ml" />
 
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/pedidosdetallesCheckoutlist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:scrollbars="none" />
+
     </LinearLayout>
 </RelativeLayout>

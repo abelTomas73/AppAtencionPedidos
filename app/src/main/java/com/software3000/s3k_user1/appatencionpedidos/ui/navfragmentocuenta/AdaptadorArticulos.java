@@ -2,10 +2,7 @@ package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.support.annotation.FloatRange;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -18,9 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
@@ -30,13 +24,14 @@ import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincip
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.software3000.s3k_user1.appatencionpedidos.utils.ColorTransparentUtils;
 //import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdaptadorArticulos
         extends RecyclerView.Adapter<AdaptadorArticulos.ViewHolder> {
@@ -143,7 +138,7 @@ public class AdaptadorArticulos
             viewHolder.imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
         viewHolder.nombre.setText(item.getNombre());
-        viewHolder.precio.setText(item.getDescripcion());
+        viewHolder.precio.setText(item.getNombreTipo());
 
         if (item.getEstadoTurnoValido()==1){
             //viewHolder.imagen.getResources().getColor(R.color.transparent);
@@ -171,7 +166,12 @@ public class AdaptadorArticulos
                     String productsFromCart = sharedPreference.retrieveProductFromCart();
                     if(productsFromCart.equals("")){
                         List<CortesiaProductos> cartProductList = new ArrayList<CortesiaProductos>();
+                        List<CortesiaProductos> cartProductListDuplicados = new ArrayList<CortesiaProductos>();
+                        singleProduct.setCantidadPro(1);
+
                         cartProductList.add(singleProduct);
+
+
                         String cartValue = gson.toJson(cartProductList);
                         sharedPreference.addProductToTheCart(cartValue);
                         cartProductNumber = cartProductList.size();
@@ -180,10 +180,28 @@ public class AdaptadorArticulos
                         CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
 
                         List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
-                        allNewProduct.add(singleProduct);
+
+
+                        boolean productoExistenLista = validarProductoExistenLista(allNewProduct,singleProduct);
+                        int cantidadProductos= 0;
+                        if (productoExistenLista){
+                            //singleProduct.setCantidadPro(singleProduct.getCantidadPro()+1);
+                            int indiceProductoRepetido = getIndexOf(allNewProduct,singleProduct.getCodCortesiaProductos());
+                            int cantidadAnterior =allNewProduct.get(indiceProductoRepetido).getCantidadPro();
+                            cantidadAnterior++;
+                            allNewProduct.get(indiceProductoRepetido).setCantidadPro(cantidadAnterior);
+                            cantidadProductos=sharedPreference.retrieveProductCount()+1;
+                        }else {
+                            singleProduct.setCantidadPro(1);
+                            allNewProduct.add(singleProduct);
+                            cantidadProductos=sharedPreference.retrieveProductCount()+1;
+                        }
+
+
+
                         String addAndStoreNewProduct = gson.toJson(allNewProduct);
                         sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-                        cartProductNumber = allNewProduct.size();
+                        cartProductNumber = cantidadProductos;
                     }
 
                     sharedPreference.addProductCount(cartProductNumber);
@@ -195,10 +213,35 @@ public class AdaptadorArticulos
                 //invalidateCart();
             }
         });
-
     }
 
+    private boolean validarProductoExistenLista( List<CortesiaProductos> p_listaProductos, CortesiaProductos p_productoAComparar){
+        List<CortesiaProductos> listaMeto = new ArrayList<>();
+        boolean productoExisteLista = false;
+        for(int i = 0; i < p_listaProductos.size(); i++) {
+            int cantidadxProducto=1;
+            if(p_productoAComparar.getCodCortesiaProductos() == p_listaProductos.get(i).getCodCortesiaProductos()){
 
+                productoExisteLista=true;
+                break;
+            }
+            listaMeto.add(p_productoAComparar);
+        }
+
+        return  productoExisteLista;
+    }
+
+    public int getIndexOf(List<CortesiaProductos> list, int cod) {
+        int pos = 0;
+
+        for(CortesiaProductos myObj : list) {
+            if(cod==(myObj.getCodCortesiaProductos()))
+                return pos;
+            pos++;
+        }
+
+        return -1;
+    }
 }
 
 

@@ -148,7 +148,6 @@ public class CheckoutActivity extends AppCompatActivity {
         if (addCartProducts==null){
             mostrarImagenCarritoVacion();
 
-
         }
         else {
 
@@ -284,7 +283,22 @@ public class CheckoutActivity extends AppCompatActivity {
         CortesiasProductosAtencion cortesiasProductosAtencion =new CortesiasProductosAtencion();
 
         cortesiasProductosAtencion.setCortesiaAtencion(atencion);
-        cortesiasProductosAtencion.setCortesiaProductosList(productListParaEnviar);
+
+
+        List<CortesiaProductos> productListParaEnviarAgrupados;
+        productListParaEnviarAgrupados = new ArrayList<>();
+
+
+        for (int i = 0; i < productListParaEnviar.size(); i++) {
+            if (productListParaEnviar.get(i).getCantidadPro()>1){
+                for (int j = 0; j < productListParaEnviar.get(i).getCantidadPro(); j++) {
+                    productListParaEnviarAgrupados.add(productListParaEnviar.get(i));
+                }
+            }else{
+                productListParaEnviarAgrupados.add(productListParaEnviar.get(i));
+            }
+        }
+
         JSONObject js = new JSONObject();
 
         Gson gson = new GsonBuilder().create();

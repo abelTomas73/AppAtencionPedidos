@@ -156,6 +156,7 @@ public class AdaptadorCortesiasCombo
                 String stringObjectRepresentation = gson.toJson(cortePRo);
 
                 final CortesiaProductos singleProduct = gson.fromJson(stringObjectRepresentation, CortesiaProductos.class);
+                singleProduct.setEsCombo(1);
                 final CortesiaCombo singleCombo = gson.fromJson(stringObjectRepresentation, CortesiaCombo.class);
 
                 String productsFromCart = sharedPreference.retrieveProductFromCart();
@@ -164,6 +165,7 @@ public class AdaptadorCortesiasCombo
 
                     List<CortesiaProductos> cartProductList = new ArrayList<CortesiaProductos>();
                     cartProductList.add(singleProduct);
+                    singleProduct.setCantidadPro(1);
                     String cartValue = gson.toJson(cartProductList);
                     sharedPreference.addProductToTheCart(cartValue);
                     cartProductNumber = cartProductList.size();
@@ -172,10 +174,11 @@ public class AdaptadorCortesiasCombo
                     CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
 
                     List<CortesiaProductos> allNewProduct = convertObjectArrayToListObjectProducto(storedProducts);
+                    singleProduct.setCantidadPro(1);
                     allNewProduct.add(singleProduct);
                     String addAndStoreNewProduct = gson.toJson(allNewProduct);
                     sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-                    cartProductNumber = allNewProduct.size();
+                    cartProductNumber = sharedPreference.retrieveProductCount()+1;
                 }
 
                 sharedPreference.addProductCount(cartProductNumber);

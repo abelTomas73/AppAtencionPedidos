@@ -60,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
     public static String USUARIOCORREO="";
     public static String USUARIOROL="";
     public static String EMPLEADOID="";
+    public static String RAZONSOCIAL="";
+    public static String NOMBRESALA="";
 
     public static Empresa LOGIN_EMPRESA;
     public static Sala LOGIN_SALA;
@@ -270,8 +272,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                     LOGIN_EMPRESA = login.getEmpresa();
+                                    RAZONSOCIAL = login.getEmpresa().getRazonSocial();
+                                    NOMBRESALA = login.getSala().getNomSala();
+
+
                                     LOGIN_SALA= login.getSala();
-                                    session.createLoginSession(USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL,login.getSala().getCodSala(),login.getEmpresa().getCodEmpresa());
+                                    session.createLoginSession(RAZONSOCIAL,NOMBRESALA,USUARIONOMBRE,EMPLEADOID, USUARIOID,USUARIOEMPLEADO,"",USUARIOROL,login.getSala().getCodSala(),login.getEmpresa().getCodEmpresa());
 
                                     //starting the profile activity
                                     //finish();

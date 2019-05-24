@@ -17,9 +17,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/background_header_seccion_inicio"
-        android:gravity="center"
-        android:padding="8dp"
+        android:gravity="start"
+
         android:text="ZonasIslas"
+
+        android:paddingTop="@dimen/espacio_norma_2"
+        android:paddingBottom="@dimen/espacio_norma_2"
+        android:paddingLeft="@dimen/espacio_norma_1"
+        android:paddingRight="@dimen/espacio_norma_1"
+        android:textSize="15sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/color_light" />
 
@@ -33,7 +39,6 @@
         app:queryHint="Buscar isla..."
         app:showAsAction="always"
         android:clickable="true"
-
 
         android:focusable="true" />
     <LinearLayout
@@ -100,7 +105,7 @@
                 android:fontFamily="sans-serif-medium"
 
                 android:textSize="14sp"
-                android:textColor="@color/background_footer_item_grid_categorias"
+                android:textColor="@color/white"
                 android:textAllCaps="true"
 
                 android:background="@drawable/button_border"
@@ -130,7 +135,8 @@
         </LinearLayout>
 
     </LinearLayout>
-    <ProgressBar android:id="@+id/progressBar"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

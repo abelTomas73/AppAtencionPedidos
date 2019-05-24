@@ -43,8 +43,10 @@ public class SessionManager {
     public static final String KEY_USUARIO_ROL = "usuarioRol";
 
     public static final String KEY_SALA= "salaSesion";
+    public static final String KEY_SALA_NOMBRE= "salaSesionNombre";
 
     public static final String KEY_EMPRESA = "empresaSesion";
+    public static final String KEY_EMPRESA_RAZONSOCIAL = "empresaSesionRazonSocial";
 
     // Constructor
     public SessionManager(Context context){
@@ -56,9 +58,12 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String usuarioNombre,String empleadoId, String usuarioId,String empleado, String correo, String rol,String sala, String empresa){
+    public void createLoginSession(String razonSocial,String nombreEmpresa,String usuarioNombre,String empleadoId, String usuarioId,String empleado, String correo, String rol,String sala, String empresa){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
+
+        editor.putString(KEY_EMPRESA_RAZONSOCIAL, razonSocial);
+        editor.putString(KEY_SALA_NOMBRE, nombreEmpresa);
 
         // Storing usuarioNombre in pref
         editor.putString(KEY_USUARIO_NOMBRE, usuarioNombre);
@@ -108,6 +113,11 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user usuarioNombre
+
+
+
+        user.put(KEY_EMPRESA_RAZONSOCIAL, pref.getString(KEY_EMPRESA_RAZONSOCIAL, null));
+        user.put(KEY_SALA_NOMBRE, pref.getString(KEY_SALA_NOMBRE, null));
         user.put(KEY_USUARIO_NOMBRE, pref.getString(KEY_USUARIO_NOMBRE, null));
 
         // user usuarioId id
@@ -136,6 +146,11 @@ public class SessionManager {
 //        prefs.edit().remove(Constants.PRODUCT_ID).apply();
 
         editor.remove(IS_LOGIN).apply();
+
+
+        editor.remove(KEY_EMPRESA_RAZONSOCIAL).apply();
+        editor.remove(KEY_SALA_NOMBRE).apply();
+
         editor.remove(KEY_USUARIO_NOMBRE).apply();
         editor.remove(KEY_EMPLEADO_ID).apply();
         editor.remove(KEY_USUARIO_ID).apply();

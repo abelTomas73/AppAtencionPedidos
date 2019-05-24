@@ -49,11 +49,32 @@ public class CortesiaProductos {
     @SerializedName("Archivo64String")
     @Expose
     private String Archivo64String;
+
+    private int cantidadPro;
+
+    private int esCombo;
+
+    public int getEsCombo() {
+        return esCombo;
+    }
+
+    public void setEsCombo(int esCombo) {
+        this.esCombo = esCombo;
+    }
+
     /**
      * No args constructor for use in serialization
      *
      */
     public CortesiaProductos() {
+    }
+
+    public int getCantidadPro() {
+        return cantidadPro;
+    }
+
+    public void setCantidadPro(int cantidadPro) {
+        this.cantidadPro = cantidadPro;
     }
 
     public int getEstadoTurnoValido() {

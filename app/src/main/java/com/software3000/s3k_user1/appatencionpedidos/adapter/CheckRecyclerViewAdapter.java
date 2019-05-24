@@ -220,7 +220,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
         final List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
 
-        holder.quantity.setText("1");
+        holder.quantity.setText(proE.getCantidadPro()+"");
 
         if (proE.getArchivo64String()==null){
 //            RequestOptions requestOptions = new RequestOptions()
@@ -254,7 +254,8 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         holder.linear_producto_nombre_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (proE.getArchivo64String().equals("")){//si no tiene imagenstring es un combo
+
+                if (proE.getEsCombo()==1){//si no tiene imagenstring es un combo
                     int cortesiaidCombo = 0;
                     cortesiaidCombo =proE.getCodCortesiaProductos();
                     ComboDetallesList = new ArrayList<>();
@@ -270,7 +271,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 //        holder.imagen_product.setImageResource(R.drawable.ingredients);
         holder.productName.setText(mProductObject.get(position).getNombre());
         holder.productPrice.setText("");
-
+        final int cantidad= Integer.parseInt(holder.quantity.getText().toString());
         holder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -300,7 +301,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
                 //CheckoutActivity.actualizarSubtotal(mProductObject);
 
-                sharedPreference.addProductCount(cartProductNumber);
+                sharedPreference.addProductCount(sharedPreference.retrieveProductCount()-cantidad);
                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
 
             }

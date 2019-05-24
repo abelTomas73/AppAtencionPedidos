@@ -240,22 +240,20 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.MyVi
         detallepedidos_fechaRegistroPedido= view.findViewById(R.id.detallepedidos_fechaRegistroPedido);
         String combostext="";
 
-        for (ListaPedido pedido : listaPedidoList) {
-            if (pedido.getTipoCortesia()==1){
-                combostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
+        for (ListaPedido pedido : listaPedidoList)
+            if (pedido.getTipoCortesia() == 1) {
+                combostext += pedido.getNombreProducto() + " - " + pedido.getNombreTipo() + "\n";
 
                 for (int i = 0; i < pedido.getCortesiaComboDetalle().size(); i++) {
 //                    if(i==pedido.getCortesiaComboDetalle().size()-1){
 //
 //                    }
-                    combostext+=pedido.getCortesiaComboDetalle().get(i).getCantidad() + "X " +pedido.getCortesiaComboDetalle().get(i).getNombreProducto()+"\n";
+                    combostext += pedido.getCortesiaComboDetalle().get(i).getCantidad() + "X " + pedido.getCortesiaComboDetalle().get(i).getNombreProducto() + "\n";
                 }
-            }else{
+            } else {
 
-                productostext+=pedido.getNombreProducto()+" - "+pedido.getNombreTipo() +"\n";
+                productostext += pedido.getNombreProducto() + " - " + pedido.getNombreTipo() + "\n";
             }
-
-        }
         detallepedidos_fechaRegistroPedido.setText(pedidoAnfitriona.getFechaRegistroPedido());
         detallepedidos_productos.setText(productostext);
         detallepedidos_combos.setText(combostext);

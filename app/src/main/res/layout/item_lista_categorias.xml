@@ -71,12 +71,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:backgroundTint="@color/primaryDarkColor"
+
 
                 android:layout_marginTop="@dimen/fab_margin"
 
 
-                android:background="@drawable/button_border"
+                android:background="@color/primaryDarkColor"
                 android:drawableRight="@mipmap/add_shopping_cart_white"
 
 

@@ -42,10 +42,12 @@
 
             <TextView
                 android:id="@+id/usuario_sesion_navegacion"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Usuario"
+                android:textSize="12sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
 
@@ -62,8 +64,9 @@
                 android:layout_column="1"
                 android:layout_gravity="center_vertical"
                 android:text="Admin S3K"
+                android:textSize="12sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textStyle="bold" />
+                 />
         </TableRow>
 
     </TableLayout>

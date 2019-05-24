@@ -98,9 +98,9 @@ public class FragmentoArticulos extends Fragment {
         reciclador = view.findViewById(R.id.reciclador);
 
         textZonasIslasMaquinasCategorias = view.findViewById(R.id.textZonasIslasMaquinasCategorias);
-        tituloDetalle= FragmentoInicio.ZONAELEGIDA.getNombre()+" - "
-                +FragmentoIslas.ISLAELEGIDA.getNombre()+" - "
-                +FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" - "
+        tituloDetalle= FragmentoInicio.ZONAELEGIDA.getNombre()+" > "
+                +FragmentoIslas.ISLAELEGIDA.getNombre()+" > "
+                +FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq()+" > "
                 +categoria_nombre;
         textZonasIslasMaquinasCategorias.setText(tituloDetalle);
 //        layoutManager = new LinearLayoutManager(getActivity());

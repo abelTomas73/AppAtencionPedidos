@@ -68,8 +68,8 @@ public class FragmentoCategoriasProductos extends Fragment {
         categoriasTitulo = view.findViewById(R.id.categoriasTitulo);
 
         String categoriaT = FragmentoInicio.ZONAELEGIDA.getNombre()+
-                            " - "+FragmentoIslas.ISLAELEGIDA.getNombre()+
-                            " - "+FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq();
+                            " > "+FragmentoIslas.ISLAELEGIDA.getNombre()+
+                            " > "+FragmentoMaquinas.MAQUINAELEGIDA.getCodMaq();
         categoriasTitulo.setText(categoriaT);
 
 

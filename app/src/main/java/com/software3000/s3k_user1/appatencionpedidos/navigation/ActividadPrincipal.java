@@ -70,6 +70,8 @@ private NavigationView navigationView;
     String sesion_id = "";
 
     String sesion_empleado = "";
+    String sesion_empresa_razonsocial = "";
+    String sesion_salanombre = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,9 +95,12 @@ private NavigationView navigationView;
         sesion_id = user.get(SessionManager.KEY_USUARIO_ID);
         sesion_empleado = user.get(SessionManager.KEY_USUARIO_EMPLEADO);
 
+        sesion_empresa_razonsocial = user.get(SessionManager.KEY_EMPRESA_RAZONSOCIAL);
+        sesion_salanombre = user.get(SessionManager.KEY_SALA_NOMBRE);
+
         View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
-        ((TextView) header.findViewById(R.id.usuario_sesion_navegacion)).setText(sesion_usuario);
-        ((TextView) header.findViewById(R.id.nombreusuario_sesion_navegacion)).setText(sesion_empleado);
+        ((TextView) header.findViewById(R.id.usuario_sesion_navegacion)).setText(sesion_empresa_razonsocial + " \n"+ sesion_salanombre);
+        ((TextView) header.findViewById(R.id.nombreusuario_sesion_navegacion)).setText(sesion_usuario);
         sharedPreference = new MySharedPreference(this.getApplicationContext());
         contextoAcPrincipal = this.getApplicationContext();
 

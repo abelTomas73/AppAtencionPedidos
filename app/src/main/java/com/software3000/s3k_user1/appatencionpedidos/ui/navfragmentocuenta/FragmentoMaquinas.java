@@ -112,7 +112,7 @@ public class FragmentoMaquinas extends Fragment {
 
         textZonasIslasMaquinas= view.findViewById(R.id.textZonasIslasMaquinas);
 
-        String zonaeIslaElegida = FragmentoInicio.ZONAELEGIDA.getNombre()+ " - "+FragmentoIslas.ISLAELEGIDA.getNombre();
+        String zonaeIslaElegida = FragmentoInicio.ZONAELEGIDA.getNombre()+ " > "+FragmentoIslas.ISLAELEGIDA.getNombre();
         textZonasIslasMaquinas.setText(zonaeIslaElegida);
 
         btnSeleccionarMaquinaZona.setOnClickListener(new View.OnClickListener() {
