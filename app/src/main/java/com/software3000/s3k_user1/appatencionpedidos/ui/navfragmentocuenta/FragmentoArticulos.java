@@ -1,16 +1,19 @@
 package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -49,8 +52,6 @@ public class FragmentoArticulos extends Fragment {
     //private AdaptadorInicio adaptador;
     SearchView mSearchView;
 
-    List<Comida> COMIDAS_POPULARES;
-    List<Comida> COMIDAS_POPULARES_COPIA;
 
     private GridLayoutManager layoutManager;
     private AdaptadorArticulos adaptador;
@@ -64,23 +65,17 @@ public class FragmentoArticulos extends Fragment {
     private RecyclerView recyclerview_id;
     public static String CATEGORIA_IDTIPO;
     public static String CATEGORIA_NOMBRE;
+
+    SwipeRefreshLayout swipeRefreshLayout;
+    ProgressBar progressBar;
+    ProgressDialog progressDialog;
+
     //parametrso
     String categoria_idtipo="";
     public FragmentoArticulos() {
         // Required empty public constructor
     }
 
-    private void poblarArticulos() {
-        COMIDAS_POPULARES = new ArrayList<Comida>();
-
-        COMIDAS_POPULARES.add(new Comida(1,5, "Maquina", R.drawable.camarones));
-        COMIDAS_POPULARES.add(new Comida(2,3.2f, "Maquina 2", R.drawable.rosca));
-        COMIDAS_POPULARES.add(new Comida(3,12f, "Maquina 3", R.drawable.sushi));
-        COMIDAS_POPULARES.add(new Comida(4,9, "Maquina Sl", R.drawable.sandwich));
-        COMIDAS_POPULARES.add(new Comida(5,34f, "Maquina S3K", R.drawable.lomo_cerdo));
-
-        //COMIDAS_POPULARES_COPIA.addAll(COMIDAS_POPULARES);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,9 +100,33 @@ public class FragmentoArticulos extends Fragment {
         textZonasIslasMaquinasCategorias.setText(tituloDetalle);
 //        layoutManager = new LinearLayoutManager(getActivity());
 
+        progressBar = view.findViewById(R.id.progressBar);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Espere...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                if(categoria_idtipo.equals("9")) {//codigo combo 8
+                    //adaptador Combos
+                    adaptadorCortesiasCombo.notifyDataSetChanged();
+                    cortesiaComboList.clear();
+                    servicioPoblarListarCombos();
+                }else{
+                    adaptador.notifyDataSetChanged();
+                    cortesiaProductosList.clear();
+                    servicioPoblarCortesiaProductos();
+
+                }
+            }
+        });
+
         int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),180);
-
-
         cortesiaProductosList = new ArrayList<>();
         cortesiaComboList = new ArrayList<>();
 
@@ -144,8 +163,8 @@ public class FragmentoArticulos extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        progressBar.setVisibility(View.GONE);
-//                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                         JSONArray jsondata=null;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
@@ -162,6 +181,7 @@ public class FragmentoArticulos extends Fragment {
                             }
 
                             //adaptador.updateSearchedList();
+                            swipeRefreshLayout.setRefreshing(false);
                             // refreshing recycler view
                             adaptador.notifyDataSetChanged();
 
@@ -174,7 +194,8 @@ public class FragmentoArticulos extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
+                        progressDialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
 //                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //
 //                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
@@ -205,8 +226,8 @@ public class FragmentoArticulos extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        progressBar.setVisibility(View.GONE);
-//                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                         JSONArray jsondata=null;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
@@ -221,7 +242,7 @@ public class FragmentoArticulos extends Fragment {
                                 cortesiaCombo= gson.fromJson(jsonObject2.toString(), CortesiaCombo.class);
                                 cortesiaComboList.add(cortesiaCombo);
                             }
-
+                            swipeRefreshLayout.setRefreshing(false);
                             //adaptador.updateSearchedList();
                             // refreshing recycler view
                             adaptadorCortesiasCombo.notifyDataSetChanged();
@@ -235,7 +256,8 @@ public class FragmentoArticulos extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
+                        progressDialog.dismiss();
 //                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //
 //                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();
