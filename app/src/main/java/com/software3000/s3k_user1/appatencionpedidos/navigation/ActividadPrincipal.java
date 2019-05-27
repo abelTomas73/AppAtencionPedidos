@@ -163,11 +163,11 @@ private NavigationView navigationView;
                         Toast.makeText(getApplicationContext(), sesion_usuario+" Tiene Pedidos por Recoger", Toast.LENGTH_SHORT).show();
                         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                         //TODO Comentario Vibrator
-//                        if (Build.VERSION.SDK_INT >= 26) {
-//                            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
-//                        } else {
-//                            vibrator.vibrate(200);
-//                        }
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(200);
+                        }
                     }
 
 

@@ -299,7 +299,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         }
         cortesiasProductosAtencion.setCortesiaAtencion(atencion);
-        cortesiasProductosAtencion.setCortesiaProductosList(productListParaEnviar);
+        cortesiasProductosAtencion.setCortesiaProductosList(productListParaEnviarAgrupados);
 
         JSONObject js = new JSONObject();
 
