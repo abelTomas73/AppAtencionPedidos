@@ -127,6 +127,7 @@
     <string name="item_remover">Remover</string>
     <string name="login_titulo_atencion">Atención de Pedidos</string>
     <string name="agregar_al_carrito">Agregar al carrito</string>
+    <string name="continuar_texto">Continuar</string>
 
 
     <string-array name="stepLabels">

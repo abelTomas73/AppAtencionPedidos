@@ -131,7 +131,7 @@
                 android:textAllCaps="true"
 
                 android:background="@drawable/button_border"
-                android:text="Continuar"/>
+                android:text="@string/continuar_texto"/>
         </LinearLayout>
 
     </LinearLayout>
