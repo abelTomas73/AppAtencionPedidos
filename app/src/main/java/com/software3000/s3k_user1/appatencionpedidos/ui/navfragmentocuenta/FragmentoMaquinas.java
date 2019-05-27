@@ -1,11 +1,13 @@
 package com.software3000.s3k_user1.appatencionpedidos.ui.navfragmentocuenta;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +81,10 @@ public class FragmentoMaquinas extends Fragment {
 
     boolean invalidarPedidoDeMaquinaElegida=false;
     GetConfiguracionCortesia getConfiguracionCortesia= new GetConfiguracionCortesia();
+
+    SwipeRefreshLayout swipeRefreshLayout;
+    ProgressBar progressBar;
+    ProgressDialog progressDialog;
 
     public FragmentoMaquinas() {
         // Required empty public constructor
@@ -177,6 +184,25 @@ public class FragmentoMaquinas extends Fragment {
                 return true;
             }
         });
+        //
+        progressBar = view.findViewById(R.id.progressBar);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Espere...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                adaptador.notifyDataSetChanged();
+                maquinaList.clear();
+                servicioPoblarMaquinas();
+            }
+        });
+        //
         int mNoOfColumns = Utils.calculateNoOfColumns(getContext(),245);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNoOfColumns);
@@ -396,8 +422,8 @@ public class FragmentoMaquinas extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        progressBar.setVisibility(View.GONE);
-//                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
 
                         JSONArray jsondata=null;
                         try {
@@ -417,6 +443,7 @@ public class FragmentoMaquinas extends Fragment {
 
 
                             adaptador.updateSearchedList();
+                            swipeRefreshLayout.setRefreshing(false);
                             // refreshing recycler view
                             adaptador.notifyDataSetChanged();
 
@@ -429,7 +456,8 @@ public class FragmentoMaquinas extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
+                        progressDialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
 //                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //
 //                            DynamicToast.makeWarning(getBaseContext(), "Error: Tiempo de Respuesta en búsqueda DNI ", Toast.LENGTH_LONG).show();

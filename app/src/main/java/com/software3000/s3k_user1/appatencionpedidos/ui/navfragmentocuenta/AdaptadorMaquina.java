@@ -68,11 +68,10 @@ public class AdaptadorMaquina extends RecyclerView.Adapter<AdaptadorMaquina.MyVi
         cortesiaPedidosPendientesList= new ArrayList<>();
         cortesiaPedidosPendientesList.clear();
 
-        //servicioPoblarListarCortesiaPedidoPendientes();
-        //GetConfiguracionCortesia();
 
     }
     public void updateSearchedList() {
+        mDataMaquinaZonaListFull.clear();
 
         mDataMaquinaZonaListFull.addAll(mDataMaquinaZona);
     }

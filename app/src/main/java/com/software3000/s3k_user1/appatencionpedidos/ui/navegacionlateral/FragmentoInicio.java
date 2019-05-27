@@ -193,12 +193,10 @@ public class FragmentoInicio extends Fragment {
         zonaList = new ArrayList<>();
         zonaListFull = new ArrayList<>();
         servicioPoblarZonas();
-//        poblarZonas();
         zonaListFull.addAll(zonaList);
 
 
         adaptador = new AdaptadorZonas(getContext(),zonaList);
-
 
         SearchView searchView =  view.findViewById(R.id.search_zona);
 

@@ -59,9 +59,10 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
     private List<ComboDetalle> ComboDetallesList;
 
-    private int row_index=-1;
+    private int row_index = -1;
 
-    View view ;
+    View view;
+
     public CheckRecyclerViewAdapter(Context context, List<CortesiaProductos> mProductObject) {
         this.context = context;
         this.mProductObject = mProductObject;
@@ -71,14 +72,14 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
     public CheckRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater mInflater = LayoutInflater.from(context);
-        view = mInflater.inflate(R.layout.check_layout,parent,false);
+        view = mInflater.inflate(R.layout.check_layout, parent, false);
 
 //        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_layout, parent, false);
         final CheckRecyclerViewHolder productHolder = new CheckRecyclerViewHolder(view);
         productHolder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=productHolder.getAdapterPosition();
+                int position = productHolder.getAdapterPosition();
                 //Toast.makeText(context,"Item at position "+position+" deleted",Toast.LENGTH_SHORT).show();
                 //mProductObject.remove(position);
                 notifyDataSetChanged();
@@ -89,23 +90,24 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
     }
     // inici mismo meth
 
-    private List<CortesiaProductos> convertObjectArrayToListObject(CortesiaProductos[] allProducts){
+    private List<CortesiaProductos> convertObjectArrayToListObject(CortesiaProductos[] allProducts) {
         List<CortesiaProductos> mProduct = new ArrayList<CortesiaProductos>();
         Collections.addAll(mProduct, allProducts);
         return mProduct;
     }
-    private List<CortesiaCombo> convertObjectArrayToListObjectCombo(CortesiaCombo[] allCombos){
+
+    private List<CortesiaCombo> convertObjectArrayToListObjectCombo(CortesiaCombo[] allCombos) {
         List<CortesiaCombo> mCombo = new ArrayList<>();
         Collections.addAll(mCombo, allCombos);
         return mCombo;
     }
     // fin mis meth
 
-    public String ObtenerIp(){
+    public String ObtenerIp() {
 
-        SharedPreferences sharedPreferences =context.getSharedPreferences("Protocol", Context.MODE_PRIVATE);
-        String ip =sharedPreferences.getString("ip","");
-        return ip ;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Protocol", Context.MODE_PRIVATE);
+        String ip = sharedPreferences.getString("ip", "");
+        return ip;
     }
 
     public void ListarCombosxCodCombo(final int comboid) {
@@ -113,16 +115,16 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         ComboDetallesList.clear();
 
 //        ListarCombosxCodCombo?codCombo=4
-        String URls =  ObtenerIp()+"/Cortesias/ListarCombosxCodCombo";
+        String URls = ObtenerIp() + "/Cortesias/ListarCombosxCodCombo";
 
-        StringRequest stringRequest = new StringRequest  (Request.Method.POST, URls,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URls,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 //                        progressBar.setVisibility(View.GONE);
 //                        progressDialog.dismiss();
 
-                        JSONArray jsondata=null;
+                        JSONArray jsondata = null;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             jsondata = jsonObject.getJSONArray("data");
@@ -133,7 +135,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
                                 JSONObject jsonObject2 = jsondata.getJSONObject(i);
                                 ComboDetalle comboDetalle = new ComboDetalle();
 
-                                comboDetalle= gson.fromJson(jsonObject2.toString(), ComboDetalle.class);
+                                comboDetalle = gson.fromJson(jsonObject2.toString(), ComboDetalle.class);
 
 //                                if (comboDetalle.getCodCortesiaProductos()==comboid){
 //
@@ -179,32 +181,32 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         TextView detallescombos_productos;
         TextView detallescombos_productos_cantidad;
         Dialog myDialogIP;
-            myDialogIP = new Dialog(context);
-            //myDialogIP = new Dialog(LoginActivity.this);
-            myDialogIP.setContentView(R.layout.dialog_detallescombos_checkout);
+        myDialogIP = new Dialog(context);
+        //myDialogIP = new Dialog(LoginActivity.this);
+        myDialogIP.setContentView(R.layout.dialog_detallescombos_checkout);
 //        CargarReferenciaIp();
 
-            //reciclador =  myDialogIP.findViewById(R.id.pedidosdetallesCheckoutlist);
-            detallescombos_productos =  myDialogIP.findViewById(R.id.detallescombos_productos_nombre);
-            detallescombos_productos_cantidad =  myDialogIP.findViewById(R.id.detallescombos_productos_cantidad);
+        //reciclador =  myDialogIP.findViewById(R.id.pedidosdetallesCheckoutlist);
+        detallescombos_productos = myDialogIP.findViewById(R.id.detallescombos_productos_nombre);
+        detallescombos_productos_cantidad = myDialogIP.findViewById(R.id.detallescombos_productos_cantidad);
 
-            String combosDatalletext="";
-            String combosdetallescombos_productos_cantidad="";
+        String combosDatalletext = "";
+        String combosdetallescombos_productos_cantidad = "";
 
-            for (int i = 0; i < ComboDetallesList.size(); i++) {
-                ComboDetalle detalle = ComboDetallesList.get(i);
-                if(i==ComboDetallesList.size()-1){
-                    combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X ";
-                    combosDatalletext += detalle.getNombreProducto();
-                }else {
-                    combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X \n";
-                    combosDatalletext += detalle.getNombreProducto() + "\n";
-                }
+        for (int i = 0; i < ComboDetallesList.size(); i++) {
+            ComboDetalle detalle = ComboDetallesList.get(i);
+            if (i == ComboDetallesList.size() - 1) {
+                combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X ";
+                combosDatalletext += detalle.getNombreProducto();
+            } else {
+                combosdetallescombos_productos_cantidad += detalle.getCantidad() + "X \n";
+                combosDatalletext += detalle.getNombreProducto() + "\n";
             }
-            detallescombos_productos.setText(combosDatalletext);
-           detallescombos_productos_cantidad.setText(combosdetallescombos_productos_cantidad);
+        }
+        detallescombos_productos.setText(combosDatalletext);
+        detallescombos_productos_cantidad.setText(combosdetallescombos_productos_cantidad);
 
-            myDialogIP.show();
+        myDialogIP.show();
 
 
     }
@@ -220,9 +222,9 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
         CortesiaProductos[] storedProducts = gson.fromJson(productsInCart, CortesiaProductos[].class);
         final List<CortesiaProductos> allNewProduct = convertObjectArrayToListObject(storedProducts);
 
-        holder.quantity.setText(proE.getCantidadPro()+"");
+        holder.quantity.setText(proE.getCantidadPro() + "");
 
-        if (proE.getArchivo64String()==null){
+        if (proE.getArchivo64String() == null) {
 //            RequestOptions requestOptions = new RequestOptions()
 //                    .fitCenter()
 //                    .placeholder(R.drawable.loading)
@@ -237,16 +239,15 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
                     .load(R.drawable.images_not_available)
                     .into(holder.imagen_product);
 
-        }else {
-            if (!mProductObject.get(position).getArchivo64String().equals(""))
-            {
+        } else {
+            if (!mProductObject.get(position).getArchivo64String().equals("")) {
                 byte[] bytearray = Base64.decode(mProductObject.get(position).getArchivo64String(), 0);
                 ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytearray);
                 Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
-                holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192,192, false));
+                holder.imagen_product.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 192, 192, false));
 
-            }else{
-                String tipo="0";
+            } else {
+                String tipo = "0";
                 holder.imagen_product.setImageResource(R.drawable.ingredients);
             }
 
@@ -255,12 +256,12 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
             @Override
             public void onClick(View v) {
 
-                if (proE.getEsCombo()==1){//si no tiene imagenstring es un combo
+                if (proE.getEsCombo() == 1) {//si no tiene imagenstring es un combo
                     int cortesiaidCombo = 0;
-                    cortesiaidCombo =proE.getCodCortesiaProductos();
+                    cortesiaidCombo = proE.getCodCortesiaProductos();
                     ComboDetallesList = new ArrayList<>();
                     ListarCombosxCodCombo(cortesiaidCombo);
-                    row_index=position;
+                    row_index = position;
                     notifyDataSetChanged();
                 }
 
@@ -271,7 +272,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 //        holder.imagen_product.setImageResource(R.drawable.ingredients);
         holder.productName.setText(mProductObject.get(position).getNombre());
         holder.productPrice.setText("");
-        final int cantidad= Integer.parseInt(holder.quantity.getText().toString());
+        final int cantidad = Integer.parseInt(holder.quantity.getText().toString());
         holder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -301,7 +302,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
                 //CheckoutActivity.actualizarSubtotal(mProductObject);
 
-                sharedPreference.addProductCount(sharedPreference.retrieveProductCount()-cantidad);
+                sharedPreference.addProductCount(sharedPreference.retrieveProductCount() - cantidad);
                 ActivityCompat.invalidateOptionsMenu(FragmentoInicio.activitydelFragmento);
 
             }

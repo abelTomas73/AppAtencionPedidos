@@ -282,7 +282,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         CortesiasProductosAtencion cortesiasProductosAtencion =new CortesiasProductosAtencion();
 
-        cortesiasProductosAtencion.setCortesiaAtencion(atencion);
+
 
 
         List<CortesiaProductos> productListParaEnviarAgrupados;
@@ -298,6 +298,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 productListParaEnviarAgrupados.add(productListParaEnviar.get(i));
             }
         }
+        cortesiasProductosAtencion.setCortesiaAtencion(atencion);
+        cortesiasProductosAtencion.setCortesiaProductosList(productListParaEnviar);
 
         JSONObject js = new JSONObject();
 
