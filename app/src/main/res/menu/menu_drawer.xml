@@ -8,12 +8,10 @@
             android:icon="@drawable/inicio"
             android:title="Zona" />
         <item
-            android:id="@+id/item_cuenta"
             android:icon="@drawable/cuenta"
             android:visible="false"
             android:title="@string/item_cuenta" />
         <item
-            android:id="@+id/item_categorias"
             android:icon="@drawable/categorias"
             android:visible="false"
             android:title="@string/item_categorias" />
@@ -22,7 +20,6 @@
             android:icon="@drawable/open_box_pedidos"
             android:title="@string/item_pedidos" />
         <item
-            android:id="@+id/item_productos"
             android:icon="@drawable/email"
             android:visible="false"
             android:title="@string/item_productos" />

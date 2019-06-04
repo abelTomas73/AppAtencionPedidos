@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.navfragmentocuenta.FragmentoZonas"
-    android:orientation="vertical"
-    android:id="@+id/linear_frag_zonas"
-    >
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.SearchView

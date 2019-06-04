@@ -98,7 +98,8 @@
                 android:textAllCaps="false"
                 android:text="Finalizar\nPedido"
                 android:textColor="@color/c_darkliver"
-                android:backgroundTint="@color/c_sunsetorange"
+
+                android:background="@color/c_sunsetorange"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 />

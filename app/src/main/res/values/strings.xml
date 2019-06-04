@@ -2,21 +2,16 @@
 
 
     <string name="action_settings">Configuración</string>
-    <string name="action_search">Buscar</string>
     <string name="action_carrito">Añadir al carrito</string>
-    <string name="item_inicio">Inicio</string>
     <string name="item_cuenta">Mi Cuenta</string>
     <string name="item_categorias">Productos</string>
     <string name="item_configuracion">Configuración</string>
-    <string name="titulo_comidas_populares">Maquinas</string>
     <string name="titulo_tab_platillos">COMBOS</string>
     <string name="titulo_tab_bebidas">PIQUEOS</string>
     <string name="titulo_tab_postres">POSTRES</string>
     <string name="titulo_tab_perfil">PERFIL</string>
     <string name="titulo_tab_direcciones">ZONAS</string>
-    <string name="titulo_tab_tarjetas">TARJETAS</string>
     <string name="texto_no_tarjetas">No tienes ninguna tarjeta asociada</string>
-    <string name="etiqueta_carrito">Carrito</string>
     <string name="texto_cambiar_contrasena">Cambia tu contraseña</string>
     <string name="etiqueta_contrasena">Contraseña</string>
     <string name="etiqueta_info_usuario">Información del usuario</string>
@@ -89,20 +84,6 @@
         <item>-1</item>
     </string-array>
 
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
@@ -119,7 +100,6 @@
     <string name="item_pedidos">Pedidos</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="item_cerrarsesion">Salir</string>
     <string name="item_productos">items</string>
     <string name="sin_registro">sin registros</string>

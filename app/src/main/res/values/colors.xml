@@ -22,13 +22,8 @@
     -->
     <color name="c_darkliver">#50514F</color>
     <color name="c_sunsetorange">#F25F5C</color>
-    <color name="c_sunsetorangeTR">#A6F25F5C</color>
-    <color name="c_mustard">#FFE066</color>
-    <color name="c_lapislazuli">#247BA0</color>
-    <color name="c_greensheen">#70C1B3</color>
 
     <!--fin-->
-    <color name="colorAppAtencionPedidos">#9F8F82</color>
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#1D3557</color>
@@ -43,11 +38,7 @@
     <color name="window_background">#ffffff</color>
     <color name="primaryDarkColor">#323232</color>
     <color name="primaryColor">#2B2D42</color>
-    <color name="accentColorAnterior">#ff5f5c</color>
     <color name="accentColor">#E63946</color>
-    <color name="accentColorTra">#FFE63946</color>
-    <color name="accentColor2">#F87652</color>
-    <color name="background_footer_item_grid_categorias">#2B2D42</color>
     <color name="color_light">#ffffff</color>
     <color name="background_header_seccion_inicio">#2B2D42</color>
 
@@ -59,5 +50,4 @@
     <color name="error_color">#fa5e5e</color>
     <color name="info_color">#FF8C13</color>
     <color name="success_color">#6fe974</color>
-    <color name="warnig_color">#fcec0c</color>
 </resources>

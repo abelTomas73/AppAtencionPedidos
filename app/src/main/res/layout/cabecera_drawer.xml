@@ -12,7 +12,6 @@
 
     <!-- Logo Rico Pa' Rico -->
     <ImageView
-        android:id="@+id/imageView3"
         android:layout_width="@dimen/ancho_logo"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_logo_corporacion_pj_white" />
@@ -33,7 +32,6 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/icono_carrito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"

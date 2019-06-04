@@ -71,14 +71,12 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <LinearLayout
-                android:id="@+id/r_logo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/imagen_logo_splash_screen"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
 
@@ -93,7 +91,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/rellay1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="14dp"
@@ -101,7 +98,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_loginTramite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/tv_login"
@@ -130,7 +126,6 @@
 
                 <LinearLayout
 
-                    android:id="@+id/linlay1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_login"
@@ -223,7 +218,6 @@
 
 
                 <Button
-                    android:id="@+id/btnIngresarSisWebToken"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -283,7 +277,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/rellay2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
