@@ -1,4 +1,5 @@
 package com.software3000.s3k_user1.appatencionpedidos.utils;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,31 +9,30 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 
 import com.software3000.s3k_user1.appatencionpedidos.R;
 
+public class CountDrawable extends Drawable {
 
-public class BadgeDrawable extends Drawable {
-
-    private float mTextSize;
     private Paint mBadgePaint;
     private Paint mTextPaint;
     private Rect mTxtRect = new Rect();
 
     private String mCount = "";
-    private boolean mWillDraw = false;
+    private boolean mWillDraw;
 
-    public BadgeDrawable(Context context) {
-        mTextSize = context.getResources().getDimension(R.dimen.badge_text_size);
+    public CountDrawable(Context context) {
+        float mTextSize = context.getResources().getDimension(R.dimen.badge_text_size_notificacion);
 
         mBadgePaint = new Paint();
-        mBadgePaint.setColor(Color.RED);
+        mBadgePaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.notificacion_red));
         mBadgePaint.setAntiAlias(true);
         mBadgePaint.setStyle(Paint.Style.FILL);
 
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        mTextPaint.setTypeface(Typeface.DEFAULT);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -40,39 +40,46 @@ public class BadgeDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
+
         if (!mWillDraw) {
             return;
         }
-
         Rect bounds = getBounds();
         float width = bounds.right - bounds.left;
         float height = bounds.bottom - bounds.top;
-//        width+=25;
-//        height+=25;
+
         // Position the badge in the top-right quadrant of the icon.
-        float radius = ((Math.min(width, height) / 2) - 1) / 2;
-        float centerX = width - radius - 1;
-        float centerY = radius + 1;
 
-        // Draw badge circle.
-        canvas.drawCircle(centerX, centerY, radius, mBadgePaint);
+        /*Using Math.max rather than Math.min */
 
+        float radius = ((Math.max(width, height) / 2)) / 2;
+        float centerX = (width - radius - 1) +5;
+        float centerY = radius -5;
+        if(mCount.length() <= 2){
+            // Draw badge circle.
+            canvas.drawCircle(centerX, centerY, (int)(radius+5.5), mBadgePaint);
+        }
+        else{
+            canvas.drawCircle(centerX, centerY, (int)(radius+6.5), mBadgePaint);
+        }
         // Draw badge count text inside the circle.
         mTextPaint.getTextBounds(mCount, 0, mCount.length(), mTxtRect);
         float textHeight = mTxtRect.bottom - mTxtRect.top;
-        //textHeight+=30;
         float textY = centerY + (textHeight / 2f);
-        canvas.drawText(mCount, centerX, textY, mTextPaint);
+        if(mCount.length() > 2)
+            canvas.drawText("99+", centerX, textY, mTextPaint);
+        else
+            canvas.drawText(mCount, centerX, textY, mTextPaint);
     }
 
     /*
     Sets the count (i.e notifications) to display.
      */
-    public void setCount(int count) {
-        mCount = Integer.toString(count);
+    public void setCount(String count) {
+        mCount = count;
 
         // Only draw a badge if there are notifications.
-        mWillDraw = count > 0;
+        mWillDraw = !count.equalsIgnoreCase("0");
         invalidateSelf();
     }
 

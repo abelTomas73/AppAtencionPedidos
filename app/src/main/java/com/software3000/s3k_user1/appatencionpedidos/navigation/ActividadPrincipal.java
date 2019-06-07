@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.Fragme
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoInicio;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoPedidos;
 import com.software3000.s3k_user1.appatencionpedidos.ui.navegacionlateral.FragmentoProductos;
+import com.software3000.s3k_user1.appatencionpedidos.utils.CountDrawable;
 import com.software3000.s3k_user1.appatencionpedidos.utils.Utils;
 
 import org.json.JSONArray;
@@ -283,6 +285,25 @@ private NavigationView navigationView;
         setTitle(itemDrawer.getTitle());
     }
 
+    public void setCount(Context context, String count) {
+//        MenuItem menuItem = defaultMenu.findItem(R.id.ic_group);
+//        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+
+//        CountDrawable badge;
+//
+//        // Reuse drawable if possible
+//        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_group_count);
+//        if (reuse != null && reuse instanceof CountDrawable) {
+//            badge = (CountDrawable) reuse;
+//        } else {
+//            badge = new CountDrawable(context);
+//        }
+//
+//        badge.setCount(count);
+//        icon.mutate();
+//        icon.setDrawableByLayerId(R.id.ic_group_count, badge);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menuclasprincipal = menu;
@@ -296,11 +317,17 @@ private NavigationView navigationView;
 //        // Actualizar el contador
 //        Utils.setBadgeCount(this, icon, 0);
 
+        CountDrawable badge;
+
         MenuItem menuItem = menu.findItem(R.id.action_carrito);
-        int mCount = sharedPreference.retrieveProductCount();
+
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
-        //menuItem.setIcon(buildCounterDrawable(mCount, R.drawable.cart));
-        Utils.setBadgeCount(this, icon, mCount);
+        // Reuse drawable if possible
+
+        int mCount = sharedPreference.retrieveProductCount();
+
+//        Utils.setBadgeCount(this, icon, mCount);
+        Utils.setCount(this, icon, mCount);
         return true;
     }
     //Agregar carrito nuevo

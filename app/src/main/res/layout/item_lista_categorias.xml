@@ -40,7 +40,7 @@
 
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
-                android:textSize="13sp"
+                android:textSize="@dimen/texto_articulo"
                 android:textStyle="normal|bold" />
         </LinearLayout>
         <LinearLayout
@@ -66,7 +66,7 @@
 
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
-                android:textSize="12sp"
+                android:textSize="@dimen/texto_articulo"
                 android:id="@+id/agregar_item_al_carrito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

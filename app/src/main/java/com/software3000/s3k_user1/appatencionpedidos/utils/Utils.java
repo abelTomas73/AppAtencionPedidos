@@ -61,6 +61,23 @@ public class Utils {
         icon.setDrawableByLayerId(R.id.ic_badge, badge);
     }
 
+    public static void setCount(Context context, LayerDrawable icon, int count) {
+
+        CountDrawable badge;
+        // Reuse drawable if possible
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_group_count);
+
+        if (reuse != null && reuse instanceof CountDrawable) {
+            badge = (CountDrawable) reuse;
+        } else {
+            badge = new CountDrawable(context);
+        }
+        badge.setCount(String.valueOf(count));
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.ic_group_count, badge);
+
+    }
+
     /**
      * Json to Pojo to parse the response into our model class.
      *

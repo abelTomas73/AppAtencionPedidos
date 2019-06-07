@@ -45,7 +45,7 @@
     <color name="bgSearchBar">#edecec</color>
     <color name="color_descripcion">#bebebe</color>
 
-
+    <color name="notificacion_red">#f00</color>
     <!-- mensajes  -->
     <color name="error_color">#fa5e5e</color>
     <color name="info_color">#FF8C13</color>

@@ -10,10 +10,10 @@
 
     <item
         android:id="@+id/action_carrito"
-        android:icon="@drawable/notification_drawable"
+        android:icon="@drawable/actionbar_group_icon"
         android:orderInCategory="1"
         android:title="@string/action_carrito"
-       
+
         app:showAsAction="ifRoom" />
 
 </menu>
