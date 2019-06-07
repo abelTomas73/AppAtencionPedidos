@@ -22,7 +22,6 @@
     </style>
 
 
-
     <style name="MyButton" parent="AppTheme">
         <item name="colorControlHighlight">@color/primaryDarkColor</item>
         <item name="android:fontFamily">@font/average_sans</item>

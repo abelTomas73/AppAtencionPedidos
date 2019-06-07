@@ -18,7 +18,7 @@
         android:paddingBottom="@dimen/espacio_norma_2"
         android:paddingLeft="@dimen/espacio_norma_1"
         android:paddingRight="@dimen/espacio_norma_1"
-        android:textSize="15sp"
+        android:textSize="@dimen/subtitulo_breadcumb"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/color_light" />
 

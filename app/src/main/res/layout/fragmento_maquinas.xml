@@ -22,7 +22,7 @@
         android:paddingBottom="@dimen/espacio_norma_2"
         android:paddingLeft="@dimen/espacio_norma_1"
         android:paddingRight="@dimen/espacio_norma_1"
-        android:textSize="15sp"
+        android:textSize="@dimen/subtitulo_breadcumb"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/color_light" />
 
@@ -77,7 +77,7 @@
                 android:id="@+id/btnAtrasIslas"
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/botones"
 
                 android:fontFamily="sans-serif-medium"
 
@@ -96,7 +96,7 @@
             <Button
 
                 android:id="@+id/btnSeleccionarMaquina"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/botones"
 
                 android:layout_width="match_parent"
 
