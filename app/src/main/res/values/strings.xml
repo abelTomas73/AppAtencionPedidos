@@ -109,6 +109,10 @@
     <string name="agregar_al_carrito">Agregar al carrito</string>
     <string name="continuar_texto">Continuar</string>
     <string name="hint_detalle">Ingrese un comentario o detalles acerca del Pedido</string>
+    <string name="ingresarLogin">INGRESAR</string>
+    <string name="login_bienvenido">Bienvenido</string>
+    <string name="login_usuario">Usuario</string>
+    <string name="login_contrasenia">Contraseña</string>
 
 
     <string-array name="stepLabels">

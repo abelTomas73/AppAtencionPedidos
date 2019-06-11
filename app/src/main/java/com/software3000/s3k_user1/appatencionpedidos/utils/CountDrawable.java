@@ -23,7 +23,7 @@ public class CountDrawable extends Drawable {
     private boolean mWillDraw;
 
     public CountDrawable(Context context) {
-        float mTextSize = context.getResources().getDimension(R.dimen.badge_text_size_notificacion);
+        float mTextSize = context.getResources().getDimension(R.dimen.badge_text_size_notificacion_basico);
 
         mBadgePaint = new Paint();
         mBadgePaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.notificacion_red));
@@ -55,12 +55,12 @@ public class CountDrawable extends Drawable {
         float radius = ((Math.max(width, height) / 2)) / 2;
         float centerX = (width - radius - 1) +5;
         float centerY = radius -5;
-        if(mCount.length() <= 2){
+        if(mCount.length() < 2){
             // Draw badge circle.
-            canvas.drawCircle(centerX, centerY, (int)(radius+5.5), mBadgePaint);
+            canvas.drawCircle(centerX, centerY, (int)(radius+8.5), mBadgePaint);
         }
         else{
-            canvas.drawCircle(centerX, centerY, (int)(radius+6.5), mBadgePaint);
+            canvas.drawCircle(centerX, centerY, (int)(radius+11.5), mBadgePaint);
         }
         // Draw badge count text inside the circle.
         mTextPaint.getTextBounds(mCount, 0, mCount.length(), mTxtRect);

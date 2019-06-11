@@ -12,7 +12,7 @@
 
     <dimen name="badge_text_size">10sp</dimen>
     <dimen name="badge_text_size_notificacion">14sp</dimen>
-
+    <dimen name="badge_text_size_notificacion_basico">12sp</dimen>
     <dimen name="subtitulo_breadcumb">16sp</dimen>
     <dimen name="texto_basic">16sp</dimen>
     <dimen name="texto_articulo">14sp</dimen>

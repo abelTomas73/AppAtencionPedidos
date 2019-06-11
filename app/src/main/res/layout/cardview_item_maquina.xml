@@ -61,8 +61,8 @@
             <TextView
                 android:id="@+id/descp_maquinas"
                 android:layout_marginTop="5dp"
-                android:textColor="#bebebe"
-                android:textSize="10sp"
+                android:textColor="@color/color_descripcion"
+                android:textSize="@dimen/badge_text_size_notificacion_basico"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:height="20dp"
@@ -87,7 +87,7 @@
                 android:textSize="12sp"
                 android:text="Cancelar\nPedido"
                 android:textAllCaps="false"
-                android:backgroundTint="@color/color_descripcion"
+
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 />
