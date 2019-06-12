@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
 import com.software3000.s3k_user1.appatencionpedidos.model.CortesiaProductos;
@@ -125,6 +126,7 @@ public class AdaptadorArticulos
 
             Glide.with(viewHolder.itemView.getContext())
                     .load(R.drawable.images_not_available)
+                    .apply(RequestOptions.centerCropTransform())
                     .into(viewHolder.imagen);
 
 

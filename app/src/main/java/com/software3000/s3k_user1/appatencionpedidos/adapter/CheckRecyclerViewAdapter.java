@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.software3000.s3k_user1.appatencionpedidos.CheckoutActivity;
 import com.software3000.s3k_user1.appatencionpedidos.R;
 import com.software3000.s3k_user1.appatencionpedidos.helpers.MySharedPreference;
@@ -237,6 +238,7 @@ public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecycler
 
             Glide.with(holder.itemView.getContext())
                     .load(R.drawable.images_not_available)
+                    .apply(RequestOptions.centerCropTransform())
                     .into(holder.imagen_product);
 
         } else {
