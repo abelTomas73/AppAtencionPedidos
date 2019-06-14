@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -38,12 +41,15 @@ import com.software3000.s3k_user1.appatencionpedidos.model.Sala;
 import com.software3000.s3k_user1.appatencionpedidos.navigation.ActividadPrincipal;
 import com.software3000.s3k_user1.appatencionpedidos.services.VolleySingleton;
 import com.google.gson.Gson;
+import com.software3000.s3k_user1.appatencionpedidos.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -120,6 +126,20 @@ public class LoginActivity extends AppCompatActivity {
         btnIngresarLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                boolean conexion = Utils.haveNetworkConnection(getApplicationContext());
+                if (!conexion) {
+
+                    //Toasty.error(getApplicationContext(), "Eliga una Zona.", Toast.LENGTH_SHORT, true).show();
+                    Drawable icon = getResources().getDrawable(R.drawable.disconnected_2);
+                    //Toasty.normal(MainActivity.this, "This is a toast message with icon", icon).show();
+
+                    Toasty.custom(getApplicationContext(), "Sin Conexión"
+                            ,icon, ContextCompat.getColor(getApplicationContext().getApplicationContext(), R.color.bgBottomNavigation)
+                            , Toast.LENGTH_SHORT, true,
+                            false).show();
+                    return;
+                }
                 final String username = edtusuario.getText().toString();
                 final String password = edtcontrasena.getText().toString();
 
